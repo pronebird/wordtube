@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title>Flash Media Player</title>
+	
+	
+	<script type="text/javascript" src="swfobject.js"></script>
+
+
+</head>
+<body style="margin:0; padding: 0;">
+
+
+<div id="player"></div>
+<script type="text/javascript">
+	var so = new SWFObject("mediaplayer.swf", "player", "100%", "100%", "8", "#FFFFFF");
+	so.addVariable("fullscreenmode", "true");
+	so.addVariable("showfsbutton", "true");
+	so.addVariable("autostart", "true");
+	so.write("player");
+</script>
+	
+</body>
+</html>
