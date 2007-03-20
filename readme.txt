@@ -1,7 +1,7 @@
 === wordTube ===
 Contributors: Alex Rabe
 Donate link: http://alexrabe.boelinger.com/?page_id=20
-Tags: flash, swf, swfobject, video, youtube, media, mp3
+Tags: flash, swf, swfobject, video, youtube, media, mp3, image, admin
 Requires at least: 2.0.4
 Tested up to: 2.1
 Stable tag: 1.40
@@ -19,11 +19,11 @@ sound files as MP3 and JPG, GIF or PNG grafic files.
 With wordTube you can simply insert it into your blog with the 
 tag [MEDIA=ID] or as playlist [MYPLAYLIST=ID].
 
-You don’t need to change the WYSIWYG mode or special HTML knowledge 
+You don't need to change the WYSIWYG mode or special HTML knowledge 
 to insert such a tag. You can show a simple media file (i.e. a flv Format) 
 or a playlist of all your media files. And I integrate in the header the 
-SWFobject script to prevent the annoying “click here to activate” 
-message (in tghe Internet explorer) when you use the Flash player.
+SWFobject script to prevent the annoying "click here to activate"
+message (for the Internet Explorer) when you use the Flash player.
 
 == Credits ==
 
