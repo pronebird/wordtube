@@ -1,11 +1,33 @@
-Plugin Name: wordTube
-Plugin URI: http://alexrabe.boelinger.com/?page_id=20
-Description: This plugin creates your personal YouTube plugin for wordpress.
-Author: Alex Rabe
-Version: 1.41
-Author URI: http://alexrabe.boelinger.com/
+=== wordTube ===
+Contributors: Alex Rabe
+Donate link: http://alexrabe.boelinger.com/?page_id=20
+Tags: flash, swf, swfobject, video, youtube, media, mp3
+Requires at least: 2.0.4
+Tested up to: 2.1
+Stable tag: 1.40
 
-Copyright 2007  Alex Rabe (email : alex.rabe@lycos.de)
+wordTube is your Media Center plugin for WordPress.
+
+== Description ==
+
+The wordTube Plugin creates your personal "YouTube" in wordpress.
+Together with the fantastic Flash Media Player from Jeroen Wijering you
+are able to show very easy your streaming videos.
+
+wordTube supports the streaming video format (Format .flv or .swf), 
+sound files as MP3 and JPG, GIF or PNG grafic files. 
+With wordTube you can simply insert it into your blog with the 
+tag [MEDIA=ID] or as playlist [MYPLAYLIST=ID].
+
+You don’t need to change the WYSIWYG mode or special HTML knowledge 
+to insert such a tag. You can show a simple media file (i.e. a flv Format) 
+or a playlist of all your media files. And I integrate in the header the 
+SWFobject script to prevent the annoying “click here to activate” 
+message (in tghe Internet explorer) when you use the Flash player.
+
+== Credits ==
+
+Copyright 2007 Alex Rabe
 
 THX to the plugin's from Thomas Boley (myGallery) and GaMerZ (WP-Polls),
 which gives me a lot of education.
@@ -27,7 +49,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-## Installation - Usage ##
+== Installation ==
 
 1. 	Upload the files to wp-content/plugins/wordtube
 
@@ -46,3 +68,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 7. 	Go to your post an enter the tag [MEDIA=ID] or [MYPLAYLIST=ID].
 
 That's it ... Have fun
+
+== Screenshots ==
+
+1. Screenshot of the Media Center Area .
+2. Demo of the Flash Player.
