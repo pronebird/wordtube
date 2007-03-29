@@ -5,7 +5,7 @@ Plugin Name: wordTube
 Plugin URI: http://alexrabe.boelinger.com/?page_id=20
 Description: This plugin creates your personal YouTube plugin for wordpress. Ready for Wordpress 2.1
 Author: Alex Rabe
-Version: 1.41a
+Version: 1.41
 Author URI: http://alexrabe.boelinger.com/
 
 Copyright 2006-2007  Alex Rabe (email : alex.rabe@lycos.de)
