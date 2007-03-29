@@ -380,8 +380,8 @@ if ( strpos( $_GET['page'], 'wordtube' ) !== false ) {
 }
 
 // Action calls for all functions 
-add_filter('the_content', 'searchvideo', 8);
-add_filter('the_excerpt', 'searchvideo', 8);
+add_filter('the_content', 'searchvideo');
+add_filter('the_excerpt', 'searchvideo');
 
 // Action calls for RSS feed
 add_action('rss2_item','add_wpTube_rss2_file');
