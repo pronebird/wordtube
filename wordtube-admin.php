@@ -2,7 +2,7 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-admin V1.41
++	wordtube-admin V1.42
 +	by Alex Rabe
 +   required for wordtube
 +----------------------------------------------------------------+
@@ -190,7 +190,7 @@ if ($mode == 'edit'){
 	<div class="wrap">
 		<h2><?php _e('Edit media file', 'wpTube') ?></h2>
 		<div id="poststuff">
-		<form name="table_options" action="<?php echo $base_page; ?>" method="post" id="video_options">
+		<form name="table_options" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" id="video_options">
 		<!--TODO: AJAX INTEGRATION -->
 			<div id="moremeta" style="width:14.4em;">
 				<div id="wptoptions" class="dbx-group">

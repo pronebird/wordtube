@@ -2,7 +2,7 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-install V1.41
++	wordtube-install V1.42
 +	by Alex Rabe
 +   required for wordtube
 +----------------------------------------------------------------+
@@ -67,7 +67,7 @@ global $table_prefix, $wpdb;
 		$wordtube_options[autoscroll]=true;
 		$wordtube_options[xhtmlvalid]=false;
 		$wordtube_options[activaterss]=false;
-		$wordtube_options[rssmessage]=_e('See post to watch Flash video','wpTube');
+		$wordtube_options[rssmessage]=__('See post to watch Flash video','wpTube');
 		
 		update_option('wordtube_options', $wordtube_options);
 	}
