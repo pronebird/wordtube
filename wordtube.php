@@ -5,7 +5,7 @@ Plugin Name: wordTube
 Plugin URI: http://alexrabe.boelinger.com/?page_id=20
 Description: This plugin creates your personal YouTube plugin for wordpress. Ready for Wordpress 2.1
 Author: Alex Rabe
-Version: 1.42
+Version: 1.43a
 Author URI: http://alexrabe.boelinger.com/
 
 Copyright 2006-2007  Alex Rabe (email : alex.rabe@lycos.de)
@@ -37,7 +37,10 @@ define('WORDTUBE_URLPATH', get_settings('siteurl').'/wp-content/plugins/' . dirn
 define('WORDTUBE_ABSPATH', $myabspath.'wp-content/plugins/' . dirname(plugin_basename(__FILE__)).'/');
 
 // Load language
-load_plugin_textdomain('wpTube','wp-content/plugins/wordtube');
+function wordTube_init ()
+{
+	load_plugin_textdomain('wpTube','wp-content/plugins/wordtube');
+}
 
 // database pointer
 $wpdb->wordtube					= $table_prefix . 'wordtube';
@@ -132,11 +135,13 @@ global $wpdb;
 
 	if ($playmode == "playlist") {
 	 	$winabspath = str_replace("\\","/",ABSPATH);  // required for win
-//		$act_file = WORDTUBE_URLPATH."myextractXML.php?path=".$winabspath.$video_id;
+		$act_file = WORDTUBE_URLPATH."myextractXML.php?path=".$winabspath.$video_id;
 		$act_file = WORDTUBE_URLPATH."myextractXML.php?id=".$video_id;
 		$act_width = $wordtube_options[width];
 		$act_height = $wordtube_options[height] + $wordtube_options[playlistsize];
-		if ($wordtube_options[playlistsize] != 0 )$settings  = "\n\t".'so.addVariable("displayheight", "'.$wordtube_options[height].'");';
+		// 0 = diable the control bar
+		$settings  .= "\n\t".'so.addVariable("displayheight", "'.$wordtube_options[height].'");';
+		if ($wordtube_options[displaywidth] != 0 ) $settings  .= "\n\t".'so.addVariable("displaywidth", "'.$wordtube_options[displaywidth].'");';
 		if ($wordtube_options[thumbnail]) $settings .= "\n\t".'so.addVariable("thumbsinplaylist", "true");'; 
 		if (!$wordtube_options[shuffle]) $settings .= "\n\t".'so.addVariable("shuffle", "false");';
 		if ($wordtube_options[autostart]) $settings .= "\n\t".'so.addVariable("autostart", "true");'; 
@@ -364,6 +369,9 @@ function wptube_button_script() {
 	
 // ButtonSnap needs to be loaded outside the class in order to work right
 require(WORDTUBE_ABSPATH . 'wordtube-buttonsnap.php');
+
+// load language file
+add_action('init', 'wordTube_init');
 
 // init process for button control
 add_action('init', 'wpt_addbuttons');

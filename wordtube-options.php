@@ -49,6 +49,7 @@ if ($_POST[wordtube]=='setoptions'){
 	$wordtube_options[width]=$_POST[width];
 	$wordtube_options[height]=$_POST[height];
 	$wordtube_options[playlistsize]=$_POST[playlistsize];
+	$wordtube_options[displaywidth]=$_POST[displaywidth];
 	
 	update_option('wordtube_options', $wordtube_options);
  	$text = '<font color="green">'.__('Update Successfully','wpTube').'</font>';
@@ -129,7 +130,7 @@ $wp_urlpath = get_settings('siteurl').'/'.get_settings('upload_path').'/';  // g
 		</fieldset> 	
 		<fieldset class="options"> 
 		<legend><?php _e('Media Player Option','wpTube'); ?></legend>
-		<p><?php _e('These settings are valid for all your flash video. The settings are used in the Flash Media Player Version 3.3', 'wpTube') ?> <br />
+		<p><?php _e('These settings are valid for all your flash video. The settings are used in the Flash Media Player Version 3.6', 'wpTube') ?> <br />
 		   <?php _e('See more information on the web page', 'wpTube') ?> <a href="http://www.jeroenwijering.com/?item=Flash_Media_Player" target="_blank">Flash Media Player from Jeroen Wijering</a></p>
 				<table border="0" cellspacing="3" cellpadding="3">
 					<tr>
@@ -240,7 +241,12 @@ $wp_urlpath = get_settings('siteurl').'/'.get_settings('upload_path').'/';  // g
 					<tr>					
 						<th align="left"><?php _e('Playlist size','wpTube') ?></th>
 						<td><input type="text" size="3" maxlength="3" name="playlistsize" value="<?php echo $wordtube_options[playlistsize] ?>" /></td>
-						<td align="left"><i><?php _e('Define height of the playlist, should be larger the 20. (0 = Show no playlist)','wpTube') ?></i></td>
+						<td align="left"><i><?php _e('Define height of the playlist, should be larger the 20. (0 = Disable control bar)','wpTube') ?></i></td>
+					</tr>
+					<tr>					
+						<th align="left"><?php _e('Display width','wpTube') ?></th>
+						<td><input type="text" size="3" maxlength="3" name="displaywidth" value="<?php echo $wordtube_options[displaywidth] ?>" /></td>
+						<td align="left"><i><?php _e('You can set this to a size smaller than the Flash size width, to make the playlist appear at the right','wpTube') ?></i></td>
 					</tr>
 					</table>
 					<div class="submit"><input type="submit" name="update" value="<?php _e('Update'); ?> &raquo;" class="button" /></div>

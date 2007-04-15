@@ -68,6 +68,8 @@ global $table_prefix, $wpdb;
 		$wordtube_options[xhtmlvalid]=false;
 		$wordtube_options[activaterss]=false;
 		$wordtube_options[rssmessage]=__('See post to watch Flash video','wpTube');
+		// new since 1.43
+		$wordtube_options[displaywidth]=400;
 		
 		update_option('wordtube_options', $wordtube_options);
 	}
