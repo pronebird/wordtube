@@ -2,18 +2,23 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-button V1.41
++	wordtube-button V1.44
 +	by Alex Rabe
 +   required for wordtube
 +----------------------------------------------------------------+
 */
-// get and set path of function
+$wpconfig = realpath("../../../wp-config.php");
 
-if (!$_POST) $wppath=$_GET['wpPATH']; 
-else $wppath=$_POST['wpPATH'];
+if (!file_exists($wpconfig))  {
+	echo "Could not found wp-config.php. Error in path :\n\n".$wpconfig ;	
+	die;	
+}// stop when wp-config is not there
 
-require_once($wppath.'/wp-config.php');
-require_once($wppath.'/wp-admin/admin.php');
+require_once($wpconfig);
+require_once(ABSPATH.'/wp-admin/admin.php');
+
+// check for rights
+if(!current_user_can('edit_posts')) die;
 
 global $wpdb;
 
