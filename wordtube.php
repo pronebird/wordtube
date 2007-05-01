@@ -311,7 +311,7 @@ function insert_wordtube_script() {
 	echo "\n".'
 	<script type="text/javascript"> 
 	function wpt_buttonscript()	{ 
-		window.open("'.WORDTUBE_URLPATH.'wordtube-button.php", "SelectVideo",  "width=440,height=220,scrollbars=no");
+		window.open("'.WORDTUBE_URLPATH.'wordtube-tinymce.php", "SelectVideo",  "width=440,height=220,scrollbars=no");
 	} 
 	</script>'; 
 	return;
