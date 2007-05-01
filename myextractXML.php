@@ -57,6 +57,7 @@ else
 // Get playlist
 {
  	$playlist = $wpdb->get_row("SELECT * FROM $wpdb->wordtube_playlist WHERE pid = '$playlist_id'");
+	if (!$playlist) die;
  	$mediaids = $wpdb->get_col("SELECT media_id FROM $wpdb->wordtube_med2play WHERE playlist_id = '$playlist_id' ORDER BY 'media_id' $playlist->playlist_order");
 
 	// Create XML output
