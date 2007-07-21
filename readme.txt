@@ -29,8 +29,7 @@ message (for the Internet Explorer) when you use the Flash player.
 
 Copyright 2007 Alex Rabe
 
-THX to the plugin's from Thomas Boley (myGallery) and GaMerZ (WP-Polls),
-which gives me a lot of education.
+THX to the plugin's from GaMerZ (WP-Polls) which gives me a lot of education.
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -53,8 +52,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 1. 	Upload the files to wp-content/plugins/wordtube
 
-2.  Go to the web page http://www.jeroenwijering.com/?item=Flash_Media_Player
-	and download the Flash Media Player and unpack the conent
+2.  Go to the web page http://www.jeroenwijering.com/?item=JW_Media_Player
+	and download the JW Media Player and unpack the conent
 	
 3.	Upload the file mediaplayer.swf to the wordtube folder
 

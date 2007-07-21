@@ -187,7 +187,7 @@ function TinyMCE_buttonsnap_cleanup(type, content) {
 	{
 		echo '<script type="text/javascript">
 		var buttonsnap_request_uri = "' . $this->plugin_uri() . '";
-		var buttonsnap_wproot = "' . get_settings('siteurl') . '";
+		var buttonsnap_wproot = "' . get_option('siteurl') . '";
 		</script>' . "\n";
 echo <<< ENDSCRIPT
 
@@ -400,7 +400,7 @@ MORESCRIPT;
 	
 	function plugin_uri($src = '')
 	{
-		return get_settings('siteurl') . '/wp-content/plugins/' . $this->basename($src); 
+		return get_option('siteurl') . '/wp-content/plugins/' . $this->basename($src); 
 	}
 	
 	function include_up($filename) {

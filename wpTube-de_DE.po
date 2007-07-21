@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wordtube\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-04-14 12:07+0100\n"
+"PO-Revision-Date: 2007-07-21 11:40+0100\n"
 "Last-Translator: Alex Rabe\n"
 "Language-Team: Alex Rabe\n"
 "MIME-Version: 1.0\n"
@@ -43,12 +43,13 @@ msgstr " erfolgreich eingefügt"
 
 #: wordtube-admin.php:132
 #: wordtube-admin.php:162
-#: wordtube-options.php:55
+#: wordtube-options.php:56
 msgid "Update Successfully"
 msgstr "Erfolgreich aktualisiert"
 
 #: wordtube-admin.php:149
 #: wordtube-admin.php:373
+#: wordtube-tinymce.php:79
 msgid "Playlist"
 msgstr "Playliste"
 
@@ -61,7 +62,7 @@ msgid "Select Playlist"
 msgstr "Wähle Playliste aus"
 
 #: wordtube-admin.php:205
-#: wordtube-options.php:216
+#: wordtube-options.php:223
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -128,12 +129,12 @@ msgstr "Hinweis : Zur Videohöhe muss immer 20 Pixel für den Player gerechnet w
 
 #: wordtube-admin.php:253
 #: wordtube-admin.php:420
-#: wordtube-button.php:97
+#: wordtube-tinymce.php:131
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: wordtube-admin.php:254
-#: wordtube-options.php:252
+#: wordtube-options.php:259
 msgid "Update"
 msgstr "Aktualisieren"
 
@@ -172,7 +173,7 @@ msgid "Upload file"
 msgstr "Datei hochladen"
 
 #: wordtube-admin.php:337
-#: wordtube-button.php:63
+#: wordtube-tinymce.php:89
 msgid "Select media file"
 msgstr "Wähle Mediadatei aus"
 
@@ -334,7 +335,7 @@ msgid "Select Playlist :"
 msgstr "Playliste auswählen :"
 
 #: wordtube-admin.php:551
-#: wordtube-button.php:83
+#: wordtube-tinymce.php:113
 msgid "All files"
 msgstr "Alle Dateien"
 
@@ -342,279 +343,287 @@ msgstr "Alle Dateien"
 msgid "OK"
 msgstr "OK"
 
-#: wordtube-button.php:69
-msgid "No file"
-msgstr "Keine Datei"
-
-#: wordtube-button.php:79
-msgid "Insert Player"
-msgstr "Player einfügen"
-
-#: wordtube-button.php:93
-msgid "Insert Playlist"
-msgstr "Playlist einfügen"
-
-#: wordtube-install.php:70
+#: wordtube-install.php:75
 msgid "See post to watch Flash video"
 msgstr "Lese Blog-eintrag um das Viedo anzuschauen"
 
-#: wordtube-options.php:91
+#: wordtube-options.php:93
 msgid "wordTube Option"
 msgstr "wordTube Einstellungen"
 
-#: wordtube-options.php:95
+#: wordtube-options.php:97
 msgid "General Options"
 msgstr "Globale Einstellungen"
 
-#: wordtube-options.php:98
+#: wordtube-options.php:100
 msgid "Upload folder"
 msgstr "Upload Verzeichnis"
 
-#: wordtube-options.php:100
+#: wordtube-options.php:102
 msgid "Standard upload folder : "
 msgstr "Wordpress Upload Verzeichnis :"
 
-#: wordtube-options.php:106
+#: wordtube-options.php:108
 msgid "Store uploads in this folder : "
 msgstr "Uploads in folgendem Ordner speichern :"
 
-#: wordtube-options.php:110
+#: wordtube-options.php:112
 msgid "Delete file with post"
 msgstr "Lösche Videodatei mit Eintrag"
 
-#: wordtube-options.php:112
+#: wordtube-options.php:114
 msgid "Should the media file deleted, when pressing delete ? "
 msgstr "Soll die Media-Datei auch gelöscht werden, wenn du den Eintrag löschst ?"
 
-#: wordtube-options.php:115
+#: wordtube-options.php:117
 msgid "Center Flash"
 msgstr "Zentriere Flash"
 
-#: wordtube-options.php:117
+#: wordtube-options.php:119
 msgid "Center the player with the tag [CENTER]"
 msgstr "Der Player wird mit dem Tag [CENTER] mittig dargestellt"
 
-#: wordtube-options.php:120
+#: wordtube-options.php:122
 msgid "XHTML valid"
 msgstr "XHTML Valid"
 
-#: wordtube-options.php:122
+#: wordtube-options.php:124
 msgid "Insert CDATA and a comment code. Important : Recheck your webpage with all browser types."
 msgstr "Fügt ein CDATA und Kommentar-Zeichen ein. Wichtig : Unbedingt mit allen möglichen Browsern überprüfen."
 
-#: wordtube-options.php:125
+#: wordtube-options.php:127
 msgid "Activate RSS Feed message"
 msgstr "Aktiviere Meldung im RSS Feed "
 
-#: wordtube-options.php:132
+#: wordtube-options.php:134
 msgid "Media Player Option"
 msgstr "Flash Media Player Optionen"
 
-#: wordtube-options.php:133
-msgid "These settings are valid for all your flash video. The settings are used in the Flash Media Player Version 3.6"
-msgstr "Diese Einstellungen sind für alle Flash Mediadateien auf dieser Seite gültig. Die Einstellungen werden in der Version 3.6 verwendet."
+#: wordtube-options.php:135
+msgid "These settings are valid for all your flash video. The settings are used in the JW Media Player Version 3.99"
+msgstr "Diese Einstellungen sind für alle Flash Mediadateien auf dieser Seite gültig. Die Einstellungen werden in der Version 3.99 verwendet."
 
-#: wordtube-options.php:134
+#: wordtube-options.php:136
 msgid "See more information on the web page"
 msgstr "Mehr Informationen auf der Webseite"
 
-#: wordtube-options.php:137
+#: wordtube-options.php:139
 msgid "Repeat"
 msgstr "Wiederholung"
 
-#: wordtube-options.php:139
+#: wordtube-options.php:141
 msgid "Automatically repeat playing when a file is completed."
 msgstr "Mediadateien in einer Schleife abspielen."
 
-#: wordtube-options.php:142
+#: wordtube-options.php:144
 msgid "Over stretch"
 msgstr "Video maximieren"
 
-#: wordtube-options.php:145
+#: wordtube-options.php:147
 msgid "true"
 msgstr "True"
 
-#: wordtube-options.php:146
+#: wordtube-options.php:148
 msgid "false"
 msgstr "False"
 
-#: wordtube-options.php:147
+#: wordtube-options.php:149
 msgid "fit"
 msgstr "Einpassen"
 
-#: wordtube-options.php:148
+#: wordtube-options.php:150
 msgid "none"
 msgstr "Inaktiv"
 
-#: wordtube-options.php:151
+#: wordtube-options.php:153
 msgid "Over stretch the image/video to fill the entire display."
 msgstr "Maximiere das Bild/Video um den ganzen Player zufüllen."
 
-#: wordtube-options.php:154
+#: wordtube-options.php:156
 msgid "Show digits"
 msgstr "Anzeigedauer"
 
-#: wordtube-options.php:156
+#: wordtube-options.php:158
 msgid "Show the digits for loaded, elapsed and remaining time in the Flash player."
 msgstr "Zeige die Ladezeit, Restlaufzeit und Länge an"
 
-#: wordtube-options.php:159
+#: wordtube-options.php:161
+msgid "Large Controls"
+msgstr "Große Schaltflächen"
+
+#: wordtube-options.php:163
+msgid "Make the controlbar twice as large."
+msgstr "Vergößert die Schaltfächen um das Doppelte"
+
+#: wordtube-options.php:166
 msgid "Enable Fullscreen"
 msgstr "Aktiviere Vollbildmodus"
 
-#: wordtube-options.php:161
+#: wordtube-options.php:168
 msgid "Show the fullscreen button. Note : Javascript objects (i.e Lightbox) are not always on the top."
 msgstr "Zeige Vollbildmodus. Hinweis : Javascript Element (z.B. Lightbox) können dann nicht oberhalb angezeigt werden."
 
-#: wordtube-options.php:164
+#: wordtube-options.php:171
 msgid "Background Color"
 msgstr "Hintergrundfarbe"
 
-#: wordtube-options.php:166
+#: wordtube-options.php:173
 msgid "Backgroundcolor of the Flash player (default FFFFFF)."
 msgstr "Hintergundfarbe des Flash Player (Default FFFFFF)"
 
-#: wordtube-options.php:169
+#: wordtube-options.php:176
 msgid "Button Color"
 msgstr "Schalterfarbe"
 
-#: wordtube-options.php:171
+#: wordtube-options.php:178
 msgid "Texts / buttons color of the Flash player (default 000000)."
 msgstr "Text / Schalterfarbe (Default 000000)"
 
-#: wordtube-options.php:174
+#: wordtube-options.php:181
 msgid "Active Color"
 msgstr "Aktive Farbe"
 
-#: wordtube-options.php:176
+#: wordtube-options.php:183
 msgid "Rollover/ active color of the Flash player (default 000000)."
 msgstr "Rollover / Aktive Farbe (Default 000000)"
 
-#: wordtube-options.php:179
+#: wordtube-options.php:186
 msgid "Volume"
 msgstr "Lautstärke"
 
-#: wordtube-options.php:181
+#: wordtube-options.php:188
 msgid "Startup volume of the Flash player (default 80)."
 msgstr "Start-Lautstärke des Flash Player (Default 80)"
 
-#: wordtube-options.php:184
+#: wordtube-options.php:191
 msgid "Buffer length"
 msgstr "Buffer Länge"
 
-#: wordtube-options.php:186
+#: wordtube-options.php:193
 msgid "Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5)."
 msgstr "Anzahl der Sekunden die gepuffert werden, bevor der Player startet. Setzte einen kleineren Wert für eine schnelle Verbindung bzw. kleine Videogröße. Ein größerer Wert ist für langsame Verbindungen sinnvoll (Default  5)."
 
-#: wordtube-options.php:189
+#: wordtube-options.php:196
 msgid "Activate statistic"
 msgstr "Aktiviere Statistik"
 
-#: wordtube-options.php:191
+#: wordtube-options.php:198
 msgid "Activate the internal view counter for each media file."
 msgstr "Aktiviere den interen Zugriffszähler für die Mediadateien"
 
-#: wordtube-options.php:194
+#: wordtube-options.php:201
 msgid "Count complete"
 msgstr "Beendete Zugriffe"
 
-#: wordtube-options.php:196
+#: wordtube-options.php:203
 msgid "Count only media files which are played til the end."
 msgstr "Zähle nur Zugriffe, wenn die Datei komplett abgespielt wurde."
 
-#: wordtube-options.php:199
+#: wordtube-options.php:206
 msgid "Equalizer"
 msgstr "Equalizer"
 
-#: wordtube-options.php:201
+#: wordtube-options.php:208
 msgid "Shows a (purely cosmetic) equalizer in the display (only with the MP3 files)."
 msgstr "Zeigt einen Equalizer an (Funktioniert nur mit MP3 Dateien)"
 
-#: wordtube-options.php:204
+#: wordtube-options.php:211
 msgid "Show logo"
 msgstr "Zeige ein Logo"
 
-#: wordtube-options.php:206
+#: wordtube-options.php:213
 msgid "URL to your watermark (PNG, JPG): "
 msgstr "URL des Wasserzeichen (PNG, JPG)"
 
-#: wordtube-options.php:212
+#: wordtube-options.php:219
 msgid "Playlist Settings"
 msgstr "Playlisten Einstellung"
 
-#: wordtube-options.php:213
+#: wordtube-options.php:220
 msgid "You can show all videos/media files in a playlist. Show the media player with the tag"
 msgstr "Du kannst alle Mediadateien in einer Playliste anzeigen. Um die Playliste anzuzeigen nutze das Tag "
 
-#: wordtube-options.php:218
+#: wordtube-options.php:225
 msgid "Automatically start playing the media files."
 msgstr "Start automatisch den Flash Player"
 
-#: wordtube-options.php:221
+#: wordtube-options.php:228
 msgid "Activate autoscroll"
 msgstr "Aktiviere Scrollen"
 
-#: wordtube-options.php:223
+#: wordtube-options.php:230
 msgid "Let the playlist automatically scroll, based upon the mouse cursor."
 msgstr "Den automatischen Bildlauf in der Playliste aktivieren"
 
-#: wordtube-options.php:226
+#: wordtube-options.php:233
 msgid "Show thumbnail"
 msgstr "Zeige Thumbnails"
 
-#: wordtube-options.php:228
+#: wordtube-options.php:235
 msgid "Show a thumbnail in the playlist."
 msgstr "Zeigt Vorschaubilder in der Playliste"
 
-#: wordtube-options.php:231
+#: wordtube-options.php:238
 msgid "Shuffle mode"
 msgstr "Zufällige Wiedergabe"
 
-#: wordtube-options.php:233
+#: wordtube-options.php:240
 msgid "Activate the shuffle mode in the playlist"
 msgstr "Die zufällige Wiedergabe der Playliste aktivieren"
 
-#: wordtube-options.php:236
+#: wordtube-options.php:243
 msgid "Flash size (W x H)"
 msgstr "Flashgröße (B x H)"
 
-#: wordtube-options.php:239
+#: wordtube-options.php:246
 msgid "Define width and height of the media player screen."
 msgstr "Bestimme die Breite / Höhe des Media Player"
 
-#: wordtube-options.php:242
+#: wordtube-options.php:249
 msgid "Playlist size"
 msgstr "Größe der Playlist"
 
-#: wordtube-options.php:244
+#: wordtube-options.php:251
 msgid "Define height of the playlist, should be larger the 20. (0 = Disable control bar)"
 msgstr "Höhe der Playliste bestimmen. Sie sollte größer 20 Pixel sein. (0 = Keine Schaltflächen)"
 
-#: wordtube-options.php:247
+#: wordtube-options.php:254
 msgid "Display width"
 msgstr "Videobreite"
 
-#: wordtube-options.php:249
+#: wordtube-options.php:256
 msgid "You can set this to a size smaller than the Flash size width, to make the playlist appear at the right"
 msgstr "Setze die Videobreite kleiner als die des Flash Player, damit die Playliste an der rechten Seite angezeigt wird."
 
-#: wordtube.php:50
+#: wordtube-tinymce.php:78
+msgid "Media"
+msgstr "Media Datei"
+
+#: wordtube-tinymce.php:91
+msgid "No file"
+msgstr "Keine Datei"
+
+#: wordtube-tinymce.php:111
+msgid "Select playlist"
+msgstr "Wähle Playliste aus"
+
+#: wordtube-tinymce.php:135
+msgid "Insert"
+msgstr "Einfügen"
+
+#: wordtube.php:55
 msgid "Media Center"
 msgstr "Media Center"
 
-#: wordtube.php:51
+#: wordtube.php:56
 msgid "wordTube"
 msgstr "wordTube"
 
-#: wordtube.php:340
-msgid "Insert Video"
-msgstr "Video einfügen"
-
-#: wordtube.php:442
+#: wordtube.php:467
 msgid "Title:"
 msgstr "Titel:"
 
-#: wordtube.php:443
+#: wordtube.php:468
 msgid "Select Media:"
 msgstr "Wähle Mediadatei aus:"
 

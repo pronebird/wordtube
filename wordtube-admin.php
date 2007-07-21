@@ -2,7 +2,7 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-admin V1.42
++	wordtube-admin V1.50
 +	by Alex Rabe
 +   required for wordtube
 +----------------------------------------------------------------+
@@ -28,12 +28,12 @@ $act_pid = trim($_GET['pid']);
 $wordtube_options=get_option('wordtube_options');
 
 if ($wordtube_options[usewpupload]) {
-	$wptfile_abspath = ABSPATH.get_settings('upload_path').'/';
-	$wp_urlpath = get_settings('siteurl').'/'.get_settings('upload_path').'/';
+	$wptfile_abspath = ABSPATH.get_option('upload_path').'/';
+	$wp_urlpath = get_option('siteurl').'/'.get_option('upload_path').'/';
 }
 else {
  	$wptfile_abspath = ABSPATH.$wordtube_options[uploadurl].'/';
- 	$wp_urlpath = get_settings('siteurl').'/'.$wordtube_options[uploadurl].'/';
+ 	$wp_urlpath = get_option('siteurl').'/'.$wordtube_options[uploadurl].'/';
 }
 
 // ### Start the button form processing 
@@ -450,7 +450,7 @@ if ((empty($mode)) or ($mode == 'main')) {
 		
  	$start = $offset = ( $page - 1 ) * 10;
  
-	$tables = $wpdb->get_results("SELECT * FROM $wpdb->wordtube ORDER BY 'vid' ASC LIMIT $start, 10");
+	$tables = $wpdb->get_results("SELECT * FROM $wpdb->wordtube ORDER BY vid ASC LIMIT $start, 10");
 	$total = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->wordtube ");
 	?>
 	<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>

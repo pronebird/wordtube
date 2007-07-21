@@ -2,7 +2,7 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-statistics V1.40
++	wordtube-statistics V1.50
 +	by Alex Rabe
 +   required for wordtube
 +----------------------------------------------------------------+
@@ -27,14 +27,14 @@ $result = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE file = '$file' ");
 
 if ($result) {
 	if ($wordtube_options[countcomplete]) {
-		if ($state == "complete") // check if file completed
+		if (($state == "complete") || ($state == "stop"))  // check if file completed
 		{
 			$counter = $result->counter + 1;
 			$act_vid = $result->vid;
 			$result = $wpdb->query("UPDATE $wpdb->wordtube SET counter = '$counter' WHERE vid = '$act_vid' ");
 		} 
 	} else {
-		if ($state == "play") // check if file started
+		if (($state == "play") || ($state == "start")) // check if file started
 		{
 			$counter = $result->counter + 1;
 			$act_vid = $result->vid;

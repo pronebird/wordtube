@@ -2,7 +2,7 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-install V1.42
++	wordtube-install V1.50
 +	by Alex Rabe
 +   required for wordtube
 +----------------------------------------------------------------+
@@ -12,14 +12,19 @@
 
 function wordtube_install() {
 
-global $table_prefix, $wpdb;
+global $wpdb;
 
 	// set tablename
-	$table_name 		= $table_prefix . "wordtube"; 		
-	$table_playlist		= $table_prefix . 'wordtube_playlist';
-	$table_med2play		= $table_prefix . 'wordtube_med2play';
+	$table_name 		= $wpdb->prefix . 'wordtube'; 		
+	$table_playlist		= $wpdb->prefix . 'wordtube_playlist';
+	$table_med2play		= $wpdb->prefix . 'wordtube_med2play';
 	
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+	// upgrade function changed in WordPress 2.3	
+	if (version_compare($wp_version, '2.3.alpha', '>='))		
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+	else
+		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+		
      
 	if($wpdb->get_var("show tables like '$table_name'") != $table_name){
 	 
@@ -40,7 +45,7 @@ global $table_prefix, $wpdb;
 		$wordtube_options[center]=0;
 		$wordtube_options[deletefile]=0;
 		$wordtube_options[usewpupload]=1;
-		$wordtube_options[uploadurl]=get_settings('upload_path');
+		$wordtube_options[uploadurl]=get_option('upload_path');
 		$wordtube_options[autostart]=0; 
 		$wordtube_options[repeat]=0;
 		$wordtube_options[overstretch]="true";
@@ -70,6 +75,8 @@ global $table_prefix, $wpdb;
 		$wordtube_options[rssmessage]=__('See post to watch Flash video','wpTube');
 		// new since 1.43
 		$wordtube_options[displaywidth]=400;
+		// new since 1.50
+		$wordtube_options[largecontrols]=false;
 		
 		update_option('wordtube_options', $wordtube_options);
 	}

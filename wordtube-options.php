@@ -30,6 +30,7 @@ if ($_POST[wordtube]=='setoptions'){
 	$wordtube_options[repeat]=$_POST[repeat];
 	$wordtube_options[overstretch]=$_POST[overstretch];
 	$wordtube_options[showdigits]=$_POST[showdigits];
+	$wordtube_options[largecontrols]=$_POST[largecontrols];
 	$wordtube_options[showfsbutton]=$_POST[showfsbutton];
 	$wordtube_options[backcolor]=$_POST[backcolor];
 	$wordtube_options[frontcolor]=$_POST[frontcolor];
@@ -60,6 +61,7 @@ $wordtube_options=get_option('wordtube_options');
 if ($wordtube_options[autostart]) $autostart='checked="checked"';
 if ($wordtube_options[repeat]) $repeat='checked="checked"';
 if ($wordtube_options[showdigits]) $showdigits='checked="checked"';
+if ($wordtube_options[largecontrols]) $largecontrols='checked="checked"';
 if ($wordtube_options[showfsbutton]) $showfsbutton='checked="checked"';
 if ($wordtube_options[deletefile]) $deletefile='checked="checked"';
 if ($wordtube_options[center]) $center='checked="checked"';
@@ -81,7 +83,7 @@ if ($wordtube_options[overstretch]=="none") $os_none="selected='selected'";
 if ($wordtube_options[usewpupload]) $usewpupload='checked="checked"';
 else $usenotwpupload='checked="checked"';
 
-$wp_urlpath = get_settings('siteurl').'/'.get_settings('upload_path').'/';  // get URL path
+$wp_urlpath = get_option('siteurl').'/'.get_option('upload_path').'/';  // get URL path
 
 ?>
 	<script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
@@ -130,8 +132,8 @@ $wp_urlpath = get_settings('siteurl').'/'.get_settings('upload_path').'/';  // g
 		</fieldset> 	
 		<fieldset class="options"> 
 		<legend><?php _e('Media Player Option','wpTube'); ?></legend>
-		<p><?php _e('These settings are valid for all your flash video. The settings are used in the Flash Media Player Version 3.6', 'wpTube') ?> <br />
-		   <?php _e('See more information on the web page', 'wpTube') ?> <a href="http://www.jeroenwijering.com/?item=Flash_Media_Player" target="_blank">Flash Media Player from Jeroen Wijering</a></p>
+		<p><?php _e('These settings are valid for all your flash video. The settings are used in the JW Media Player Version 3.99', 'wpTube') ?> <br />
+		   <?php _e('See more information on the web page', 'wpTube') ?> <a href="http://www.jeroenwijering.com/?item=JW_Media_Player" target="_blank">Flash Media Player from Jeroen Wijering</a></p>
 				<table border="0" cellspacing="3" cellpadding="3">
 					<tr>
 						<th align="left"><?php _e('Repeat','wpTube') ?></th>
@@ -154,6 +156,11 @@ $wp_urlpath = get_settings('siteurl').'/'.get_settings('upload_path').'/';  // g
 						<th align="left"><?php _e('Show digits','wpTube') ?></th>
 						<td><input name="showdigits" type="checkbox" value="1"  <?php echo $showdigits ?> /></td> 
 						<td align="left"><i><?php _e('Show the digits for loaded, elapsed and remaining time in the Flash player.','wpTube') ?></i></td>
+					</tr>									
+					<tr>
+						<th align="left"><?php _e('Large Controls','wpTube') ?></th>
+						<td><input name="largecontrols" type="checkbox" value="1"  <?php echo $largecontrols ?> /></td> 
+						<td align="left"><i><?php _e('Make the controlbar twice as large.','wpTube') ?></i></td>
 					</tr>									
 					<tr>
 						<th align="left"><?php _e('Enable Fullscreen','wpTube') ?></th>
@@ -234,8 +241,8 @@ $wp_urlpath = get_settings('siteurl').'/'.get_settings('upload_path').'/';  // g
 					</tr>
 					<tr>
 						<th align="left"><?php _e('Flash size (W x H)','wpTube') ?></th>
-						<td><input type="text" size="3" maxlength="4" name="width" value="<?php echo "$wordtube_options[width]" ?>" /> x
-						<input type="text" size="3" maxlength="4" name="height" value="<?php echo "$wordtube_options[height]" ?>" /></td>
+						<td><input type="text" size="3" maxlength="4" name="width" value="<?php echo $wordtube_options[width] ?>" /> x
+						<input type="text" size="3" maxlength="4" name="height" value="<?php echo $wordtube_options[height] ?>" /></td>
 						<td align="left"><i><?php _e('Define width and height of the media player screen.','wpTube') ?></i></td>
 					</tr>
 					<tr>					

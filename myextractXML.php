@@ -2,20 +2,13 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-XML V1.40
++	wordtube-XML V1.50
 +	by Alex Rabe
 +   	required for wordtube
 +----------------------------------------------------------------+
 */
 
-// get the path url from querystring
-$playlist_id = $_GET['id'];
-
-// extract the id name from path
-// $playlist_id = basename($wppath);  
-
 $wpconfig = realpath("../../../wp-config.php");
-//$wpconfig = dirname($wppath).'/wp-config.php';
 if (!file_exists($wpconfig)) die; // stop when wp-config is not there
 
 require_once($wpconfig);
@@ -26,9 +19,12 @@ add_action('shutdown', 'get_out_now', -1);
 
 global $wpdb;
 
+// get the path url from querystring
+$playlist_id = $_GET['id'];
+
 // Show all files when 0
 if (($playlist_id == 0) or (!$playlist_id)) {
-	$themediafiles = $wpdb->get_results("SELECT * FROM $wpdb->wordtube ORDER BY 'vid' ASC");
+	$themediafiles = $wpdb->get_results("SELECT * FROM $wpdb->wordtube ORDER BY vid ASC");
 
 	// Create XML output
 	header("content-type:text/xml;charset=utf-8");
@@ -58,7 +54,7 @@ else
 {
  	$playlist = $wpdb->get_row("SELECT * FROM $wpdb->wordtube_playlist WHERE pid = '$playlist_id'");
 	if (!$playlist) die;
- 	$mediaids = $wpdb->get_col("SELECT media_id FROM $wpdb->wordtube_med2play WHERE playlist_id = '$playlist_id' ORDER BY 'media_id' $playlist->playlist_order");
+ 	$mediaids = $wpdb->get_col("SELECT media_id FROM $wpdb->wordtube_med2play WHERE playlist_id = '$playlist_id' ORDER BY media_id $playlist->playlist_order");
 
 	// Create XML output
 	header("content-type:text/xml;charset=utf-8");

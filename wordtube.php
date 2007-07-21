@@ -5,7 +5,7 @@ Plugin Name: wordTube
 Plugin URI: http://alexrabe.boelinger.com/?page_id=20
 Description: This plugin creates your personal YouTube plugin for wordpress. Ready for Wordpress 2.1
 Author: Alex Rabe
-Version: 1.44
+Version: 1.50
 Author URI: http://alexrabe.boelinger.com/
 
 Copyright 2006-2007  Alex Rabe (email : alex.rabe@lycos.de)
@@ -31,9 +31,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+global $wbdb;
+
 // define URL
 $myabspath = str_replace("\\","/",ABSPATH);  // required for windows
-define('WORDTUBE_URLPATH', get_settings('siteurl').'/wp-content/plugins/' . dirname(plugin_basename(__FILE__)).'/');
+define('WORDTUBE_URLPATH', get_option('siteurl').'/wp-content/plugins/' . dirname(plugin_basename(__FILE__)).'/');
 define('WORDTUBE_ABSPATH', $myabspath.'wp-content/plugins/' . dirname(plugin_basename(__FILE__)).'/');
 
 // Load language
@@ -43,15 +45,15 @@ function wordTube_init ()
 }
 
 // database pointer
-$wpdb->wordtube					= $table_prefix . 'wordtube';
-$wpdb->wordtube_playlist		= $table_prefix . 'wordtube_playlist';
-$wpdb->wordtube_med2play		= $table_prefix . 'wordtube_med2play';
+$wpdb->wordtube					= $wpdb->prefix . 'wordtube';
+$wpdb->wordtube_playlist		= $wpdb->prefix . 'wordtube_playlist';
+$wpdb->wordtube_med2play		= $wpdb->prefix . 'wordtube_med2play';
 
 // Insert table menu
 function add_wpTube() {
 	if (function_exists('add_submenu_page')) {
-		add_submenu_page( 'edit.php' , __('Media Center','wpTube'), __('Media Center','wpTube'), 9 , 'wordtube/wordtube-admin.php' );
-		add_options_page(__('wordTube','wpTube'), __('wordTube','wpTube'), 9 , 'wordtube/wordtube-options.php');
+		add_submenu_page( 'edit.php' , __('Media Center','wpTube'), __('Media Center','wpTube'), 'edit_posts' , 'wordtube/wordtube-admin.php' );
+		add_options_page(__('wordTube','wpTube'), __('wordTube','wpTube'), 'manage_options' , 'wordtube/wordtube-options.php');
 	}
 }
 
@@ -74,7 +76,8 @@ if (file_exists(WORDTUBE_ABSPATH.'mediaplayer.swf')) $thisplayer = 'mediaplayer.
 if (!$thisplayer) return $content;
 
 //Tag VIDEO is Deprecated
-$search = "/\[VIDEO=(\d+)\]/";   //search for 'video' entry
+$search = "@(?:<p>)*\s*\[VIDEO\s*=\s*(\w+|^\+)\]\s*(?:</p>)*@i";
+// $search = "/\[VIDEO=(\d+)\]/";   //search for 'video' entry
 preg_match_all($search, $content, $matches);
 
 if (is_array($matches[1])) {
@@ -90,7 +93,8 @@ if (is_array($matches[1])) {
 		}
 	}
 
-$search = "/\[MYPLAYLIST=(\d+)\]/";   //search for 'myplaylist' entry
+$search = "@(?:<p>)*\s*\[MYPLAYLIST\s*=\s*(\w+|^\+)\]\s*(?:</p>)*@i";
+// $search = "/\[MYPLAYLIST=(\d+)\]/";   //search for 'myplaylist' entry
 preg_match_all($search, $content, $matches);
 
 
@@ -106,8 +110,9 @@ if (is_array($matches[1])) {
 			}
 		}
 	}
- 
-$search = "/\[MEDIA=(\d+)\]/";   //search for 'media' entry
+
+$search = "@(?:<p>)*\s*\[MEDIA\s*=\s*(\w+|^\+)\]\s*(?:</p>)*@i"; 
+// $search = "/\[MEDIA=(\d+)\]/";   //search for 'media' entry
 preg_match_all($search, $content, $matches);
 
 if (is_array($matches[1])) {
@@ -135,7 +140,6 @@ global $wpdb;
 
 	if ($playmode == "playlist") {
 	 	$winabspath = str_replace("\\","/",ABSPATH);  // required for win
-		$act_file = WORDTUBE_URLPATH."myextractXML.php?path=".$winabspath.$video_id;
 		$act_file = WORDTUBE_URLPATH."myextractXML.php?id=".$video_id;
 		$act_width = $wordtube_options[width];
 		$act_height = $wordtube_options[height] + $wordtube_options[playlistsize];
@@ -170,6 +174,7 @@ global $wpdb;
 	if ($wordtube_options[repeat]) $settings .= "\n\t".'so.addVariable("repeat", "true");'; 
 	if ($wordtube_options[overstretch]) $settings .= "\n\t".'so.addVariable("overstretch", "'.$wordtube_options[overstretch].'");'; 
 	if ($wordtube_options[showdigits]) $settings .= "\n\t".'so.addVariable("showdigits", "true");'; 
+	if ($wordtube_options[largecontrols]) $settings .= "\n\t".'so.addVariable("largecontrols", "true");'; 
 	if ($wordtube_options[showfsbutton]) $settings .= "\n\t".'so.addVariable("showfsbutton", "true");';
 	if ($wordtube_options[statistic]) $settings .= "\n\t".'so.addVariable("callback", "'.WORDTUBE_URLPATH.'wordtube-statistics.php");';  
 		
@@ -196,7 +201,7 @@ global $wpdb;
 		$settings .= "\n\t".'so.addParam("wmode", "transparent");'; 
 	}
 
-	if ($wordtube_options[center]) $replace .=	"\n".'</p>'; 
+//	if ($wordtube_options[center]) $replace .=	"\n".'</p>'; 
 	if ($wordtube_options[center]) $replace .=	"\n".'<center>';  
 	$replace .= "\n".'<div class="wordtube" id="'.$playmode.$video_id.'">';
 	$replace .= '<a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see the wordTube Media Player.</div>';
@@ -212,7 +217,7 @@ global $wpdb;
 	if ($wordtube_options[xhtmlvalid]) $replace .= "\n\t".'// -->'; 
 	$replace .= "\n\t".'</script>'."\n";
 	if ($wordtube_options[center]) $replace .=	"\n".'</center>';
-	if ($wordtube_options[center]) $replace .=	"\n".'<p>';
+//	if ($wordtube_options[center]) $replace .=	"\n".'<p>';
 	
 	// return custom message for RSS feeds
 	if (is_feed()) {
@@ -308,12 +313,28 @@ function wptube_check() {
 // Load the Script for the Button
 function insert_wordtube_script() {	
  
-	echo "\n".'
-	<script type="text/javascript"> 
-	function wpt_buttonscript()	{ 
-		window.open("'.WORDTUBE_URLPATH.'wordtube-tinymce.php", "SelectVideo",  "width=440,height=220,scrollbars=no");
+	echo "\n"."
+	<script type='text/javascript'> 
+		function wpt_buttonscript()	{ 
+		if(window.tinyMCE) {
+
+			var template = new Array();
+	
+			template['file'] = '".WORDTUBE_URLPATH."wordtube-tinymce.php';
+			template['width'] = 360;
+			template['height'] = 210;
+	
+			args = {
+				resizable : 'no',
+				scrollbars : 'no',
+				inline : 'yes'
+			};
+	
+			tinyMCE.openWindow(template, args);
+			return true;
+		} 
 	} 
-	</script>'; 
+	</script>"; 
 	return;
 }
 
@@ -332,13 +353,14 @@ function wpt_addbuttons() {
 		add_filter("mce_plugins", "wptube_button_plugin", 5);
 		add_filter('mce_buttons', 'wptube_button', 5);
 		add_action('tinymce_before_init','wptube_button_script');
-		}
-	
-	else {
-	 	$button_image_url = WORDTUBE_URLPATH . '/javascript/wordtube.gif';
-		buttonsnap_separator();
-		buttonsnap_jsbutton($button_image_url, __('Insert Video', 'wpTube'), 'wpt_buttonscript();');
 	}
+	
+	// Disable function when Tiny is not active
+//	else {
+//	 	$button_image_url = WORDTUBE_URLPATH . '/javascript/wordtube.gif';
+//		buttonsnap_separator();
+//		buttonsnap_jsbutton($button_image_url, __('Insert Video', 'wpTube'), 'wpt_buttonscript();');
+//	}
 }
 
 // used to insert button in wordpress 2.1x editor
@@ -352,7 +374,7 @@ function wptube_button($buttons) {
 // Tell TinyMCE that there is a plugin (wp2.1)
 function wptube_button_plugin($plugins) {    
 
-	array_push($plugins, "-wordTube","bold");    
+	array_push($plugins, "-wordTube");    
 	return $plugins;
 }
 
