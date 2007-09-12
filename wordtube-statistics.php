@@ -2,7 +2,7 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-statistics V1.50
++	wordtube-statistics V1.51
 +	by Alex Rabe
 +   required for wordtube
 +----------------------------------------------------------------+
@@ -21,9 +21,14 @@ add_action('shutdown', 'get_out_now', -1);
 */
 global $wpdb;
 
+//get the filename & state again, extract seems to be not working sometimes
+$file  = $_POST['file'];
+$id = $_POST['id'];
+$state = $_POST['state'];
+
 $wordtube_options=get_option('wordtube_options');
 
-$result = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE file = '$file' ");
+$result = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE vid = '$id' ");
 
 if ($result) {
 	if ($wordtube_options[countcomplete]) {
@@ -42,4 +47,15 @@ if ($result) {
 		}	
 	}
 }
+
+/* DEBUG
+$filename = 'statistics.txt';
+$somecontent .= $_POST['id']. " :". $_POST['title']. "(file ".$_POST['file']."): ".$_POST['state']." (".$_POST['duration']." sec.) \n";
+
+if (is_writable($filename)) {
+   if (!$handle = fopen($filename, 'a')) exit;
+   if (fwrite($handle, $somecontent) === FALSE) exit;
+   fclose($handle);
+}
+*/
 ?>

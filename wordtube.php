@@ -3,15 +3,14 @@
 /*
 Plugin Name: wordTube
 Plugin URI: http://alexrabe.boelinger.com/?page_id=20
-Description: This plugin creates your personal YouTube plugin for wordpress. Ready for Wordpress 2.1
+Description: This plugin creates your personal YouTube plugin for wordpress.
 Author: Alex Rabe
-Version: 1.50
+Version: 1.51
 Author URI: http://alexrabe.boelinger.com/
 
-Copyright 2006-2007  Alex Rabe (email : alex.rabe@lycos.de)
+Copyright 2006-2007  Alex Rabe
 
-THX to the plugin's from Thomas Boley (myGallery) and GaMerZ (WP-Polls),
-which gives me a lot of education.
+THX to the plugin's from GaMerZ (WP-Polls) which gives me a lot of education.
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -32,6 +31,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 global $wbdb;
+
+// Dashboard update notification 
+function wpTube_update_dashboard() {
+  $Check = new CheckPlugin();
+  $Check->URL 	= "http://nextgen.boelinger.com/version.php";
+  $Check->version = "1.51";
+  $Check->name 	= "wpTube";
+  if ($Check->startCheck()) {
+    echo '<h3>'.__('wordTube Update','wpTube').'</h3>';
+    echo '<p>'.__('A new version is available. Download','wpTube').' <a href="http://wordpress.org/extend/plugins/wordtube/download/">here</a></p>';
+  } 
+}
+
+add_action('activity_box_end', 'wpTube_update_dashboard', '0');
 
 // define URL
 $myabspath = str_replace("\\","/",ABSPATH);  // required for windows
@@ -60,8 +73,7 @@ function add_wpTube() {
 // integrate SWF Object in HEADER
 function integrate_swfobject() {
 
- 	$swfobject="\n".'<script type="text/javascript" src="'.WORDTUBE_URLPATH.'swfobject.js'.'"></script>';
-	echo $swfobject;
+ 	wp_enqueue_script('swfobject', WORDTUBE_URLPATH .'swfobject.js', FALSE, '1.5');
 
 }
 
@@ -168,6 +180,8 @@ global $wpdb;
 			}
 		}
 		if ($act_video[0]->autostart) $settings .= "\n\t".'so.addVariable("autostart", "true");';
+		// needed for statistic
+		$settings .= "\n\t".'so.addVariable("id", "'.$video_id.'");';
 	}
 
 	if ($wordtube_options[usewatermark]) $settings .= "\n\t".'so.addVariable("logo", "'.$wordtube_options[watermarkurl].'");'; 
@@ -183,7 +197,7 @@ global $wpdb;
 	$settings .= "\n\t".'so.addVariable("lightcolor", "0x'.$wordtube_options[lightcolor].'");'; 
 	$settings .= "\n\t".'so.addVariable("volume", "'.$wordtube_options[volume].'");';
 	$settings .= "\n\t".'so.addVariable("bufferlength", "'.$wordtube_options[bufferlength].'");';
-	// neeeded for IE problems 
+	// needed for IE problems 
 	$settings .= "\n\t".'so.addVariable("width", "'.$act_width.'");';
 	$settings .= "\n\t".'so.addVariable("height", "'.$act_height.'");'; 
 	
@@ -205,7 +219,7 @@ global $wpdb;
 	if ($wordtube_options[center]) $replace .=	"\n".'<center>';  
 	$replace .= "\n".'<div class="wordtube" id="'.$playmode.$video_id.'">';
 	$replace .= '<a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see the wordTube Media Player.</div>';
-    $replace .= "\n\t".'<script type="text/javascript">';
+    $replace .= "\n\t".'<script type="text/javascript" defer="defer">';
     if ($wordtube_options[xhtmlvalid]) $replace .= "\n\t".'<!--';
     if ($wordtube_options[xhtmlvalid]) $replace .= "\n\t".'//<![CDATA[';
 	$replace .= "\n\t".'var so = new SWFObject("'.WORDTUBE_URLPATH.$playertype.'", "'.$video_id.'", "'.$act_width.'", "'.$act_height.'", "7", "#FFFFFF");';
@@ -250,7 +264,7 @@ function add_wpTube_rss2_file()
 			if ($file_type["extension"] == "flv") $mime_type = "video/x-flv";
 			if ($file_type["extension"] == "swf") $mime_type = "application/x-shockwave-flash";
 			if ($file_type["extension"] == "jpg") $mime_type = "image/jpeg";			
-			echo '<enclosure url="'.$dbresult[0]->file.'" type="'.$mime_type.'"/>'."\n";
+			echo '<enclosure url="'.$dbresult[0]->file.'" length="1? type="'.$mime_type.'"/>'."\n";
 			}
 		}
 	}
@@ -401,9 +415,9 @@ add_action('edit_form_advanced', 'insert_wordtube_script');
 add_action('activate_wordtube/wordtube.php', 'wptube_check');
 
 // Action activate CSS in header
-add_filter('wp_head', 'integrate_swfobject');
+add_action('wp_head', 'integrate_swfobject', 1);
 if ( strpos( $_GET['page'], 'wordtube' ) !== false ) {
-	add_filter('admin_head', 'integrate_swfobject');
+	add_action('admin_head', 'integrate_swfobject', 1);
 }
 
 // Action calls for all functions 
@@ -483,5 +497,69 @@ function widget_wordtube() {
 	register_sidebar_widget(array('WordTube', 'widgets'), 'widget_show_wordtube');
 	register_widget_control(array('WordTube', 'widgets'), 'widget_wordtube_control', 300, 100);
 }
+
+/**
+ * WordPress PHP class to check for a new version.
+ * @author Alex Rabe & Joern Kretzschmar
+ * @orginal from Per Søderlind
+ */
+if ( !class_exists( "CheckPlugin" ) ) {  
+	class CheckPlugin {
+		/**
+		 * URL with the version of the plugin
+		 * @var string
+		 */
+		var $URL = 'myURL';
+		/**
+		 * Version of thsi programm or plugin
+		 * @var string
+		 */
+		var $version = '1.00';
+		/**
+		 * Name of the plugin (will be used in the options table)
+		 * @var string
+		 */
+		var $name = 'myPlugin';
+		/**
+		 * Waiting period until the next check in seconds
+		 * @var int
+		 */
+		var $period = 86400;					
+					
+		function startCheck() {
+			/**
+			 * check for a new version, returns true if a version is avaiable
+			 */
+			
+			// use wordpress snoopy class
+			require_once(ABSPATH . WPINC . '/class-snoopy.php');
+			
+			$check_intervall = get_option( $this->name."_next_update" );
+
+			if ( ($check_intervall < time() ) or (empty($check_intervall)) ) {
+				if (class_exists(snoopy)) {
+					$client = new Snoopy();
+					$client->_fp_timeout = 10;
+					if (@$client->fetch($this->URL) === false) {
+						return false;
+					}
+					
+				   	$remote = $client->results;
+				   	
+					$server_version = unserialize($remote);
+					if (is_array($server_version)) {
+						if ( version_compare($server_version[$this->name], $this->version, '>') )
+						 	return true;
+					} 
+					
+					$check_intervall = time() + $this->period;
+					update_option( $this->name."_next_update", $check_intervall );
+					return false;
+				}				
+			}
+		}
+	}
+}
+
 
 ?>

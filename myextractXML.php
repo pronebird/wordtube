@@ -2,7 +2,7 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-XML V1.50
++	wordtube-XML V1.51
 +	by Alex Rabe
 +   	required for wordtube
 +----------------------------------------------------------------+
@@ -12,15 +12,14 @@ $wpconfig = realpath("../../../wp-config.php");
 if (!file_exists($wpconfig)) die; // stop when wp-config is not there
 
 require_once($wpconfig);
-//require_once($wppath.'/wp-config.php');
 
 function get_out_now() { exit; }
 add_action('shutdown', 'get_out_now', -1);
 
 global $wpdb;
 
-// get the path url from querystring
-$playlist_id = $_GET['id'];
+// get the playlist id from querystring
+$playlist_id = (int) $_GET['id'];
 
 // Show all files when 0
 if (($playlist_id == 0) or (!$playlist_id)) {
@@ -30,17 +29,18 @@ if (($playlist_id == 0) or (!$playlist_id)) {
 	header("content-type:text/xml;charset=utf-8");
 	
 	echo "<playlist version='1' xmlns='http://xspf.org/ns/0/'>\n";
-	echo "	<title>WordTube Playlist V1.40</title>\n";
+	echo "	<title>WordTube Playlist V1.51</title>\n";
 	echo "	<trackList>\n";
 	
 	if (is_array ($themediafiles)){
 		foreach ($themediafiles as $tmp) {
 			echo "		<track>\n";
 			echo "			<title>".htmlspecialchars(stripslashes($tmp->name))."</title>\n";
+			echo "			<identifier>".$tmp->vid."</identifier>\n";
 			echo "			<creator>".htmlspecialchars(stripslashes($tmp->creator))."</creator>\n";
-			echo "			<location>".$myurl.$tmp->file."</location>\n";
-			echo "			<image>".$myurl.$tmp->image."</image>\n";
-			echo "			<info>".$myurl.$tmp->link."</info>\n";
+			echo "			<location>".$tmp->file."</location>\n";
+			echo "			<image>".$tmp->image."</image>\n";
+			echo "			<info>".$tmp->link."</info>\n";
 			echo "		</track>\n";
 		}
 	}
@@ -70,10 +70,11 @@ else
 			
 			echo "		<track>\n";
 			echo "			<title>".htmlspecialchars(stripslashes($tmp->name))."</title>\n";
+			echo "			<identifier>".$tmp->vid."</identifier>\n";
 			echo "			<creator>".htmlspecialchars(stripslashes($tmp->creator))."</creator>\n";
-			echo "			<location>".$myurl.$tmp->file."</location>\n";
-			echo "			<image>".$myurl.$tmp->image."</image>\n";
-			echo "			<info>".$myurl.$tmp->link."</info>\n";
+			echo "			<location>".$tmp->file."</location>\n";
+			echo "			<image>".$tmp->image."</image>\n";
+			echo "			<info>".$tmp->link."</info>\n";
 			echo "		</track>\n";
 		}
 	}
