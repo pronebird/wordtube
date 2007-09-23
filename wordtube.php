@@ -5,7 +5,7 @@ Plugin Name: wordTube
 Plugin URI: http://alexrabe.boelinger.com/?page_id=20
 Description: This plugin creates your personal YouTube plugin for wordpress.
 Author: Alex Rabe
-Version: 1.51
+Version: 1.52
 Author URI: http://alexrabe.boelinger.com/
 
 Copyright 2006-2007  Alex Rabe
@@ -36,7 +36,7 @@ global $wbdb;
 function wpTube_update_dashboard() {
   $Check = new CheckPlugin();
   $Check->URL 	= "http://nextgen.boelinger.com/version.php";
-  $Check->version = "1.51";
+  $Check->version = "1.52";
   $Check->name 	= "wpTube";
   if ($Check->startCheck()) {
     echo '<h3>'.__('wordTube Update','wpTube').'</h3>';
@@ -417,7 +417,7 @@ add_action('activate_wordtube/wordtube.php', 'wptube_check');
 // Action activate CSS in header
 add_action('wp_head', 'integrate_swfobject', 1);
 if ( strpos( $_GET['page'], 'wordtube' ) !== false ) {
-	add_action('admin_head', 'integrate_swfobject', 1);
+	add_action('init', 'integrate_swfobject',1);
 }
 
 // Action calls for all functions 
