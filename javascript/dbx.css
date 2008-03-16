@@ -1,0 +1,319 @@
+* html #postexcerpt .dbx-toggle-open, * html #postexcerpt .dbx-toggle-open {
+	padding-right: 8px;
+}
+/* Box stuff */
+.dbx-clone {
+	position: absolute;
+	visibility: hidden;
+}
+.dbx-clone, .dbx-clone .dbx-handle-cursor {
+	cursor: move !important;
+}
+.dbx-dummy {
+	display: block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+.dbx-group, .dbx-box, .dbx-handle {
+	position: relative;
+	display: block;
+}
+
+/****************************************************************
+avoid padding, margins or borders on dbx-box,
+to reduce visual discrepancies between it and the clone.
+overall, dbx-box is best left as visually unstyled as possible
+*****************************************************************/
+.dbx-box {
+	margin: 0;
+	padding: 0;
+	border: none !important;
+}
+
+/* Can change this */
+#moremeta fieldset, #advancedstuff fieldset {
+	margin-bottom: 1em;
+}
+#moremeta fieldset div {
+	margin: 2px 0 0 0;
+	padding: 7px;
+}
+#moremeta {
+	line-height: 130%;
+	margin-right: 15px;
+	position: absolute;
+	right: 5%;
+	width: 14.5em;
+}
+#moremeta select {
+	width: 96%;
+}
+
+#slugdiv input, #passworddiv input, #authordiv select, #thumbdiv input, #parentdiv input {
+	margin-top: .5em;
+	width: 90%;
+}
+
+#moremeta h3, #advancedstuff h3 {
+	padding: 3px;
+	font-weight: normal;
+	font-size: 13px;
+}
+
+/* default box styles */
+
+/* toggle state of inner content area */
+.dbx-box-open .dbx-content {
+	display: block;
+}
+.dbx-box-closed .dbx-content {
+	display: none;
+}
+
+#moremeta .dbx-content {
+	background: url(images/box-butt.gif) no-repeat bottom right;
+	padding-bottom: 15px;
+	padding-right: 2px;
+}
+
+#moremeta fieldset.dbx-box-closed {
+	background: url(images/box-butt.gif) no-repeat bottom;
+	padding-bottom: 9px;
+}
+
+/* handles */
+
+.dbx-handle {
+	background: #2685af;
+	padding: 6px 1em 2px;
+	font-size: 12px;
+	margin: 0;
+	color: #E3EFF5;
+}
+
+#moremeta .dbx-handle {
+	padding: 6px 1em 2px;
+	font-size: 12px;
+	background: #2685af url(images/box-head.gif) no-repeat right;
+}
+
+#moremeta .dbx-box {
+	background: url(images/box-bg.gif) repeat-y right;
+}
+
+#advancedstuff h3.dbx-handle {
+	margin-left: 7px;
+	margin-bottom: -7px;
+	padding: 6px 1em 0 3px;
+	height: 19px;
+	font-size: 12px;
+	background: #2685af url(images/box-head-right.gif) no-repeat top right;
+}
+
+#advancedstuff div.dbx-h-andle-wrapper {
+	margin: 0 0 0 -7px;
+	background: #fff url(images/box-head-left.gif) no-repeat top left;
+}
+
+#advancedstuff div.dbx-content {
+	margin-left: 8px;
+	background: url(images/box-bg-right.gif) repeat-y right;
+	padding: 10px 10px 15px 0;
+}
+
+#postexcerpt div.dbx-content {
+	margin-right: 0;
+	padding-right: 17px;
+}
+
+#advancedstuff div.dbx-c-ontent-wrapper {
+	margin-left: -7px;
+	margin-right: 0;
+	background: url(images/box-bg-left.gif) repeat-y left;
+}
+
+#advancedstuff fieldset.dbx-box {
+	padding-bottom: 9px;
+	margin-left: 6px;
+	background: url(images/box-butt-right.gif) no-repeat bottom right;
+}
+
+#advancedstuff div.dbx-b-ox-wrapper {
+	background: url(images/box-butt-left.gif) no-repeat bottom left;
+}
+
+#advancedstuff .dbx-box-closed div.dbx-c-ontent-wrapper {
+	padding-bottom: 2px;
+	background: url(images/box-butt-left.gif) no-repeat bottom left;
+}
+
+#advancedstuff .dbx-box {
+	background: url(images/box-butt-right.gif) no-repeat bottom right;
+}
+
+/* handle cursors */
+.dbx-handle-cursor {
+	cursor: move;
+}
+
+/* toggle images */
+a.dbx-toggle, a.dbx-toggle:visited {
+	display: block;
+	overflow: hidden;
+	background-image: url( images/toggle.gif );
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-repeat: no-repeat;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#moremeta a.dbx-toggle, #moremeta a.dbx-toggle-open:visited {
+	height: 25px;
+	width: 27px;
+	background-position: 0 0;
+}
+
+#moremeta a.dbx-toggle-open, #moremeta a.dbx-toggle-open:visited {
+	height: 25px;
+	width: 27px;
+	background-position: 0 -25px;
+}
+
+#advancedstuff a.dbx-toggle, #advancedstuff a.dbx-toggle-open:visited {
+	height: 22px;
+	width: 22px;
+	top: 3px;
+	right: 5px;
+	background-position: 0 -3px;
+}
+
+#advancedstuff a.dbx-toggle-open, #advancedstuff a.dbx-toggle-open:visited {
+	height: 22px;
+	width: 22px;
+	top: 3px;
+	right: 5px;
+	background-position: 0 -28px;
+}
+
+#categorychecklist {
+	margin-right: 6px;
+}
+
+/* additional clone styles */
+.dbx-clone {
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+	-khtml-opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+#newcat {
+	width: 120px;
+	margin-right: 5px;
+}
+
+input #catadd {
+	background: #a4a4a4;
+	border-bottom: 1px solid #898989;
+	border-left: 1px solid #bcbcbc;
+	border-right: 1px solid #898989;
+	border-top: 1px solid #bcbcbc;
+	color: #fff;
+	font-size: 10px;
+	padding: 0;
+	margin: 0;
+	font-weight: bold;
+	height: 20px;
+	margin-bottom: 2px;
+	text-align: center;
+	width: 37px;
+}
+
+#howto {
+	font-size: 11px;
+	margin: 0 5px;
+	display: block;
+}
+
+#jaxcat {
+	margin: 0;
+	padding: 0;
+}
+
+#ajax-response.alignleft {
+	margin-left: 2em;
+}
+
+#postdivrich #edButtons {
+	padding-left: 3px;
+}
+
+#postdivrich #content, #postdivrich #content:active {
+	border: 1px solid #ccc;
+}
+
+#edButtons input, #edButtons input:active {
+	margin: 0 2px -1px;
+}
+
+#edButtons input.edButtonFore, #edButtons input.edButtonFore:active {
+	background: #f0f0ee;
+	border-bottom: 1px solid #f0f0ee;
+}
+
+#edButtons input.edButtonBack, #edButtons input.edButtonBack:active {
+	background: #fff url( images/fade-butt.png ) repeat-x 0 15px;
+	border-bottom: 1px solid #ccc;
+}
+
+.page-numbers {
+	padding: 4px 7px;
+	border: 1px solid #fff;
+	margin-right: 3px;
+}
+
+a.page-numbers {
+	border: 1px solid #ccc;
+}
+
+a.page-numbers:hover {
+	border: 1px solid #999;
+}
+
+.page-numbers.current {
+	border: 1px solid #999;
+	font-weight: bold;
+}
+
+.pagenav span {
+	font-weight: bold;
+	margin: 0 6px;
+}
+
+a.view-link {
+	position: absolute;
+	right: 5%;
+	margin-right: 220px;
+	text-decoration:underline;
+}
+
+#update-nag, .plugin-update {
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	background: #fffeeb;
+	line-height: 29px;
+	font-size: 12px;
+	color: #555;
+	text-align: center;
+} 
+
+#update-nag a, .plugin-update a {
+	font-size: 1.1em;
+}
+#update-nag a:link, .plugin-update a:link {
+	color: #036;
+}

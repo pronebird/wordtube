@@ -2,12 +2,12 @@
 
 /*
 +----------------------------------------------------------------+
-+	wordtube-tinymce V1.50
++	wordtube-tinymce V1.60
 +	by Alex Rabe
-+   required for wordtube
++   required for wordtube and WordPress 2.5
 +----------------------------------------------------------------+
 */
-$wpconfig = realpath("../../../wp-config.php");
+$wpconfig = realpath("../../../../wp-config.php");
 
 if (!file_exists($wpconfig))  {
 	echo "Could not found wp-config.php. Error in path :\n\n".$wpconfig ;	
@@ -59,13 +59,14 @@ global $wpdb;
 		
 		if(window.tinyMCE) {
 			window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, tagtext);
-	//		tinyMCE.execCommand("mceCleanup");
-	 		tinyMCE.selectedInstance.repaint();
-		} else {
-			edCanvas = mceWindow.document.getElementById('content');
-			window.edInsertContent(edCanvas, tagtext);
+			//Peforms a clean up of the current editor HTML. 
+			//tinyMCEPopup.editor.execCommand('mceCleanup');
+			//Repaints the editor. Sometimes the browser has graphic glitches. 
+			tinyMCEPopup.editor.execCommand('mceRepaint');
+			tinyMCEPopup.close();
 		}
-		tinyMCEPopup.close();
+		
+		return;
 	}
 	</script>
 	<base target="_self" />
@@ -89,6 +90,8 @@ global $wpdb;
             <td nowrap="nowrap"><label for="mediatag"><?php _e("Select media file", 'wpTube'); ?></label></td>
             <td><select id="mediatag" name="mediatag" style="width: 200px">
                 <option value="0"><?php _e("No file", 'wpTube'); ?></option>
+                <option value="last"><?php _e("Last media", 'wpTube'); ?></option>
+                <option value="random"><?php _e("Random media", 'wpTube'); ?></option>
 				<?php
 					$tables = $wpdb->get_results("SELECT * FROM $wpdb->wordtube ORDER BY vid DESC ");
 					if($tables) {

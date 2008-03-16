@@ -1,5 +1,5 @@
 // English lang variables
 
 tinyMCE.addToLang('wordTube',{
-desc : 'Insérer une vidéo Flash'
+desc : 'Ins&eacute;rer une vid&eacute;o Flash'
 });

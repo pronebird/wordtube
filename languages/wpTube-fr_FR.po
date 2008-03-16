@@ -1,0 +1,752 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wordtube\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-03-11 20:14+0100\n"
+"Last-Translator: alakhnor <alakhnor@wanadoo.fr>\n"
+"Language-Team: Alex Rabe\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../wordtube-admin.php:34
+#: ../wordtube-admin.php:1075
+msgid "The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder."
+msgstr "Le lecteur Flash n'a pas été détecté. Vérifiez qu'il est installé dans le dossier Wordtube"
+
+#: ../wordtube-admin.php:88
+#: ../wordtube-admin.php:89
+msgid "Click to edit..."
+msgstr "Cliquer pour modifier..."
+
+#: ../wordtube-admin.php:249
+#: ../wordtube.php:132
+msgid "Media Center"
+msgstr "Media Center"
+
+#: ../wordtube-admin.php:287
+#: ../wordtube-admin.php:533
+#: ../wordtube-admin.php:749
+#: ../javascript/wordtube-tinymce.php:79
+#: ../tinymce/window.php:80
+msgid "Playlist"
+msgstr "Liste de lecture"
+
+#: ../wordtube-admin.php:287
+#: ../wordtube-admin.php:990
+msgid " added successfully"
+msgstr " ajouté avec succès"
+
+#: ../wordtube-admin.php:300
+#: ../wordtube-admin.php:1063
+#: ../wordtube-admin.php:1116
+msgid "Update Successfully"
+msgstr "Mise à jour réussie"
+
+#: ../wordtube-admin.php:326
+msgid "Edit media file"
+msgstr "Modifier un fichier Media"
+
+#: ../wordtube-admin.php:333
+#: ../wordtube-admin.php:451
+msgid "Select Playlist"
+msgstr "Sélection playlist"
+
+#: ../wordtube-admin.php:340
+#: ../wordtube-admin.php:458
+#: ../wordtube-admin.php:1270
+msgid "Autostart"
+msgstr "Lecture automatique"
+
+#: ../wordtube-admin.php:342
+#: ../wordtube-admin.php:460
+msgid "Start file automatic "
+msgstr "Lancer automatiquement"
+
+#: ../wordtube-admin.php:346
+#: ../wordtube-admin.php:464
+msgid "Edit view counter"
+msgstr "Modifier le compteur"
+
+#: ../wordtube-admin.php:354
+msgid "Here you can edit the selected file. See global settings for the Flash Player under"
+msgstr "Ici vous pouvez modifier le fichier seléctionné. Pour les réglages du lecteur Flash  aller dans "
+
+#: ../wordtube-admin.php:354
+msgid "Options->wordTube"
+msgstr "Options->wordTube"
+
+#: ../wordtube-admin.php:355
+msgid "If you want to show this media file in your page, enter the tag :"
+msgstr "Si vous voulez afficher ce fichier dans votre page, entrez ce tag :"
+
+#: ../wordtube-admin.php:359
+msgid "Media title"
+msgstr "Titre"
+
+#: ../wordtube-admin.php:363
+#: ../wordtube-admin.php:480
+msgid "Creator / Author"
+msgstr "Auteur / Réalisateur"
+
+#: ../wordtube-admin.php:367
+msgid "Media URL"
+msgstr "URL du Media"
+
+#: ../wordtube-admin.php:369
+msgid "Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)"
+msgstr "Entrer ici l'URL absolue du fichier  (MP3,FLV,SWF,JPG,PNG our GIF)"
+
+#: ../wordtube-admin.php:372
+msgid "Thumbnail URL"
+msgstr "URL de l'aperçu"
+
+#: ../wordtube-admin.php:374
+msgid "Enter the URL to show a preview of the media file"
+msgstr "Entrer l'adresse (URL) de l'aperçu"
+
+#: ../wordtube-admin.php:377
+msgid "Link URL"
+msgstr "URL du lien"
+
+#: ../wordtube-admin.php:379
+msgid "Enter the URL to the page/file, if you click on the player"
+msgstr "Entrer l'adresse de la page ou du fichier à afficher lorsque l'on clique dans le lecteur"
+
+#: ../wordtube-admin.php:382
+msgid "Default player size (Width x Heigth)"
+msgstr "Taille par défaut du lecteur (Largeur x Hauteur)"
+
+#: ../wordtube-admin.php:385
+msgid "Note on heigth : 20 pixel are used for the player itself"
+msgstr "Note  : la hauteur du lecteur seul est de 20 pixels"
+
+#: ../wordtube-admin.php:388
+#: ../wordtube-admin.php:582
+#: ../javascript/wordtube-tinymce.php:133
+#: ../tinymce/window.php:134
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../wordtube-admin.php:389
+#: ../wordtube-admin.php:1308
+msgid "Update"
+msgstr "Actualiser"
+
+#: ../wordtube-admin.php:393
+msgid "Preview"
+msgstr "Prévisualiser"
+
+#: ../wordtube-admin.php:411
+#: ../wordtube-admin.php:418
+msgid "Error in deleting file"
+msgstr "Erreur lors de la suppression du fichier"
+
+#: ../wordtube-admin.php:428
+msgid "Error in deleting media file"
+msgstr "Erreur lors de la suppression du media"
+
+#: ../wordtube-admin.php:431
+#: ../wordtube-admin.php:990
+msgid "Media file"
+msgstr "Fichier Media"
+
+#: ../wordtube-admin.php:431
+#: ../wordtube-admin.php:533
+msgid "deleted successfully"
+msgstr "Suppression réussie"
+
+#: ../wordtube-admin.php:445
+msgid "Add a new media file"
+msgstr "Ajouter un nouveau media"
+
+#: ../wordtube-admin.php:476
+msgid "Title / Name"
+msgstr "Titre / Nom"
+
+#: ../wordtube-admin.php:484
+msgid "Media file size (Width x Heigth)"
+msgstr "Taille du media (Larg. x Haut.)"
+
+#: ../wordtube-admin.php:490
+msgid "Upload file"
+msgstr "Télécharger le fichier"
+
+#: ../wordtube-admin.php:494
+#: ../javascript/wordtube-tinymce.php:89
+#: ../tinymce/window.php:90
+msgid "Select media file"
+msgstr "Sélectionner le media"
+
+#: ../wordtube-admin.php:497
+msgid "Note : The upload limit on your server is "
+msgstr "Note : La taille limite de téléchargement de votre serveur est de "
+
+#: ../wordtube-admin.php:498
+msgid "The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF"
+msgstr "Le lecteur Flash accepte : MP3,FLV,SWF,JPG,PNG et GIF"
+
+#: ../wordtube-admin.php:501
+msgid "Select thumbnail"
+msgstr "Sélectionner l'aperçu"
+
+#: ../wordtube-admin.php:503
+msgid "Upload a image to show a preview of the media file (optional)"
+msgstr "Télécharger une image de prévisualisation du media (optionnel)"
+
+#: ../wordtube-admin.php:507
+msgid "Enter URL to file"
+msgstr "Entrer l'URL du fichier"
+
+#: ../wordtube-admin.php:511
+msgid "URL to media file"
+msgstr "URL du media"
+
+#: ../wordtube-admin.php:513
+msgid "Here you need to enter the absolute URL to the media file"
+msgstr "Entrer ici l'URL absolue du media"
+
+#: ../wordtube-admin.php:516
+msgid "URL to thumbnail file"
+msgstr "URL de l'aperçu"
+
+#: ../wordtube-admin.php:518
+msgid "Enter the URL to show a preview of the media file (optional)"
+msgstr "URL de l'image de prévisualisation (optionnel)"
+
+#: ../wordtube-admin.php:521
+msgid "Add media file"
+msgstr "Ajouter un media"
+
+#: ../wordtube-admin.php:549
+msgid "Manage Playlist"
+msgstr "Gérer la liste de lecture"
+
+#: ../wordtube-admin.php:554
+#: ../wordtube-admin.php:817
+msgid "ID"
+msgstr "ID"
+
+#: ../wordtube-admin.php:555
+msgid "Name"
+msgstr "Nom"
+
+#: ../wordtube-admin.php:556
+msgid "Description"
+msgstr "Description"
+
+#: ../wordtube-admin.php:557
+#: ../wordtube-admin.php:825
+msgid "Action"
+msgstr "Action"
+
+#: ../wordtube-admin.php:572
+#: ../wordtube-admin.php:844
+#: ../wordtube-admin.php:875
+msgid "Edit"
+msgstr "Modifier"
+
+#: ../wordtube-admin.php:573
+#: ../wordtube-admin.php:845
+msgid "Delete this file ?"
+msgstr "Supprimer ce fichier ?"
+
+#: ../wordtube-admin.php:573
+#: ../wordtube-admin.php:845
+msgid "Delete"
+msgstr "Supprimer"
+
+#: ../wordtube-admin.php:578
+#: ../wordtube-admin.php:850
+msgid "No entries found"
+msgstr "Aucune donnée n'a été trouvée"
+
+#: ../wordtube-admin.php:588
+#: ../wordtube-admin.php:598
+msgid "Add Playlist"
+msgstr "Ajouter une liste de lecture"
+
+#: ../wordtube-admin.php:589
+#: ../wordtube-admin.php:599
+msgid "Update Playlist"
+msgstr "Mettre à jour la liste de lecture"
+
+#: ../wordtube-admin.php:593
+msgid "Name:"
+msgstr "Nom:"
+
+#: ../wordtube-admin.php:594
+msgid "Description: (optional)"
+msgstr "Description: (optionnel)"
+
+#: ../wordtube-admin.php:595
+msgid "Media ID sorting order:"
+msgstr "Tri des medias par ID : "
+
+#: ../wordtube-admin.php:595
+msgid "ascending"
+msgstr "ascendant"
+
+#: ../wordtube-admin.php:596
+msgid "descending"
+msgstr "descendant"
+
+#: ../wordtube-admin.php:682
+msgid "Previous Page"
+msgstr "Page Précédente"
+
+#: ../wordtube-admin.php:713
+msgid "Next Page"
+msgstr "Page Suivante"
+
+#: ../wordtube-admin.php:725
+#: ../wordtube-admin.php:772
+msgid "Manage Media files"
+msgstr "Gérer les médias"
+
+#: ../wordtube-admin.php:728
+msgid "Search term"
+msgstr "Recherche"
+
+#: ../wordtube-admin.php:732
+#: ../wordtube-admin.php:823
+msgid "Order"
+msgstr "Ordre"
+
+#: ../wordtube-admin.php:734
+#: ../wordtube-admin.php:783
+msgid "Sort Ascending"
+msgstr "Croissant"
+
+#: ../wordtube-admin.php:735
+#: ../wordtube-admin.php:784
+msgid "Sort Descending"
+msgstr "Décroissant"
+
+#: ../wordtube-admin.php:739
+msgid "File type"
+msgstr "Type fichier"
+
+#: ../wordtube-admin.php:741
+#: ../wordtube-admin.php:787
+msgid "Any file type"
+msgstr "Tout type de fichier"
+
+#: ../wordtube-admin.php:751
+#: ../wordtube-admin.php:794
+msgid "All playlists"
+msgstr "Toutes les playlists"
+
+#: ../wordtube-admin.php:752
+#: ../wordtube-admin.php:795
+msgid "No playlist"
+msgstr "Pas de playlist"
+
+#: ../wordtube-admin.php:765
+#: ../wordtube-admin.php:806
+msgid "Filter"
+msgstr "Filtre"
+
+#: ../wordtube-admin.php:775
+msgid "Search Media"
+msgstr "Recherche media"
+
+#: ../wordtube-admin.php:818
+msgid "Title"
+msgstr "Titre"
+
+#: ../wordtube-admin.php:819
+msgid "Creator"
+msgstr "Auteur"
+
+#: ../wordtube-admin.php:820
+msgid "Path"
+msgstr "chemin"
+
+#: ../wordtube-admin.php:821
+msgid "Views"
+msgstr "Vues"
+
+#: ../wordtube-admin.php:862
+msgid "Insert new media file"
+msgstr "Ajouter un nouveau media"
+
+#: ../wordtube-admin.php:875
+msgid "Playlist Preview"
+msgstr "Prévisualisation de la liste de lecture"
+
+#: ../wordtube-admin.php:876
+msgid "You can show all videos/media files in a playlist. Show this playlist with the tag"
+msgstr "Vous pouvez montrer vos videos/medias dans une liste de lecture. Pour insérer cette liste de lecture insérer ce tag : "
+
+#: ../wordtube-admin.php:883
+msgid "Select Playlist :"
+msgstr "Sélectionner la liste de lecture"
+
+#: ../wordtube-admin.php:885
+msgid "Most viewed"
+msgstr "Plus vus"
+
+#: ../wordtube-admin.php:886
+#: ../javascript/wordtube-tinymce.php:115
+#: ../tinymce/window.php:116
+msgid "All files"
+msgstr "Tous les fichiers"
+
+#: ../wordtube-admin.php:887
+msgid "All mp3"
+msgstr "Tous les mp3"
+
+#: ../wordtube-admin.php:888
+msgid "All videos"
+msgstr "Toutes les vidéos"
+
+#: ../wordtube-admin.php:900
+msgid "OK"
+msgstr "OK"
+
+#: ../wordtube-admin.php:968
+#: ../wordtube-admin.php:975
+msgid "Unable to change permissions for file "
+msgstr "Impossible de changer les permissions de ce fichier"
+
+#: ../wordtube-admin.php:981
+msgid "ERROR : File cannot be saved. Check the permission of the wordpress upload folder"
+msgstr "ERREUR : Le fichier ne peut être enregistré. Vérifier les permissions du dossier de téléchargement de Wordpress."
+
+#: ../wordtube-admin.php:983
+msgid "ERROR : Upload failed. Check the file size"
+msgstr "ERREUR : Le téléchargement a échoué. Vérifierz la taille du fichier."
+
+#: ../wordtube-admin.php:1128
+msgid "wordTube Option"
+msgstr "wordTube Option"
+
+#: ../wordtube-admin.php:1132
+msgid "General Options"
+msgstr "Options Générales"
+
+#: ../wordtube-admin.php:1135
+msgid "Upload folder"
+msgstr "Dossier de téléchargement"
+
+#: ../wordtube-admin.php:1141
+msgid "Standard upload folder : "
+msgstr "Dossier par défaut :"
+
+#: ../wordtube-admin.php:1144
+msgid "Store uploads in this folder : "
+msgstr "Autre dossier :"
+
+#: ../wordtube-admin.php:1148
+msgid "Delete file with post"
+msgstr "Suppession du media"
+
+#: ../wordtube-admin.php:1150
+msgid "Should the media file deleted, when pressing delete ? "
+msgstr "cochez pour supprimer le media lors de la suppresion de l'article"
+
+#: ../wordtube-admin.php:1153
+msgid "XHTML valid"
+msgstr "Valide XHTML"
+
+#: ../wordtube-admin.php:1155
+msgid "Insert CDATA and a comment code. Important : Recheck your webpage with all browser types."
+msgstr "Insérer le marqueur CDATA. Important : vérifier votre page avec les différents navigateurs."
+
+#: ../wordtube-admin.php:1158
+msgid "Activate RSS Feed message"
+msgstr "Activer le flux RSS"
+
+#: ../wordtube-admin.php:1163
+msgid "Use in Excerpt"
+msgstr "Utiliser dans l'Excerpt"
+
+#: ../wordtube-admin.php:1165
+msgid "Render media in excerpt if checked, replace tag with blank if not."
+msgstr "Affiche le media dans l'excerpt si coché, remplace avec des blancs sinon."
+
+#: ../wordtube-admin.php:1170
+msgid "Media Player Option"
+msgstr "Option du lecteur"
+
+#: ../wordtube-admin.php:1171
+msgid "These settings are valid for all your flash video. The settings are used in the Flash Media Player Version 3.3"
+msgstr "Ces réglages sont valables pour toutes vos vidéos flash. Les réglages sont utilisés dans le lecteur Flash"
+
+#: ../wordtube-admin.php:1172
+msgid "See more information on the web page"
+msgstr "Plus d'informations sur le site"
+
+#: ../wordtube-admin.php:1175
+msgid "Repeat"
+msgstr "Relire"
+
+#: ../wordtube-admin.php:1177
+msgid "Automatically repeat playing when a file is completed."
+msgstr "Relire automatiquement en fin de lecture"
+
+#: ../wordtube-admin.php:1180
+msgid "Over stretch"
+msgstr "Maximiser la vidéo"
+
+#: ../wordtube-admin.php:1183
+msgid "true"
+msgstr "oui"
+
+#: ../wordtube-admin.php:1184
+msgid "false"
+msgstr "non"
+
+#: ../wordtube-admin.php:1185
+msgid "fit"
+msgstr "ajusté"
+
+#: ../wordtube-admin.php:1186
+msgid "none"
+msgstr "inactif"
+
+#: ../wordtube-admin.php:1189
+msgid "Over stretch the image/video to fill the entire display."
+msgstr "Maximiser l'image/la vidéo pour l'adapter à l'écran"
+
+#: ../wordtube-admin.php:1192
+msgid "Show digits"
+msgstr "Durées"
+
+#: ../wordtube-admin.php:1194
+msgid "Show the digits for loaded, elapsed and remaining time in the Flash player."
+msgstr "Afficher le temps chargé, écoulé et restant dans le lecteur"
+
+#: ../wordtube-admin.php:1197
+msgid "Enable Fullscreen"
+msgstr "Plein écran"
+
+#: ../wordtube-admin.php:1199
+msgid "Show the fullscreen button. Note : Javascript objects (i.e Lightbox) are not always on the top."
+msgstr "Afficher le bouton plein écran. Note : les éléments Javascript (ex: Lightbox) ne sont pas toujours sur le dessus."
+
+#: ../wordtube-admin.php:1202
+msgid "Background Color"
+msgstr "Couleur de fond"
+
+#: ../wordtube-admin.php:1204
+msgid "Backgroundcolor of the Flash player (default FFFFFF)."
+msgstr "Couleur de fond du lecteur (par défaut FFFFFF)"
+
+#: ../wordtube-admin.php:1207
+msgid "Button Color"
+msgstr "Couleur des boutons"
+
+#: ../wordtube-admin.php:1209
+msgid "Texts / buttons color of the Flash player (default 000000)."
+msgstr "Couleur des textes/boutons du lecteur  par défaut 000000)"
+
+#: ../wordtube-admin.php:1212
+msgid "Active Color"
+msgstr "Couleur active"
+
+#: ../wordtube-admin.php:1214
+msgid "Rollover/ active color of the Flash player (default 000000)."
+msgstr "Couleur de mise en valeur du media en lecture (par défaut 000000)"
+
+#: ../wordtube-admin.php:1217
+msgid "Volume"
+msgstr "Volume"
+
+#: ../wordtube-admin.php:1219
+msgid "Startup volume of the Flash player (default 80)."
+msgstr "Volume de départ du lecteur(par défaut 80)"
+
+#: ../wordtube-admin.php:1222
+msgid "Buffer length"
+msgstr "Taille du tampon"
+
+#: ../wordtube-admin.php:1224
+msgid "Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5)."
+msgstr "en secondes. Temps de mise en mémoire tampon avant le début de la lecture. Réglage bas pour des connexions rapides ou des vidéos courtes. Réglage haut pour des connexions lentes. (par défaut 5)"
+
+#: ../wordtube-admin.php:1227
+msgid "Activate statistic"
+msgstr "Statistiques"
+
+#: ../wordtube-admin.php:1229
+msgid "Activate the internal view counter for each media file."
+msgstr "Activer le compteur interne de lectures pour chaque fichier"
+
+#: ../wordtube-admin.php:1232
+msgid "mp3 display"
+msgstr "Affichage mp3"
+
+#: ../wordtube-admin.php:1235
+msgid "Default"
+msgstr "Défaut"
+
+#: ../wordtube-admin.php:1236
+msgid "Equalizer"
+msgstr "Equaliseur"
+
+#: ../wordtube-admin.php:1237
+msgid "Minimum"
+msgstr "Minimum"
+
+#: ../wordtube-admin.php:1240
+msgid "Choose player aspect for mp3. Default: like videos. Equalizer: purely cosmetic. Minimum: only control bar."
+msgstr "Choisir l'aspect du lecteur pour les mp3. Défaut : comme les vidéos. Equaliseur : purement cosmétique. Minimum : barre de contrôle seulement."
+
+#: ../wordtube-admin.php:1243
+msgid "Start icon"
+msgstr "Icône de démarrage"
+
+#: ../wordtube-admin.php:1245
+msgid "Show or hide the play and activity icons in the middle of the display. Defaults to true for the players and false for the rotator. If set to false, the overlaid controlbar will also hide with the players."
+msgstr "Affiche ou cache l'icône de démarrage au centre du lecteur. Affichée par défaut. Si cachée, la barre de contrôle sera également cachée."
+
+#: ../wordtube-admin.php:1248
+msgid "Show controls"
+msgstr "Afficher les contrôles"
+
+#: ../wordtube-admin.php:1250
+msgid "If checked, will display control bar under view screen. Otherwise, controls will appear on mouseover."
+msgstr "Si coché, la barre de contrôle apparaîtra sous le lecteur. Sinon, elle apparaîtra au survol de la souris."
+
+#: ../wordtube-admin.php:1253
+msgid "Show logo"
+msgstr "Afficher le logo"
+
+#: ../wordtube-admin.php:1255
+msgid "URL to your watermark (PNG, JPG): "
+msgstr "URL de votre filigrane (PNG, JPG)"
+
+#: ../wordtube-admin.php:1259
+msgid "Autostart first single media"
+msgstr "Démarrage auto premier media"
+
+#: ../wordtube-admin.php:1261
+msgid "If checked, first media in a single post will automatically starts."
+msgstr "Si coché, le premier media démarrera automatiquement lors de l'affichage d'un article seul."
+
+#: ../wordtube-admin.php:1266
+msgid "Playlist Settings"
+msgstr "Paramétrage des listes de lecture"
+
+#: ../wordtube-admin.php:1267
+msgid "You can show all videos/media files in a playlist. Show the media player with the tag"
+msgstr "Vous pouvez afficher toutes videos/medias dans une liste de lecture. Pour afficher la liste de lecture avec le lecteur, insérez ce tag :"
+
+#: ../wordtube-admin.php:1272
+msgid "Automatically start playing the media files."
+msgstr "Démarrer automatiquement la lecture des medias"
+
+#: ../wordtube-admin.php:1275
+msgid "Activate autoscroll"
+msgstr "Défilement automatique"
+
+#: ../wordtube-admin.php:1277
+msgid "Let the playlist automatically scroll, based upon the mouse cursor."
+msgstr "Défilement automatique de la liste de lecture basé sur le positionnement du curseur"
+
+#: ../wordtube-admin.php:1280
+msgid "Show thumbnail"
+msgstr "Afficher l'aperçu"
+
+#: ../wordtube-admin.php:1282
+msgid "Show a thumbnail in the playlist."
+msgstr "Afficher l'aperçu dans la liste de lecture"
+
+#: ../wordtube-admin.php:1285
+msgid "Shuffle mode"
+msgstr "Shuffle mode"
+
+#: ../wordtube-admin.php:1287
+msgid "Activate the shuffle mode in the playlist"
+msgstr "Activer le mode shuffle dans la liste de lecture"
+
+#: ../wordtube-admin.php:1290
+msgid "Flash size (W x H)"
+msgstr "Taille de l'écran (L x H)"
+
+#: ../wordtube-admin.php:1293
+msgid "Define width and height of the media player screen."
+msgstr "Définir la taille de l'écran du lecteur"
+
+#: ../wordtube-admin.php:1296
+msgid "Playlist size"
+msgstr "Taille de la liste de lecture"
+
+#: ../wordtube-admin.php:1298
+msgid "Define height of the playlist, should be larger the 20. (0 = Show no playlist)"
+msgstr "Définir la hauteur de la liste de lecture. Doit être plus grand que 20. (0 = pas de liste de lecture)"
+
+#: ../wordtube-admin.php:1301
+msgid "Playlist on right side"
+msgstr "Liste de lecture sur la droite"
+
+#: ../wordtube-admin.php:1303
+msgid "Playlist width"
+msgstr "Taille de la liste de lecture"
+
+#: ../wordtube-admin.php:1305
+msgid "Define width of the playlist."
+msgstr "Définir la largeur de la liste de lecture"
+
+#: ../wordtube-admin.php:1404
+msgid "See post to watch Flash video"
+msgstr "Voir l'article (post) pour regarder la vidéo"
+
+#: ../wordtube.php:133
+msgid "wordTube"
+msgstr "wordTube"
+
+#: ../wordtube.php:551
+msgid "Title:"
+msgstr "Titre:"
+
+#: ../wordtube.php:554
+msgid "Select Media:"
+msgstr "Sélectionner le media:"
+
+#: ../wordtube.php:558
+#: ../javascript/wordtube-tinymce.php:92
+#: ../tinymce/window.php:93
+msgid "Last media"
+msgstr "Dernier media"
+
+#: ../wordtube.php:561
+#: ../javascript/wordtube-tinymce.php:93
+#: ../tinymce/window.php:94
+msgid "Random media"
+msgstr "Media aléatoire"
+
+#: ../wordtube.php:572
+msgid "Width (0 for media default):"
+msgstr "Largeur (0 pour la valeur du media)"
+
+#: ../wordtube.php:574
+msgid "Height (0 for media default):"
+msgstr "Hauteur (0 pour la valeur du media)"
+
+#: ../javascript/wordtube-tinymce.php:78
+#: ../tinymce/window.php:79
+msgid "Media"
+msgstr "Media"
+
+#: ../javascript/wordtube-tinymce.php:91
+#: ../tinymce/window.php:92
+msgid "No file"
+msgstr "Aucun fichier"
+
+#: ../javascript/wordtube-tinymce.php:113
+#: ../tinymce/window.php:114
+msgid "Select playlist"
+msgstr "Sélection liste de lecture"
+
+#: ../javascript/wordtube-tinymce.php:137
+#: ../tinymce/window.php:138
+msgid "Insert"
+msgstr "Insérer"
+

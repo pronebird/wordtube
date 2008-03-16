@@ -1,582 +1,1417 @@
 <?php
-
 /*
 +----------------------------------------------------------------+
-+	wordtube-admin V1.50
-+	by Alex Rabe
++	wordtube-admin
++	by Alex Rabe & Alakhnor
 +   required for wordtube
 +----------------------------------------------------------------+
 */
 
-global $wpdb;
+$WTAdmin = new wordTubeAdmin ();
 
-// ### check for player and prefer the mediaplayer	
-if (file_exists(WORDTUBE_ABSPATH.'mp3player.swf')) $thisplayer = 'mp3player.swf';
-if (file_exists(WORDTUBE_ABSPATH.'flvplayer.swf')) $thisplayer = 'flvplayer.swf';
-if (file_exists(WORDTUBE_ABSPATH.'mediaplayer.swf')) $thisplayer = 'mediaplayer.swf';
-if (!$thisplayer) $text = '<font color="red">'.__('The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder.','wpTube').'</font>';
+class wordTubeAdmin {
 
-### Define common constant
-define('WORDTUBE_RELPATH', '/wp-content/plugins/' . dirname(plugin_basename(__FILE__)));
+	var $options;
+	var $has_player;
+	var $WTVERSION = '1.60';
+	var $mode = 'main';
+	var $base_page = '?page=wordtube-admin.php';
+	var $wptfile_abspath;
+	var $wp_urlpath;
+	var $text;
+	var $PerPage = 10;
+	
+	/****************************************************************/
+	/* Constructor
+	/****************************************************************/
+	function wordTubeAdmin() {
+		global $WPwordTube, $wp_version;;
+	
+		$this->get_DefaultOption();
 
-$base_name = plugin_basename('wordtube/wordtube-admin.php');
-$base_page = 'admin.php?page='.$base_name;
-$mode = trim($_GET['mode']);
-$act_vid = trim($_GET['id']);
-$act_pid = trim($_GET['pid']);
+		// check for player
+		$this->has_player = $WPwordTube->has_player;
+		if (!$this->has_player) $this->text = '<font color="red">'.__('The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder.','wpTube').'</font>';
 
-$wordtube_options=get_option('wordtube_options');
-
-if ($wordtube_options[usewpupload]) {
-	$wptfile_abspath = ABSPATH.get_option('upload_path').'/';
-	$wp_urlpath = get_option('siteurl').'/'.get_option('upload_path').'/';
-}
-else {
- 	$wptfile_abspath = ABSPATH.$wordtube_options[uploadurl].'/';
- 	$wp_urlpath = get_option('siteurl').'/'.$wordtube_options[uploadurl].'/';
-}
-
-// ### Start the button form processing 
-if (isset($_POST['do'])){
-	switch(key($_POST['do'])) {
-		case 0:	// ADD VIDEO
-			$act_name = trim($_POST['name']);
-			$act_creator = trim($_POST['creator']);
-			$act_filepath = addslashes(trim($_POST['filepath']));
-			$act_image = addslashes(trim($_POST['urlimage']));
-			$act_width = trim($_POST['width']);
-			$act_height = trim($_POST['height']);
-			
-			if ($act_height < 20 ) $act_height = 20 ;
-			if ($act_width == 0 ) $act_width = 320 ;
-			
-			$upload_path_video = $wptfile_abspath.$_FILES['video_file']['name'];  // set upload path
-			$upload_path_image = $wptfile_abspath.$_FILES['image_file']['name'];  // set upload path
-			
-			if($_FILES['video_file']['error']== 0) {
-	 				move_uploaded_file($_FILES['video_file']['tmp_name'], $upload_path_video); // save temp file
-					@chmod ($upload_path_video, 0666) or die ('<div class="updated"><p><strong>'.__('Unable to change permissions for file ', 'wpTube').$upload_path_image.'!</strong></p></div>');
-	 				if (empty($act_name)) $act_name = $_FILES['video_file']['name'];
-	 				if (file_exists($upload_path_video)) {
-				 	 	$act_filepath = $wp_urlpath.$_FILES['video_file']['name'];
-	 					if($_FILES['image_file']['error']== 0) {
-						 	move_uploaded_file($_FILES['image_file']['tmp_name'], $upload_path_image); // save temp file
-							@chmod ($upload_path_image, 0666) or die ('<div class="updated"><p><strong>'.__('Unable to change permissions for file ', 'wpTube').$upload_path_image.'!</strong></p></div>');
-						 	if (file_exists($upload_path_image)) $act_image = $wp_urlpath.$_FILES['image_file']['name'];;
-						}	
-						$mode ='none';
-					} else $text = '<font color="red">'.__('ERROR : File cannot be saved. Check the permission of the wordpress upload folder','wpTube').'</font>';
-		 	} else $text = '<font color="red">'.__('ERROR : Upload failed. Check the file size','wpTube').'</font>';
-
-			if (!empty($act_filepath)) {
-				$insert_video = $wpdb->query(" INSERT INTO $wpdb->wordtube ( name, creator, file, image, width, height ) 
-				VALUES ( '$act_name','$act_creator', '$act_filepath', '$act_image', '$act_width', '$act_height' )");
-				if ($insert_video != 0) {
-			 		$video_aid = $wpdb->insert_id;  // get index_id
-					$text = '<font color="green">'.__('Media file','wpTube').' '.$video_aid.__(' added successfully','wpTube').'</font>';
-				}
-			}
+		if ($this->options['usewpupload']) {
+			$this->wptfile_abspath = ABSPATH.get_option('upload_path').'/';
+			$this->wp_urlpath = get_option('siteurl').'/'.get_option('upload_path').'/';
+		}
+		else {
+		 	$this->wptfile_abspath = ABSPATH.$this->options['uploadurl'].'/';
+		 	$this->wp_urlpath = get_option('siteurl').'/'.$this->options['uploadurl'].'/';
+		}
+	
+		// Define common constant
+		define('WORDTUBE_RELPATH', '/wp-content/plugins/' . dirname(plugin_basename(__FILE__)));
 		
-			$mode = 'main';
-		break;
+		// Action activate CSS & JS in header
+		add_filter('admin_head', array(&$this, 'admin_header'));
+		if ($wp_version < '2.1')
+			add_action('admin_head', array(&$this, 'admin_scripts'));
+		else
+			add_action('admin_print_scripts', array(&$this, 'admin_scripts'));
+		add_action('admin_menu', array(&$this, 'wt_admin'));
+		add_action('admin_menu', array(&$this, 'wt_options'));
 
-		case 1:	// UPDATE VIDEO
-			// read the $_POST values
-			$act_name = addslashes(trim($_POST['act_name']));
-			$act_creator = addslashes(trim($_POST['act_creator']));
-			$act_filepath = addslashes(trim($_POST['act_filepath']));
-			$act_image = addslashes(trim($_POST['act_image']));
-			$act_link = addslashes(trim($_POST['act_link']));
-			$act_width = addslashes(trim($_POST['act_width']));
-			$act_height = addslashes(trim($_POST['act_height']));
-			$act_counter = addslashes(trim($_POST['act_counter']));
-			$act_autostart = $_POST['autostart'];
-			$act_playlist = $_POST[playlist];
-			
-			if ($act_height < 20 ) $act_height = 20 ;
-			if ($act_width == 0 ) $act_width = 320 ;
-			
-			if (!$act_playlist) $act_playlist = array();
-			if (empty($act_autostart)) $act_autostart = 0; // need now for sql_mode, see http://bugs.mysql.com/bug.php?id=18551
-						
-			// Read the old playlist status
-			$old_playlist = $wpdb->get_col(" SELECT playlist_id FROM $wpdb->wordtube_med2play WHERE media_id = $act_vid");
-			if (!$old_playlist) {	
-			 	$old_playlist = array();
-			} else { 
-				$old_playlist = array_unique($old_playlist);
-			}
-			
-			// Delete any ?
-			$delete_list = array_diff($old_playlist,$act_playlist);
-
-			if ($delete_list) {
-				foreach ($delete_list as $del) {
-					$wpdb->query(" DELETE FROM $wpdb->wordtube_med2play WHERE playlist_id = $del AND media_id = $act_vid ");
-				}
-			}
-			
-			// Add any? 
-			$add_list = array_diff($act_playlist, $old_playlist);
-
-			if ($add_list) {
-				foreach ($add_list as $new_list) {
-					$wpdb->query(" INSERT INTO $wpdb->wordtube_med2play (media_id, playlist_id) VALUES ($act_vid, $new_list)");
-				}
-			}
-			
-			if(!empty($act_filepath)) {
-				$wpdb->query("UPDATE $wpdb->wordtube SET name = '$act_name', creator = '$act_creator', file='$act_filepath' , image='$act_image' , link='$act_link' , width='$act_width' , height='$act_height' , autostart='$act_autostart' , counter='$act_counter' WHERE vid = '$act_vid' ");
-			}
-			// Finished
-			$text = '<font color="green">'.__('Update Successfully','wpTube').'</font>';
-		break;
-
-		case 2:	// CANCEL
-			$mode = 'main';
-		break;
-
-		case 3:	// ADD PLAYLIST
-			$mode = 'playlist';
-			$p_name = addslashes(trim($_POST['p_name']));
-			$p_description = addslashes(trim($_POST['p_description']));
-			$p_playlistorder = $_POST['sortorder'];
-			if (empty($p_playlistorder)) $p_playlistorder = "ASC";
-			if(!empty($p_name)) {
-				$insert_plist = $wpdb->query(" INSERT INTO $wpdb->wordtube_playlist (playlist_name, playlist_desc, playlist_order) VALUES ('$p_name', '$p_description', '$p_playlistorder')"); 
-				if ($insert_plist != 0) {
-			 		$pid = $wpdb->insert_id;  // get index_id
-					$text = '<font color="green">'.__('Playlist','wpTube').' '.$pid.__(' added successfully','wpTube').'</font>';
-				}
-			}
-		break;
-		
-		case 4:	// UPDATE PLAYLIST
-			$mode = 'playlist';
-			$p_id = ($_POST['p_id']);
-			$p_name = addslashes(trim($_POST['p_name']));
-			$p_description = addslashes(trim($_POST['p_description']));
-			$p_playlistorder = $_POST['sortorder']; 
-			if(!empty($p_name)) {
-				$wpdb->query(" UPDATE $wpdb->wordtube_playlist SET playlist_name = '$p_name', playlist_desc = '$p_description', playlist_order = '$p_playlistorder' WHERE pid = '$p_id' "); 
-				$text = '<font color="green">'.__('Update Successfully','wpTube').'</font>';
-			}
-		break;
+		// check if we need to upgrade
+		if ( $this->options['version'] < $this->WTVERSION  ) {
+			// Execute installation
+			$this->wt_install();
+		}
 	}
-}
-if ($mode == 'edit'){
-	// edit table
-	$act_videoset = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE vid = $act_vid ");
-	$act_name = htmlspecialchars(stripslashes($act_videoset->name));
-	$act_creator = htmlspecialchars(stripslashes($act_videoset->creator));
-	$act_filepath = stripslashes($act_videoset->file);
-	$act_image = stripslashes($act_videoset->image);
-	$act_link = stripslashes($act_videoset->link);
-	$act_width = stripslashes($act_videoset->width);
-	$act_height = stripslashes($act_videoset->height);
-	$act_counter = $act_videoset->counter;
-	if ($act_videoset->autostart) $autostart='checked="checked"';
+	/****************************************************************/
+	/****************************************************************/
+	function admin_header() {
+		if ($_GET['page'] == "wordtube-admin.php") {
+			
+			if (IS_WP25) : ?>
+				<link rel="stylesheet" href="<?php echo WORDTUBE_URLPATH; ?>javascript/dbx.css" type="text/css" media="screen" />
+			<?php endif; ?>
+			<style type="text/css">
+				.wtedit { text-align: center; cursor: pointer; }
+				#searchform fieldset { float: left; margin: 0 1.5ex 1em 0; padding: 0; }
+			</style>
+			<?php
+			echo '<!-- End Of Scripts Generated By wordTube admin -->'."\n";
+		}
+	}
+	/****************************************************************/
+	/****************************************************************/
+	function admin_scripts() {
+		if ($_GET['page'] == "wordtube-admin.php") {	
+			echo "\n".'<!-- Start Of Scripts Generated By wordTube admin -->'."\n";
+			?>
+			<script type="text/javascript">
+				var wt_path = "<?php echo WORDTUBE_URLPATH; ?>";
+				var placeholder1 = "<?php _e('Click to edit...', 'wpTube'); ?>";
+				var tooltip1 = "<?php _e('Click to edit...', 'wpTube'); ?>";
+			</script>
+			<?php
+			if (function_exists('wp_enqueue_script')) {
+				wp_enqueue_script('jquery', ABSPATH.WPINC.'js/jquery/jquery.js', false);
+				wp_enqueue_script('jeditable', WORDTUBE_URLPATH.'javascript/jquery.jeditable.js', array('jquery'), '1.5.0');
+				wp_enqueue_script('wordtube-adm-js', WORDTUBE_URLPATH.'javascript/wordtube-adm.js', array('jquery'));
+				wp_enqueue_script('swfobject', WORDTUBE_URLPATH.'javascript/swfobject.js', false, '1.5');
+				wp_print_scripts(array('jquery', 'jeditable', 'wordtube-adm-js', 'swfobject'));
+			} else
+			{ ?>
+				<script type="text/javascript" src="<?php echo ABSPATH.WPINC; ?>js/jquery/jquery.js"></script>
+	 			<script type="text/javascript" src="<?php echo WORDTUBE_URLPATH; ?>javascript/jquery.jeditable.js"></script>
+				<script type="text/javascript" src="<?php echo WORDTUBE_URLPATH; ?>javascript/wordtube-adm.js"></script>
+				<script type="text/javascript" src="<?php echo WORDTUBE_URLPATH; ?>javascript/swfobject.js"></script>
+	
+			<?php }
+		}
+	}
+	/****************************************************************/
+	/****************************************************************/
+	function wt_install() {
 
-	$flashplayer  = 'var so = new SWFObject("..'.WORDTUBE_RELPATH.'/'.$thisplayer.'", "mediapreview", "'.$act_width.'", "'.$act_height.'", "8", "#FFFFFF");';
-	$flashplayer .= "\n\t\t\t\t".'so.addVariable("file", "'.$act_filepath.'");';
-	$flashplayer .= "\n\t\t\t\t".'so.addVariable("image", "'.$act_image.'");';
-	if ($wordtube_options[overstretch]) $flashplayer .= "\n\t\t\t\t".'so.addVariable("overstretch", "true");';
-	?>
-	<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
-	<!-- Edit Video -->
-	<script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
-	<script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
-	<script type="text/javascript" src="<?php echo WORDTUBE_URLPATH ?>dbx-key.js"></script>
-	<div class="wrap">
-		<h2><?php _e('Edit media file', 'wpTube') ?></h2>
-		<div id="poststuff">
-		<form name="table_options" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" id="video_options">
-		<!--TODO: AJAX INTEGRATION -->
-			<div id="moremeta" style="width:14.4em;">
-				<div id="wptoptions" class="dbx-group">
-					<fieldset class="dbx-box" id="playlistdiv">
-						<h3 class="dbx-handle"><?php _e('Select Playlist','wpTube') ?></h3>
-						<div class="dbx-content" >
-							<p id="jaxcat"></p>
-							<div id="playlistchecklist"><?php get_playlist_for_dbx($act_vid); ?></div>
+		global $wpdb;
+
+		// set tablename
+		$table_name 		= $wpdb->prefix . "wordtube"; 		
+		$table_playlist		= $wpdb->prefix . 'wordtube_playlist';
+		$table_med2play		= $wpdb->prefix . 'wordtube_med2play';
+
+		$wfound = false;
+		$pfound = false;
+		$mfound = false;
+		$found = true;
+	
+	       	foreach ($wpdb->get_results("SHOW TABLES;", ARRAY_N) as $row) :
+	        	
+			if ($row[0] == $table_name) 	$wfound = true;
+			if ($row[0] == $table_playlist) $pfound = true;
+			if ($row[0] == $table_med2play) $mfound = true;
+	            		
+	        endforeach;
+	        
+    	// add charset & collate like wp core
+		$charset_collate = '';
+	
+		if ( version_compare(mysql_get_server_info(), '4.1.0', '>=') ) {
+			if ( ! empty($wpdb->charset) )
+				$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+			if ( ! empty($wpdb->collate) )
+				$charset_collate .= " COLLATE $wpdb->collate";
+		}
+	        
+		if (!$wfound) {
+		 
+			$sql = "CREATE TABLE ".$table_name." (
+				vid MEDIUMINT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	      			name MEDIUMTEXT NULL,
+	      			creator MEDIUMTEXT NULL,
+	      			file MEDIUMTEXT NULL,
+	      			image MEDIUMTEXT NULL,
+	      			link MEDIUMTEXT NULL,
+	      			width SMALLINT(5) NOT NULL,
+	      			height SMALLINT(5) NOT NULL,
+	      			autostart TINYINT(1) NULL DEFAULT '0'
+	     			) $charset_collate;";
+	     
+			$res = $wpdb->get_results($sql);
+		}
+		
+		if (!$pfound) {
+		 
+		 	$sql = "CREATE TABLE ".$table_playlist." (
+				pid BIGINT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+				playlist_name VARCHAR(200) NOT NULL ,
+				playlist_desc LONGTEXT NULL,
+				playlist_order VARCHAR(50) NOT NULL DEFAULT 'ASC'
+				) $charset_collate;";
+	     
+			$res = $wpdb->get_results($sql);
+		}
+
+		if (!$mfound) {
+		 
+		 	$sql = "CREATE TABLE ".$table_med2play." (
+				rel_id BIGINT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+				media_id BIGINT(10) NOT NULL DEFAULT '0',
+				playlist_id BIGINT(10) NOT NULL DEFAULT '0',
+				porder MEDIUMINT(10) NOT NULL DEFAULT '0'
+				) $charset_collate;";
+	     
+			$res = $wpdb->get_results($sql);
+		}
+
+		// update routine
+		$result=$wpdb->query('SHOW COLUMNS FROM '.$table_name.' LIKE "creator"');
+		if (!$result) {
+			$wpdb->query("ALTER TABLE ".$table_name." ADD creator VARCHAR(255) NOT NULL AFTER name");
+			$found = false;
+		}
+		
+		$result=$wpdb->query('SHOW COLUMNS FROM '.$table_name.' LIKE "autostart"');
+		if (!$result) {
+			$wpdb->query("ALTER TABLE ".$table_name." ADD autostart TINYINT(1) NULL DEFAULT '0'");
+			$found = false;
+		}
+		
+		$result=$wpdb->query('SHOW COLUMNS FROM '.$table_name.' LIKE "counter"');
+		if (!$result) {
+			$wpdb->query("ALTER TABLE ".$table_name." ADD counter MEDIUMINT(10) NULL DEFAULT '0'");
+			$found = false;
+		}
+		
+		$result=$wpdb->query('SHOW COLUMNS FROM '.$table_name.' LIKE "exclude"');
+		if ($result) {
+			$wpdb->query("ALTER TABLE ".$table_name." CHANGE exclude autostart TINYINT(1) NULL DEFAULT '0'");
+			$found = false;
+		}
+		
+		// update to database v1.40
+		$result=$wpdb->query('SHOW COLUMNS FROM '.$table_name.' LIKE "link"');
+		if (!$result) {
+	
+			$wpdb->query("ALTER TABLE ".$table_name." ADD link MEDIUMTEXT NULL AFTER image ");
+			$wpdb->query("ALTER TABLE ".$table_name." CHANGE creator creator MEDIUMTEXT NULL ");
+			$wpdb->query("ALTER TABLE ".$table_name." CHANGE name name MEDIUMTEXT NULL ");
+			$wpdb->query("ALTER TABLE ".$table_name." CHANGE file file MEDIUMTEXT NULL ");
+			$wpdb->query("ALTER TABLE ".$table_name." CHANGE image image MEDIUMTEXT NULL ");
+			$found = false;
+		}
+
+		// update to database v1.55
+		$result=$wpdb->query('SHOW COLUMNS FROM '.$table_med2play.' LIKE "porder"');
+		if (!$result) {
+			$wpdb->query("ALTER TABLE ".$table_med2play." ADD porder MEDIUMINT(10) NOT NULL DEFAULT '0'");
+			$found = false;
+		}
+
+		$this->get_DefaultOption();
+		$this->options['version'] = $this->WTVERSION;
+		update_option('wordtube_options', $this->options);
+    	}
+	/****************************************************************/
+	/* Add wordtube option
+	/****************************************************************/
+	function wt_options() {
+
+		if (function_exists('add_options_page')) 
+			add_options_page('wordTube', 'wordTube', 'manage_options', basename(__FILE__), array(&$this, 'option_page'));
+
+	}
+	/****************************************************************/
+	/* Add wordtube option
+	/****************************************************************/
+	function wt_admin() {
+
+		if (function_exists('add_management_page')) 
+			add_management_page(  __('Media Center','wpTube'), __('Media Center','wpTube'), 'edit_posts' , basename(__FILE__), array(&$this, 'admin_page') );
+
+	}
+	/****************************************************************/
+	/* Add wordtube manage menu -> Media Center
+	/****************************************************************/
+	function admin_page () {
+		global $wpdb, $WPwordTube, $wp_version;
+		
+		$this->mode = trim($_GET['mode']);
+		$act_vid = (int) trim($_GET['id']);
+		$act_pid = (int) trim($_GET['pid']);
+
+		// ### Start the button form processing 
+		if (isset($_POST['do']) && (is_array($_POST['do']))) {
+			switch(key($_POST['do'])) :
+				case 0:	// ADD VIDEO
+					$this->add_video();
+					break;
+	
+				case 1:	// UPDATE VIDEO
+					$this->update_video($act_vid);
+					break;
+	
+				case 2:	// CANCEL
+					$this->mode = 'main';
+					break;
+		
+				case 3:	// ADD PLAYLIST
+					$this->mode = 'playlist';
+					$p_name = addslashes(trim($_POST['p_name']));
+					$p_description = addslashes(trim($_POST['p_description']));
+					$p_playlistorder = $_POST['sortorder'];
+					if (empty($p_playlistorder)) $p_playlistorder = "ASC";
+					if(!empty($p_name)) {
+						$insert_plist = $wpdb->query(" INSERT INTO $wpdb->wordtube_playlist (playlist_name, playlist_desc, playlist_order) VALUES ('$p_name', '$p_description', '$p_playlistorder')"); 
+						if ($insert_plist != 0) {
+					 		$pid = $wpdb->insert_id;  // get index_id
+							$this->text = '<font color="green">'.__('Playlist','wpTube').' '.$pid.__(' added successfully','wpTube').'</font>';
+						}
+					}
+				break;
+				
+				case 4:	// UPDATE PLAYLIST
+					$this->mode = 'playlist';
+					$p_id = (int) ($_POST['p_id']);
+					$p_name = addslashes(trim($_POST['p_name']));
+					$p_description = addslashes(trim($_POST['p_description']));
+					$p_playlistorder = $_POST['sortorder']; 
+					if(!empty($p_name)) {
+						$wpdb->query(" UPDATE $wpdb->wordtube_playlist SET playlist_name = '$p_name', playlist_desc = '$p_description', playlist_order = '$p_playlistorder' WHERE pid = '$p_id' "); 
+						$this->text = '<font color="green">'.__('Update Successfully','wpTube').'</font>';
+					}
+				break;
+
+			endswitch;
+		} // end do
+		
+		if ($this->mode == 'edit'){
+			// edit table
+			$act_videoset = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE vid = $act_vid ");
+			$act_name = htmlspecialchars(stripslashes($act_videoset->name));
+			$act_creator = htmlspecialchars(stripslashes($act_videoset->creator));
+			$act_filepath = stripslashes($act_videoset->file);
+			$act_image = stripslashes($act_videoset->image);
+			$act_link = stripslashes($act_videoset->link);
+			$act_width = stripslashes($act_videoset->width);
+			$act_height = stripslashes($act_videoset->height);
+			$act_counter = $act_videoset->counter;
+			if ($act_videoset->autostart) $autostart='checked="checked"';
+		
+			?>
+			<?php if(!empty($this->text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$this->text.'</p></div>'; } ?>
+			<!-- Edit Video -->
+			<?php $this->dbx_scripts(); ?>
+
+			<div class="wrap">
+				<h2><?php _e('Edit media file', 'wpTube') ?></h2>
+				<div id="poststuff">
+				<form name="table_options" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" id="video_options">
+				<!--TODO: AJAX INTEGRATION -->
+					<div id="moremeta" style="width:14.4em;">
+						<div id="wptoptions" class="dbx-group">
+							<fieldset class="dbx-box" id="playlistdiv">
+								<h3 class="dbx-handle"><?php _e('Select Playlist','wpTube') ?></h3>
+								<div class="dbx-content" >
+									<p id="jaxcat"></p>
+									<div id="playlistchecklist"><?php $this->get_playlist_for_dbx($act_vid); ?></div>
+								</div>
+							</fieldset>
+							<fieldset class="dbx-box" id="autostartdiv">
+								<h3 class="dbx-handle"><?php _e('Autostart','wpTube') ?></h3>
+								<div class="dbx-content" >
+									<label class="selectit"><input name="autostart" type="checkbox" value="1"  <?php echo $autostart ?> /> <?php _e('Start file automatic ','wpTube') ?></label>
+								</div>
+							</fieldset>
+							<fieldset class="dbx-box" id="clickcounterdiv">
+								<h3 class="dbx-handle"><?php _e('Edit view counter','wpTube') ?></h3>
+								<div class="dbx-content" >
+									<input type="text" size="5" maxlength="5" name="act_counter" value="<?php echo "$act_counter" ?>" />
+								</div>
+							</fieldset>
 						</div>
+					</div>
+				<!--END DBX-BOX -->
+				<p><?php _e('Here you can edit the selected file. See global settings for the Flash Player under', 'wpTube') ?> <a href="options-general.php?page=wordtube-admin.php"><?php _e('Options->wordTube', 'wpTube')?></a> <br />
+				<?php _e('If you want to show this media file in your page, enter the tag :', 'wpTube') ?><strong> [MEDIA=<?php echo $act_vid; ?>]</strong></p>
+					<fieldset class="options" <?php if (IS_WP25) echo 'style="border: none"'; ?>>
+						<table class="optiontable form-table">
+							<tr>
+								<th scope="row"><?php _e('Media title','wpTube') ?></th>
+								<td><input type="text" size="50"  name="act_name" value="<?php echo "$act_name" ?>" /></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
+								<td><input type="text" size="50"  name="act_creator" value="<?php echo "$act_creator" ?>" /></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Media URL','wpTube') ?></th>
+								<td><input type="text" size="80"  name="act_filepath" value="<?php echo "$act_filepath" ?>" />
+								<br /><?php _e('Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)','wpTube') ?></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Thumbnail URL','wpTube') ?></th>
+								<td><input type="text" size="80"  name="act_image" value="<?php echo "$act_image" ?>" />
+								<br /><?php _e('Enter the URL to show a preview of the media file','wpTube') ?></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Link URL','wpTube') ?></th>
+								<td><input type="text" size="80" name="act_link" value="<?php echo "$act_link" ?>" />
+								<br /><?php _e('Enter the URL to the page/file, if you click on the player','wpTube') ?></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Default player size (Width x Heigth)','wpTube') ?></th>
+								<td><input type="text" size="5" maxlength="5" name="act_width" value="<?php echo "$act_width" ?>" /> x
+								<input type="text" size="5" maxlength="5" name="act_height" value="<?php echo "$act_height" ?>" />
+								<?php _e('Note on heigth : 20 pixel are used for the player itself','wpTube') ?></td>
+							</tr>
+						</table>
+						<div class="submit"><input type="submit" name="do[2]" value="<?php _e('Cancel'); ?>" class="button" />
+						<input type="submit" name="do[1]" value="<?php _e('Update'); ?> &raquo;" class="button" /></div>
 					</fieldset>
-					<fieldset class="dbx-box" id="autostartdiv">
-						<h3 class="dbx-handle"><?php _e('Autostart','wpTube') ?></h3>
-						<div class="dbx-content" >
-							<label class="selectit"><input name="autostart" type="checkbox" value="1"  <?php echo $autostart ?> /> <?php _e('Start file automatic ','wpTube') ?></label>
-						</div>
-					</fieldset>
-					<fieldset class="dbx-box" id="clickcounterdiv">
-						<h3 class="dbx-handle"><?php _e('Edit view counter','wpTube') ?></h3>
-						<div class="dbx-content" >
-							<input type="text" size="5" maxlength="5" name="act_counter" value="<?php echo "$act_counter" ?>" />
-						</div>
-					</fieldset>
+				</form>
+				</div>
+				<h2><?php _e('Preview', 'wpTube') ?></h2>
+				<div style="text-align: center;">
+					<?php $echostr = wt_GetVideo($act_vid, $act_width, $act_height); ?>
+					<?php echo str_replace("\n\t".'so.addVariable("callback", "'.WORDTUBE_URLPATH.'wordtube-statistics.php");','', $echostr); ?>
 				</div>
 			</div>
-		<!--END DBX-BOX -->
-		<p><?php _e('Here you can edit the selected file. See global settings for the Flash Player under', 'wpTube') ?> <a href="options-general.php?page=wordtube/wordtube-options.php"><?php _e('Options->wordTube', 'wpTube')?></a> <br />
-		<?php _e('If you want to show this media file in your page, enter the tag :', 'wpTube') ?><strong> [MEDIA=<?php echo $act_vid; ?>]</strong></p>
-			<fieldset class="options"> 
-				<table class="optiontable">
-					<tr>
-						<th scope="row"><?php _e('Media title','wpTube') ?></th>
-						<td><input type="text" size="50"  name="act_name" value="<?php echo "$act_name" ?>" /></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
-						<td><input type="text" size="50"  name="act_creator" value="<?php echo "$act_creator" ?>" /></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Media URL','wpTube') ?></th>
-						<td><input type="text" size="80"  name="act_filepath" value="<?php echo "$act_filepath" ?>" />
-						<br /><?php _e('Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)','wpTube') ?></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Thumbnail URL','wpTube') ?></th>
-						<td><input type="text" size="80"  name="act_image" value="<?php echo "$act_image" ?>" />
-						<br /><?php _e('Enter the URL to show a preview of the media file','wpTube') ?></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Link URL','wpTube') ?></th>
-						<td><input type="text" size="80" name="act_link" value="<?php echo "$act_link" ?>" />
-						<br /><?php _e('Enter the URL to the page/file, if you click on the player','wpTube') ?></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Default player size (Width x Heigth)','wpTube') ?></th>
-						<td><input type="text" size="5" maxlength="5" name="act_width" value="<?php echo "$act_width" ?>" /> x
-						<input type="text" size="5" maxlength="5" name="act_height" value="<?php echo "$act_height" ?>" />
-						<?php _e('Note on heigth : 20 pixel are used for the player itself','wpTube') ?></td>
-					</tr>
-				</table>
-				<div class="submit"><input type="submit" name="do[2]" value="<?php _e('Cancel'); ?>" class="button" />
-				<input type="submit" name="do[1]" value="<?php _e('Update'); ?> &raquo;" class="button" /></div>
-			</fieldset>
-		</form>
-		</div>
-		<h2><?php _e('Preview', 'wpTube') ?></h2>
-		<center>
-		<p id="flvpreview">
-		<a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.</p>
-		<script type="text/javascript">
-	    	//<![CDATA[
-				<?php echo $flashplayer ?>
-				so.addVariable("showdigits", "true");
-				so.addParam("wmode", "transparent");
-				so.write("flvpreview");
-			//]]>
-		</script>
-		</center>
-	</div>
-	<?php
-}
-
-if ($mode == 'delete'){	  
- 	// Delete A video
-
-	if ($wordtube_options[deletefile]) {
-		$act_videoset = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE vid = $act_vid ");
-		$act_filename = wpt_filename($act_videoset->file);
-		if (!empty($act_filename))
-			{
-			$wpt_checkdel = @unlink($wptfile_abspath.$act_filename);
-			if(!$wpt_checkdel) $text = '<font color="red">'.__('Error in deleting file','wpTube').'</font>';					
+			<?php
 		}
-	
-		$act_filename = wpt_filename($act_videoset->image);
-		if (!empty($act_filename))
-			{
-			$wpt_checkdel = @unlink($wptfile_abspath.$act_filename);
-			if(!$wpt_checkdel) $text = '<font color="red">'.__('Error in deleting file','wpTube').'</font>';					
-		}
-	} 
-	//TODO: The problem of this routine : if somebody change the path, after he uploaded some files
-	
-	$wpdb->query("DELETE FROM $wpdb->wordtube_med2play WHERE media_id = $act_vid");
-	
-	$delete_video = $wpdb->query("DELETE FROM $wpdb->wordtube WHERE vid = $act_vid");
-	
-	if(!$delete_video) {
-	 	$text = '<font color="red">'.__('Error in deleting media file','wpTube').' \''.$act_vid.'\' </font>';
-	}
-	if(empty($text)) {
-		$text = '<font color="green">'.__('Media file','wpTube').' \''.$act_vid.'\' '.__('deleted successfully','wpTube').'</font>';
-	}
-
-	$mode = 'main'; // show main page
-}
-
-if ($mode == 'add'){	  
- 	// Add A table
- 	?>
-		<!-- Add A Video -->
-		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
-		<div class="wrap">
-			<h2><?php _e('Add a new media file','wpTube'); ?></h2>
-			<form id="addvideo" action="<?php echo $base_page; ?>" enctype="multipart/form-data" method="post">
-				<fieldset class="options"> 
-				<table class="optiontable">
-					<tr>
-						<th scope="row"><?php _e('Title / Name','wpTube') ?></th>
-						<td><input type="text" size="50" maxlength="200" name="name" /></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
-						<td><input type="text" size="50" maxlength="200" name="creator" /></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Media file size (Width x Heigth)','wpTube') ?></th>
-						<td><input type="text" size="4" maxlength="4" name="width" value="320" /> x
-						<input type="text" size="4" maxlength="4" name="height" value="240" /></td>
-					</tr>					
-				</table>
-				<legend><?php _e('Upload file','wpTube') ?></legend>
-				<table class="optiontable">	
-					<tr>
-						<th scope="row"><?php _e('Select media file','wpTube') ?></th>
-						<td><input type="file" size="50" name="video_file" />
-						<br /><?php echo _e('Note : The upload limit on your server is ','wpTube') . "<strong>" . ini_get('upload_max_filesize') . "Byte</strong>\n"; ?>
-						<br /><?php echo _e('The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF','wpTube') ?>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Select thumbnail','wpTube') ?></th>
-						<td><input type="file" size="50" name="image_file" />
-						<br /><?php _e('Upload a image to show a preview of the media file (optional)','wpTube') ?></td>
-					</tr>
-					</table>
-					<legend><?php _e('Enter URL to file','wpTube') ?></legend>
-					<table class="optiontable">	
-					<tr>
-						<th scope="row"><?php _e('URL to media file','wpTube') ?></th>
-						<td><input type="text" size="50" name="filepath" />
-						<br /><?php _e('Here you need to enter the absolute URL to the media file','wpTube') ?></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('URL to thumbnail file','wpTube') ?></th>
-						<td><input type="text" size="50" name="urlimage" />
-						<br /><?php _e('Enter the URL to show a preview of the media file (optional)','wpTube') ?></td>
-					</tr>					
-					</table>
-					<p class="submit"><input type="submit" name="do[0]" value="<?php _e('Add media file','wpTube'); ?> &raquo;" class="button" /></p>
-				</fieldset>
-			</form>
-		</div>
-	<?php
-}
-
-if ($mode == 'plydel'){	  
- 	// Delete a playlist
- 	$delete_plist = $wpdb->query("DELETE FROM $wpdb->wordtube_playlist WHERE pid = $act_pid");
-	
-	if($delete_plist) {
-		$text = '<font color="green">'.__('Playlist','wpTube').' \''.$act_pid.'\' '.__('deleted successfully','wpTube').'</font>';
-	}
- 	$mode = 'playlist'; // show playlist
-}
-
-if (($mode == 'playlist') or ($mode == 'plyedit')) {  
- 	// Edit or update playlst
 		
- 	$tables = $wpdb->get_results("SELECT * FROM $wpdb->wordtube_playlist ");
- 	if ($mode == 'plyedit')	$update = $wpdb->get_row("SELECT * FROM $wpdb->wordtube_playlist WHERE pid = $act_pid ");
- 	?>
-	<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>	
-		<!-- Edit Playlist -->
-		<div class="wrap">
-			<h2><?php _e('Manage Playlist','wpTube'); ?></h2>
-			<form id="editplist" action="<?php echo $base_page; ?>" method="post">
-				<table id="the-list-x" width="100%" cellspacing="3" cellpadding="3">
-				<thead>
-				<tr>
-					<th scope="col"><?php _e('ID','wpTube'); ?></th>
-					<th scope="col"><?php _e('Name','wpTube'); ?></th>
-					<th scope="col"><?php _e('Description','wpTube'); ?></th>
-					<th scope="col" colspan="2"><?php _e('Action'); ?></th>
-				</tr>
-				</thead>
-				<?php
-					if($tables) {
-						$i = 0;
-						foreach($tables as $table) {
-						 	if($i%2 == 0) {
-								echo "<tr class='alternate'>\n";
-							}  else {
-								echo "<tr>\n";
+		if ($this->mode == 'delete') {	  
+		 	// Delete A video
+		
+			if ($this->options['deletefile']) {
+				$act_videoset = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE vid = $act_vid ");
+				$act_filename = $this->wpt_filename($act_videoset->file);
+				if (!empty($act_filename)) {
+				
+					$wpt_checkdel = @unlink($this->wptfile_abspath.$act_filename);
+					if(!$wpt_checkdel) $this->text = '<font color="red">'.__('Error in deleting file','wpTube').'</font>';					
+				}
+			
+				$act_filename = $this->wpt_filename($act_videoset->image);
+				if (!empty($act_filename)) {
+				
+					$wpt_checkdel = @unlink($this->wptfile_abspath.$act_filename);
+					if(!$wpt_checkdel) $this->text = '<font color="red">'.__('Error in deleting file','wpTube').'</font>';					
+				}
+			} 
+			//TODO: The problem of this routine : if somebody change the path, after he uploaded some files
+
+			$wpdb->query("DELETE FROM $wpdb->wordtube_med2play WHERE media_id = $act_vid");
+			
+			$delete_video = $wpdb->query("DELETE FROM $wpdb->wordtube WHERE vid = $act_vid");
+			
+			if(!$delete_video) {
+			 	$this->text = '<font color="red">'.__('Error in deleting media file','wpTube').' \''.$act_vid.'\' </font>';
+			}
+			if(empty($this->text)) {
+				$this->text = '<font color="green">'.__('Media file','wpTube').' \''.$act_vid.'\' '.__('deleted successfully','wpTube').'</font>';
+			}
+		
+			$this->mode = 'main'; // show main page
+		}
+		
+		if ($this->mode == 'add'){	  
+		 	// Add A table
+		 	?>
+				<!-- Add A Video -->
+				<?php if(!empty($this->text)) { $this->lastAction($this->text); } ?>
+				<?php $this->dbx_scripts(); ?>
+
+				<div class="wrap">
+					<h2><?php _e('Add a new media file','wpTube'); ?></h2>
+					<form id="video_options" action="<?php echo $this->base_page; ?>" enctype="multipart/form-data" method="post" <?php if (IS_WP25) echo 'style="margin-right: 16em">'; ?>
+						<!--DBX-BOX -->
+						<div id="moremeta" style="width:14.4em;">
+							<div id="wptoptions" class="dbx-group">
+								<fieldset class="dbx-box" id="playlistdiv">
+									<h3 class="dbx-handle"><?php _e('Select Playlist','wpTube') ?></h3>
+									<div class="dbx-content" >
+										<p id="jaxcat"></p>
+										<div id="playlistchecklist"><?php $this->get_playlist_for_dbx($act_vid); ?></div>
+									</div>
+								</fieldset>
+								<fieldset class="dbx-box" id="autostartdiv">
+									<h3 class="dbx-handle"><?php _e('Autostart','wpTube') ?></h3>
+									<div class="dbx-content" >
+										<label class="selectit"><input name="autostart" type="checkbox" value="1"  <?php echo $autostart ?> /> <?php _e('Start file automatic ','wpTube') ?></label>
+									</div>
+								</fieldset>
+								<fieldset class="dbx-box" id="clickcounterdiv">
+									<h3 class="dbx-handle"><?php _e('Edit view counter','wpTube') ?></h3>
+									<div class="dbx-content" >
+										<input type="text" size="5" maxlength="5" name="act_counter" value="<?php echo "$act_counter" ?>" />
+									</div>
+								</fieldset>
+							</div>
+						</div>
+						<!--END DBX-BOX -->
+						<fieldset class="options" <?php if (IS_WP25) echo 'style="border: none"'; ?>>
+							<?php if (!IS_WP25) echo '<legend></legend>'; ?>
+							<table class="optiontable  form-table">
+							<tr>
+								<th scope="row"><?php _e('Title / Name','wpTube') ?></th>
+								<td><input type="text" size="50" maxlength="200" name="name" /></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
+								<td><input type="text" size="50" maxlength="200" name="creator" /></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Media file size (Width x Heigth)','wpTube') ?></th>
+								<td><input type="text" size="4" maxlength="4" name="width" value="320" /> x
+								<input type="text" size="4" maxlength="4" name="height" value="240" /></td>
+							</tr>
+							</table>
+
+							<?php wta_title(__('Upload file','wpTube')); ?>
+
+							<table class="optiontable  form-table">
+							<tr>
+								<th scope="row"><?php _e('Select media file','wpTube') ?></th>
+								<td><input type="file" size="50" name="video_file" />
+								
+								<br /><?php echo _e('Note : The upload limit on your server is ','wpTube') . "<strong>" . min(ini_get('upload_max_filesize'), ini_get('post_max_size')) . "Byte</strong>\n"; ?>
+								<br /><?php echo _e('The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF','wpTube') ?>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('Select thumbnail','wpTube') ?></th>
+								<td><input type="file" size="50" name="image_file" />
+								<br /><?php _e('Upload a image to show a preview of the media file (optional)','wpTube') ?></td>
+							</tr>
+							</table>
+
+							<?php wta_title(__('Enter URL to file','wpTube')); ?>
+
+							<table class="optiontable  form-table">
+							<tr>
+								<th scope="row"><?php _e('URL to media file','wpTube') ?></th>
+								<td><input type="text" size="50" name="filepath" />
+								<br /><?php _e('Here you need to enter the absolute URL to the media file','wpTube') ?></td>
+							</tr>
+							<tr>
+								<th scope="row"><?php _e('URL to thumbnail file','wpTube') ?></th>
+								<td><input type="text" size="50" name="urlimage" />
+								<br /><?php _e('Enter the URL to show a preview of the media file (optional)','wpTube') ?></td>
+							</tr>					
+							</table>
+							<p class="submit"><input type="submit" name="do[0]" value="<?php _e('Add media file','wpTube'); ?> &raquo;" class="button" /></p>
+						</fieldset>
+					</form>
+				</div>
+			<?php
+		}
+		
+		if ($this->mode == 'plydel') {	  
+		 	// Delete a playlist
+		 	$delete_plist = $wpdb->query("DELETE FROM $wpdb->wordtube_playlist WHERE pid = $act_pid");
+			
+			if($delete_plist) {
+				$this->text = '<font color="green">'.__('Playlist','wpTube').' \''.$act_pid.'\' '.__('deleted successfully','wpTube').'</font>';
+			}
+		 	$this->mode = 'playlist'; // show playlist
+		}
+		
+		if (($this->mode == 'playlist') or ($this->mode == 'plyedit')) {  
+		 	// Edit or update playlst
+				
+		 	$tables = $wpdb->get_results("SELECT * FROM $wpdb->wordtube_playlist ");
+		 	if ($this->mode == 'plyedit')	
+			 	$update = $wpdb->get_row("SELECT * FROM $wpdb->wordtube_playlist WHERE pid = $act_pid ");
+		 	?>
+			<?php if(!empty($this->text)) { $this->lastAction($this->text); } ?>	
+
+			<!-- Edit Playlist -->
+			<div class="wrap">
+				<h2><?php _e('Manage Playlist','wpTube'); ?></h2>
+				<form id="editplist" action="<?php echo $this->base_page; ?>" method="post">
+					<table id="the-list-x" width="100%" cellspacing="3" cellpadding="3" class="widefat">
+						<thead>
+							<tr>
+								<th scope="col"><?php _e('ID','wpTube'); ?></th>
+								<th scope="col"><?php _e('Name','wpTube'); ?></th>
+								<th scope="col"><?php _e('Description','wpTube'); ?></th>
+								<th scope="col" colspan="2"><?php _e('Action'); ?></th>
+							</tr>
+						</thead>
+						<?php
+						if($tables) {
+							$i = 0;
+							foreach($tables as $table) {
+							 	if($i%2 == 0) {
+									echo "<tr class='alternate'>\n";
+								}  else {
+									echo "<tr>\n";
+								}
+								echo "<th scope=\"row\">$table->pid</th>\n";
+								echo "<td>".stripslashes($table->playlist_name)."</td>\n";
+								echo "<td>".stripslashes($table->playlist_desc)."</td>\n";
+								echo "<td><a href=\"$this->base_page&amp;mode=plyedit&amp;pid=$table->pid#addplist\" class=\"edit\">".__('Edit')."</a></td>\n";
+								echo "<td><a href=\"$this->base_page&amp;mode=plydel&amp;pid=$table->pid\" class=\"delete\" onclick=\"javascript:check=confirm( '".__("Delete this file ?",'wpTube')."');if(check==false) return false;\">".__('Delete')."</a></td>\n";
+								echo '</tr>';
+								$i++;
 							}
-							echo "<th scope=\"row\">$table->pid</th>\n";
-							echo "<td>".stripslashes($table->playlist_name)."</td>\n";
-							echo "<td>".stripslashes($table->playlist_desc)."</td>\n";
-							echo "<td><a href=\"$base_page&amp;mode=plyedit&amp;pid=$table->pid#addplist\" class=\"edit\">".__('Edit')."</a></td>\n";
-							echo "<td><a href=\"$base_page&amp;mode=plydel&amp;pid=$table->pid\" class=\"delete\" onclick=\"javascript:check=confirm( '".__("Delete this file ?",'wpTube')."');if(check==false) return false;\">".__('Delete')."</a></td>\n";
-							echo '</tr>';
-							$i++;
+						} else {
+							echo '<tr><td colspan="7" align="center"><b>'.__('No entries found','wpTube').'</b></td></tr>';
 						}
-					} else {
-						echo '<tr><td colspan="7" align="center"><b>'.__('No entries found','wpTube').'</b></td></tr>';
-					}
-				?>
-				</table><br />					
-				<div class="submit"><input type="submit" name="do[2]" value="<?php _e('Cancel'); ?>" class="button" /></div>
-			</form>
-		</div>
-		<div class="wrap">
-			<h2><?php
-			if ($mode == 'playlist') echo _e('Add Playlist','wpTube');
-			if ($mode == 'plyedit') echo _e('Update Playlist','wpTube');
-			?></h2>
-			<form id="addplist" action="<?php echo $base_page; ?>" method="post">
+						?>
+					</table><br />					
+					<div class="submit"><input type="submit" name="do[2]" value="<?php _e('Cancel'); ?>" class="button" /></div>
+				</form>
+			</div>
+
+			<div class="wrap">
+				<h2><?php
+				if ($this->mode == 'playlist') echo _e('Add Playlist','wpTube');
+				if ($this->mode == 'plyedit') echo _e('Update Playlist','wpTube');
+				?></h2>
+				<form id="addplist" action="<?php echo $this->base_page; ?>" method="post">
 					<input type="hidden" value="<?php echo "$act_pid" ?>" name="p_id"/>
 					<p><?php _e('Name:'); ?><br/><input type="text" value="<?php echo $update->playlist_name ?>" name="p_name"/></p>
 					<p><?php _e('Description: (optional)'); ?><br/><textarea name="p_description" rows="3" cols="50" style="width: 97%;"><?php echo $update->playlist_desc ?></textarea></p>
 					<p><?php _e('Media ID sorting order:','wpTube'); ?> <input name="sortorder" type="radio" value="ASC"  <?php if ($update->playlist_order == 'ASC') echo 'checked="checked"'; ?> /> <?php _e('ascending','wpTube'); ?> 
 					<input name="sortorder" type="radio" value="DESC"  <?php if ($update->playlist_order == 'DESC') echo 'checked="checked"'; ?> /> <?php _e('descending','wpTube'); ?></p>	
 					<div class="submit"><?php
-					if ($mode == 'playlist') echo '<input type="submit" name="do[3]" value="'.__('Add Playlist').' &raquo;" class="button" />';
-					if ($mode == 'plyedit') echo '<input type="submit" name="do[4]" value="'.__('Update Playlist').' &raquo;" class="button" />';
+						if ($this->mode == 'playlist') echo '<input type="submit" name="do[3]" value="'.__('Add Playlist').' &raquo;" class="button" />';
+						if ($this->mode == 'plyedit') echo '<input type="submit" name="do[4]" value="'.__('Update Playlist').' &raquo;" class="button" />';
 					?></div>
+				</form>
+			</div>
+			<?php 
+		}
+	        	
+		/*** MAIN ADMIN PAGE ***/	
+		if ((empty($this->mode)) or ($this->mode == 'main')) {
+		
+			// init variables
+			$pledit = true;
+			$where = '';
+			$join = '';			
+
+		 	// check for page navigation
+			$page     = ( isset($_REQUEST['apage']))    ? (int) $_REQUEST['apage'] : 1;
+		 	$sort     = ( isset($_REQUEST['sort']))     ? $_REQUEST['sort'] :'ASC';
+			$search   = ( isset($_REQUEST['search']))   ? $_REQUEST['search'] : '';
+			$filter   = ( isset($_REQUEST['filter']))   ? $_REQUEST['filter'] : 'any';
+			$plfilter = ( isset($_REQUEST['plfilter'])) ? $_REQUEST['plfilter'] :'0';
+			
+			if ($filter == 'mp3' || $filter == 'flv' || $filter == 'swf') 
+				$where = " (file LIKE '%.".$filter."') ";
+			elseif ($filter == 'img')
+				$where = " ((file LIKE '%.png') OR (file LIKE '%.jpg')) ";
+
+			if ($search != '') {
+				if ($where != '') $where .= " AND ";
+				$where .= " ((name LIKE '%$search%') OR (creator LIKE '%$search%')) ";
+			}
+			
+			if ($plfilter != '0' && $plfilter != 'no') {
+				$join = " LEFT JOIN $wpdb->wordtube_med2play ON (vid = media_id) ";
+				if ($where != '') $where .= " AND ";
+				$where .= " (playlist_id = '".$plfilter."') ";
+				$pledit = true;
+			} elseif ($plfilter == 'no') {
+				$join = " LEFT JOIN $wpdb->wordtube_med2play ON (vid = media_id) ";
+				if ($where != '') $where .= " AND ";
+				$where .= " (media_id IS NULL) ";
+				$pledit = false;
+			} else
+				$pledit = false;
+			
+			if ($where != '') $where = " WHERE ".$where;
+			
+			$total = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->wordtube.$join.$where );
+
+			$total_pages = ceil( $total / $this->PerPage );
+			if ($total_pages == 0) $total_pages = 1;
+			
+			if ($page > $total_pages) $page = $total_pages;
+		 	$start = $offset = ( $page - 1 ) * $this->PerPage;
+
+			if ($pledit) 
+				$orderby = " ORDER BY porder ".$sort.", vid ".$sort;
+			else
+				$orderby = " ORDER BY vid ".$sort;
+			// Generates retrieve request.
+			$tables = $wpdb->get_results("SELECT * FROM ".$wpdb->wordtube.$join.$where.$orderby." LIMIT $start, 10");
+
+				
+			// New elements for WP 2.5
+			if ($wp_version < '2.4') {
+				$sdiv2 = "<p class='pagenav'>";
+				$ediv2 = "</p>\n";
+			} else {
+				$sdiv2 = "<div class='tablenav-pages'>";
+				$ediv2 = "</div>\n";
+			}
+
+			// Navigation 
+			if ( $total > $this->PerPage ) {
+				$total_pages = ceil( $total / $this->PerPage );
+				if ($page > $total_pages) $page = $total_pages;
+				$r = '';
+				if ( 1 < $page ) {
+					$args['apage'] = ( 1 == $page - 1 ) ? FALSE : $page - 1;
+					if ($search != '') $args['search'] = $search; 
+					if ($sort != '') $args['sort'] = $sort; 
+					if ($filter != '') $args['filter'] = $filter; 
+					if ($plfilter != '') $args['plfilter'] = $plfilter; 
+					$r .=  '<a class="prev page-numbers" href="'. add_query_arg( $args ) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
+				}
+
+				if ( ( $total_pages = ceil( $total / $this->PerPage ) ) > 1 ) {
+					for ( $page_num = 1; $page_num <= $total_pages; $page_num++ ) :
+						if ( $page == $page_num ) {
+							$r .=  '<span class="page-numbers current">'.$page_num.'</span>'."\n";
+						} else {
+							$p = false;
+							if ( $page_num < 3 || ( $page_num >= $page - 3 && $page_num <= $page + 3 ) || $page_num > $total_pages - 3 ) {
+								$args['apage'] = ( 1 == $page_num ) ? FALSE : $page_num;
+								if ($search != '') $args['search'] = $search; 
+								if ($sort != '') $args['sort'] = $sort;
+								if ($filter != '') $args['filter'] = $filter; 
+								if ($plfilter != '') $args['plfilter'] = $plfilter;
+								$r .= '<a class="page-numbers" href="' . add_query_arg($args) . '">' . ( $page_num ) . "</a>\n";
+								$in = true;
+							} elseif ( $in == true ) {
+								$r .= '<span class="dots">...</span>'."\n";
+								$in = false;
+							}
+						}
+					endfor;
+				}
+                        
+				if ( ( $page ) * $this->PerPage < $total || -1 == $total ) {
+					$args['apage'] = $page + 1;
+					if ($search != '') $args['search'] = $search; 
+					if ($sort != '') $args['sort'] = $sort;
+					if ($filter != '') $args['filter'] = $filter; 
+					if ($plfilter != '') $args['plfilter'] = $plfilter;
+					$r .=  '<a class="next page-numbers" href="' . add_query_arg($args) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
+				}
+				$r = $sdiv2.$r.$ediv2;
+			} else
+				$r = '';
+			?>
+			<?php if(!empty($this->text)) { $this->lastAction($this->text); } ?>
+			<!-- Manage Video-->
+			<div class="wrap">
+
+				<?php if ( $wp_version < '2.4') : ?>
+					<form name="filterType" method="post" id="searchform">
+						<h2><?php _e('Manage Media files','wpTube'); ?></h2>
+						<input type="hidden" name="do" value="2"/>
+						<fieldset>
+							<legend><?php _e('Search term','wpTube'); ?>&hellip;</legend>
+							<input type="text" name="search" value="<?php echo $search; ?>" size="10" />
+						</fieldset>
+						<fieldset>
+							<legend><?php _e('Order','wpTube'); ?>&hellip;</legend>
+							<select name="sort">
+								<option value="ASC" <?php if ($sort == 'ASC') echo 'selected="selected"'; ?>><?php _e('Sort Ascending'); ?></option>
+								<option value="DESC" <?php if ($sort == 'DESC') echo 'selected="selected"'; ?>><?php _e('Sort Descending'); ?></option>
+							</select>
+						</fieldset>
+						<fieldset>
+							<legend><?php _e('File type','wpTube'); ?>&hellip;</legend>
+							<select name="filter">
+								<option value="any" <?php if ($filter == 'any') echo 'selected="selected"'; ?>><?php _e('Any file type'); ?></option>
+								<option value="mp3" <?php if ($filter == 'mp3') echo 'selected="selected"'; ?>>mp3 only</option>
+								<option value="flv" <?php if ($filter == 'flv') echo 'selected="selected"'; ?>>flv only</option>
+								<option value="swf" <?php if ($filter == 'swf') echo 'selected="selected"'; ?>>swf only</option>
+								<option value="img" <?php if ($filter == 'img') echo 'selected="selected"'; ?>>images only</option>
+							</select>
+						</fieldset>
+						<fieldset>
+							<legend><?php _e('Playlist','wpTube'); ?>&hellip;</legend>
+							<select name="plfilter">
+								<option value="0" <?php if ($plfilter == '0') echo 'selected="selected"'; ?>><?php _e('All playlists'); ?></option>
+								<option value="no" <?php if ($plfilter == 'no') echo 'selected="selected"'; ?>><?php _e('No playlist', 'wpTube'); ?></option>
+								<?php $dbresults = $wpdb->get_results(" SELECT * FROM $wpdb->wordtube_playlist ");
+								if ($dbresults) {
+									foreach ($dbresults as $dbresult) :
+										echo '<option value="'.$dbresult->pid.'"';
+										if ($plfilter == $dbresult->pid) echo 'selected="selected"';
+										echo '>'.$dbresult->playlist_name.'</option>';
+									endforeach;
+								}
+								?>
+							</select>
+						</fieldset>
+						<span style="align: right;">
+	       			         		<input class="button" id="post-query-submit" type="submit" name="do[2]"  value="<?php _e('Filter','wpTube'); ?> &raquo;" class="button" />
+						</span>
+						<div style="clear: both"></div>
+						<?php echo $r; ?>
+					</form>
+				<?php else : ?>
+					<form name="filterType" method="post" id="posts-filter">
+						<h2><?php _e('Manage Media files','wpTube'); ?></h2>
+						<p id="post-search">
+							<input type="text" name="search" value="<?php echo $search; ?>" size="10" />
+							<input type="submit" name="startsearch" value="<?php _e('Search Media','wpTube'); ?>" />
+						</p>
+						<input type="hidden" name="do" value="2"/>
+						<br style="clear:both;" />
+						<div class="tablenav">
+							<?php echo $r; ?>
+							<div style="float:left">
+								<select name="sort">
+									<option value="ASC" <?php if ($sort == 'ASC') echo 'selected="selected"'; ?>><?php _e('Sort Ascending'); ?></option>
+									<option value="DESC" <?php if ($sort == 'DESC') echo 'selected="selected"'; ?>><?php _e('Sort Descending'); ?></option>
+								</select>
+								<select name="filter">
+									<option value="any" <?php if ($filter == 'any') echo 'selected="selected"'; ?>><?php _e('Any file type'); ?></option>
+									<option value="mp3" <?php if ($filter == 'mp3') echo 'selected="selected"'; ?>>mp3 only</option>
+									<option value="flv" <?php if ($filter == 'flv') echo 'selected="selected"'; ?>>flv only</option>
+									<option value="swf" <?php if ($filter == 'swf') echo 'selected="selected"'; ?>>swf only</option>
+									<option value="img" <?php if ($filter == 'img') echo 'selected="selected"'; ?>>images only</option>
+								</select>
+								<select name="plfilter">
+									<option value="0" <?php if ($plfilter == '0') echo 'selected="selected"'; ?>><?php _e('All playlists'); ?></option>
+									<option value="no" <?php if ($plfilter == 'no') echo 'selected="selected"'; ?>><?php _e('No playlist', 'wpTube'); ?></option>
+									<?php $dbresults = $wpdb->get_results(" SELECT * FROM $wpdb->wordtube_playlist ");
+									if ($dbresults) {
+										foreach ($dbresults as $dbresult) :
+											echo '<option value="'.$dbresult->pid.'"';
+											if ($plfilter == $dbresult->pid) echo 'selected="selected"';
+											echo '>'.$dbresult->playlist_name.'</option>';
+										endforeach;
+									}
+									?>
+								</select>
+			       		         		<input class="button" id="post-query-submit" type="submit" name="do[2]"  value="<?php _e('Filter','wpTube'); ?> &raquo;" class="button" />
+		       		         		</div>
+							<br style="clear:both;" />
+						</div>
+						<br style="clear:both;" />
+				<?php endif; ?>
+					
+					<!-- Table -->
+					<table id="the-list-x" width="100%" cellspacing="3" cellpadding="3" class="widefat">
+						<thead>
+							<tr>
+								<th scope="col"><?php _e('ID','wpTube'); ?></th>
+								<th scope="col"><?php _e('Title','wpTube'); ?></th>
+								<th scope="col"><?php _e('Creator','wpTube'); ?></th>					
+								<th scope="col"><?php _e('Path','wpTube'); ?></th>
+								<th scope="col"><?php _e('Views','wpTube'); ?></th>
+								<?php if ($pledit) { ?>
+									<th scope="col"><?php _e('Order','wpTube'); ?></th>
+								<?php } ?>
+								<th scope="col" colspan="2"><?php _e('Action'); ?></th>
+							</tr>
+						</thead>
+						<?php
+						if($tables) {
+							$i = 0;
+							foreach($tables as $table) :
+							 	if($i%2 == 0) {
+									echo "<tr class='alternate'>\n";
+								}  else {
+									echo "<tr>\n";
+								}
+								echo "<th scope=\"row\">$table->vid</th>\n";
+								echo "<td>".stripslashes($table->name)."</td>\n";
+								echo "<td>".stripslashes($table->creator)."</td>\n";
+								echo "<td>".htmlspecialchars(stripslashes($table->file), ENT_QUOTES)."</td>\n";
+								echo "<td style='text-align: center'>$table->counter</td>\n";
+								if ($pledit)
+									echo "<td><div class='wtedit' id='p_".$plfilter.'_'.$table->vid."'>".$table->porder."</div></td>\n";
+								echo "<td><a href=\"$this->base_page&amp;mode=edit&amp;id=$table->vid\" class=\"edit\">".__('Edit')."</a></td>\n";
+								echo "<td><a href=\"$this->base_page&amp;mode=delete&amp;id=$table->vid\" class=\"delete\" onclick=\"javascript:check=confirm( '".__("Delete this file ?",'wpTube')."');if(check==false) return false;\">".__('Delete')."</a></td>\n";
+								echo '</tr>';
+								$i++;
+							endforeach;
+						} else {
+							echo '<tr><td colspan="7" align="center"><b>'.__('No entries found','wpTube').'</b></td></tr>';
+						}
+						?>
+					</table>
+				</form>
+				<?php if ($wp_version > '2.4') : ?>
+					<br style="clear:both;" />
+					<div class="tablenav">
+						<?php echo $r; ?>
+						<br style="clear:both;" />
+					</div>
+				<?php endif; ?>
+				<h3><a href="?page=wordtube-admin.php&mode=add"><?php _e('Insert new media file','wpTube') ?> &raquo;</a></h3>
+			</div>
+
+       			<!-- Manage Video-->
+			<?php
+			// selected playlist
+			if (isset($_POST['show_playlist']))
+				$show_playlist = $_POST['show_playlist'];
+			else
+				$show_playlist = 'last15';
+			?>
+
+			<div class="wrap">
+				<h2><?php _e('Playlist Preview', 'wpTube') ?> (<a href="?page=<?php echo basename(__FILE__); ?>&mode=playlist"><?php _e('Edit','wpTube') ?></a>)</h2>
+				<p><?php _e('You can show all videos/media files in a playlist. Show this playlist with the tag', 'wpTube') ?> <strong> [MYPLAYLIST=<?php echo $show_playlist ?>]</strong></p>
+				<form name="selectlist" action="?page=wordtube-admin.php" method="post">
+					<input type="hidden" name="apage" value="<?php echo $page; ?>" />
+					<input type="hidden" name="search" value="<?php echo $search; ?>" />
+					<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+					<input type="hidden" name="filter" value="<?php echo $filter; ?>" />
+					<input type="hidden" name="plfilter" value="<?php echo $plfilter; ?>" />
+					<legend><?php _e('Select Playlist :', 'wpTube'); ?></legend>
+					<select name="show_playlist" id="show_playlist">
+						<option value="most" <?php if ('most' == $show_playlist) echo "selected='selected' "; ?>><?php _e('Most viewed', 'wpTube') ?></option>
+						<option value="0" <?php if ('0' == $show_playlist) echo "selected='selected' "; ?>><?php _e('All files', 'wpTube') ?></option>
+						<option value="music" <?php if ('music' == $show_playlist) echo "selected='selected' "; ?>><?php _e('All mp3', 'wpTube') ?></option>
+						<option value="video" <?php if ('video' == $show_playlist) echo "selected='selected' "; ?>><?php _e('All videos', 'wpTube') ?></option>
+						<?php
+						$playlists = $wpdb->get_results("SELECT * FROM $wpdb->wordtube_playlist ");
+						if($playlists) {
+							foreach($playlists as $playlist) :
+							 	echo '<option value="'.$playlist->pid.'" ';
+								if ($playlist->pid == $show_playlist) echo "selected='selected' ";
+								echo '>'.$playlist->playlist_name.'</option>'."\n\t"; 
+							endforeach;
+						}
+						?>
+					</select>
+					<input type="submit" value="<?php _e('OK','wpTube'); ?>"  />
+				</form>
+				<div style="text-align: center;">
+					<?php echo wt_GetPlaylist($show_playlist, $this->options['width'], $this->options['height']); ?>
+				</div>
+			</div>
+			<?php
+		}
+	}
+	/****************************************************************/
+	/* Scripts for dbx boxes
+	/****************************************************************/
+	function dbx_scripts() {
+
+		if (IS_WP25) : ?>
+			<script type="text/javascript" src="<?php echo WORDTUBE_URLPATH; ?>javascript/dbx.js"></script>
+			<script type="text/javascript" src="<?php echo WORDTUBE_URLPATH; ?>javascript/tw-sack.js"></script>
+		<?php else : ?>
+			<script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
+			<script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
+		<?php endif; ?>
+		<script type="text/javascript" src="<?php echo WORDTUBE_URLPATH ?>javascript/dbx-key.js"></script>
+		<?php
+		
+	}
+	/****************************************************************/
+	/* Error message
+	/****************************************************************/
+	function message($message) {
+		echo '<div class="fade error" id="message"><p>'.$message.'</p></div>'."\n";
+	}
+	/****************************************************************/
+	/* LAst Action message
+	/****************************************************************/
+	function lastAction($message) {
+		echo '<div id="message" class="updated fade"><p>'.$message.'</p></div>';
+	}	
+	/****************************************************************/
+	/* Warning message
+	/****************************************************************/
+	function warning($message) {
+		echo '<div class="fade error" id="message"><p>'.$message.'</p></div>'."\n";
+	}
+	/****************************************************************/
+	/* Add video
+	/****************************************************************/
+	function add_video() {
+		global $wpdb;
+
+		$act_name = trim($_POST['name']);
+		$act_creator = trim($_POST['creator']);
+		$act_filepath = addslashes(trim($_POST['filepath']));
+		$act_image = addslashes(trim($_POST['urlimage']));
+		$act_width = trim($_POST['width']);
+		$act_height = trim($_POST['height']);
+		$act_counter = (int) $_POST['act_counter'];
+		$act_autostart = $_POST['autostart'];
+		if (empty($act_autostart)) $act_autostart = 0; // need now for sql_mode, see http://bugs.mysql.com/bug.php?id=18551
+		$act_playlist = $_POST['playlist'];
+				
+		if ($act_height < 20 ) $act_height = 20 ;
+		if ($act_width == 0 ) $act_width = 320 ;
+			
+		$upload_path_video = $this->wptfile_abspath.sanitize_file_name(htmlspecialchars(stripslashes($_FILES['video_file']['name']), ENT_QUOTES));  // set upload path
+		$upload_path_image = $this->wptfile_abspath.sanitize_file_name($_FILES['image_file']['name']);  // set upload path
+
+		if($_FILES['video_file']['error']== 0) {
+			move_uploaded_file($_FILES['video_file']['tmp_name'], $upload_path_video); // save temp file
+			@chmod ($upload_path_video, 0666) or die ('<div class="updated"><p><strong>'.__('Unable to change permissions for file ', 'wpTube').$upload_path_video.'!</strong></p></div>');
+			if (empty($act_name)) $act_name = sanitize_file_name($_FILES['video_file']['name']);
+			if (file_exists($upload_path_video)) {
+
+		 	 	$act_filepath = $this->wp_urlpath.sanitize_file_name($_FILES['video_file']['name']);
+				if($_FILES['image_file']['error']== 0) {
+				 	move_uploaded_file($_FILES['image_file']['tmp_name'], $upload_path_image); // save temp file
+					@chmod ($upload_path_image, 0666) or die ('<div class="updated"><p><strong>'.__('Unable to change permissions for file ', 'wpTube').$upload_path_image.'!</strong></p></div>');
+				 	if (file_exists($upload_path_image)) $act_image = $this->wp_urlpath.sanitize_file_name($_FILES['image_file']['name']);;
+				}	
+				$this->mode ='none';
+
+			} else 
+				$this->text = '<font color="red">'.__('ERROR : File cannot be saved. Check the permission of the wordpress upload folder','wpTube').'</font>';
+	 	} else 
+		 	$this->text = '<font color="red">'.__('ERROR : Upload failed. Check the file size','wpTube').'</font>';
+	
+		if (!empty($act_filepath)) {
+			$insert_video = $wpdb->query(" INSERT INTO $wpdb->wordtube ( name, creator, file, image, width, height, autostart, counter )
+			VALUES ( '$act_name','$act_creator', '$act_filepath', '$act_image', '$act_width', '$act_height', '$act_autostart', '$act_counter' )");
+			if ($insert_video != 0) {
+		 		$video_aid = $wpdb->insert_id;  // get index_id
+				$this->text = '<font color="green">'.__('Media file','wpTube').' '.$video_aid.__(' added successfully','wpTube').'</font>';
+			}
+		}
+			
+		// Add any link to playlist? 
+		if ($video_aid && is_array($act_playlist)) {
+			$add_list = array_diff($act_playlist, array());
+	
+			if ($add_list) {
+				foreach ($add_list as $new_list) {
+					$wpdb->query(" INSERT INTO $wpdb->wordtube_med2play (media_id, playlist_id) VALUES ($video_aid, $new_list)");
+				}
+			}
+		}
+
+		$this->mode = 'main';
+
+	}
+	/****************************************************************/
+	/* Update video
+	/****************************************************************/
+	function update_video($act_vid) {
+		global $wpdb;
+
+		// read the $_POST values
+		$act_name 		=	addslashes(trim($_POST['act_name']));
+		$act_creator 	=	addslashes(trim($_POST['act_creator']));
+		$act_filepath 	= 	addslashes(trim($_POST['act_filepath']));
+		$act_image 		=	addslashes(trim($_POST['act_image']));
+		$act_link 		=	addslashes(trim($_POST['act_link']));
+		$act_width 		=	addslashes(trim($_POST['act_width']));
+		$act_height 	=	addslashes(trim($_POST['act_height']));
+		$act_counter 	=	addslashes(trim($_POST['act_counter']));
+		$act_autostart 	= 	$_POST['autostart'];
+		$act_playlist 	= 	$_POST['playlist'];
+			
+		if ($act_height < 20 ) $act_height = 20 ;
+		if ($act_width == 0 ) $act_width = 320 ;
+					
+		if (!$act_playlist) $act_playlist = array();
+		if (empty($act_autostart)) $act_autostart = 0; // need now for sql_mode, see http://bugs.mysql.com/bug.php?id=18551
+							
+		// Read the old playlist status
+		$old_playlist = $wpdb->get_col(" SELECT playlist_id FROM $wpdb->wordtube_med2play WHERE media_id = $act_vid");
+		if (!$old_playlist) {	
+		 	$old_playlist = array();
+		} else { 
+			$old_playlist = array_unique($old_playlist);
+		}
+	
+		// Delete any ?
+		$delete_list = array_diff($old_playlist,$act_playlist);
+
+		if ($delete_list) {
+			foreach ($delete_list as $del) {
+				$wpdb->query(" DELETE FROM $wpdb->wordtube_med2play WHERE playlist_id = $del AND media_id = $act_vid ");
+			}
+		}
+					
+		// Add any? 
+		$add_list = array_diff($act_playlist, $old_playlist);
+	
+		if ($add_list) {
+			foreach ($add_list as $new_list) {
+				$wpdb->query(" INSERT INTO $wpdb->wordtube_med2play (media_id, playlist_id) VALUES ($act_vid, $new_list)");
+			}
+		}
+				
+		if(!empty($act_filepath)) {
+			$wpdb->query("UPDATE $wpdb->wordtube SET name = '$act_name', creator = '$act_creator', file='$act_filepath' , image='$act_image' , link='$act_link' , width='$act_width' , height='$act_height' , autostart='$act_autostart' , counter='$act_counter' WHERE vid = '$act_vid' ");
+		}
+
+		// Finished
+		$this->text = '<font color="green">'.__('Update Successfully','wpTube').'</font>';
+
+	}
+	/****************************************************************/
+	/* Option screen
+	/****************************************************************/
+	function option_page() {
+		
+		global $wpdb;
+	
+		// check for player
+		if (!$this->has_player)
+			$this->text = '<font color="red">'.__('The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder.','wpTube').'</font>';
+	
+		if ($_POST['wordtube']=='setoptions'){
+		
+			$this->options['deletefile']		=$_POST['deletefile'];
+			$this->options['usewpupload']		=$_POST['usewpupload'];
+			$this->options['uploadurl']			=$_POST['uploadurl'];
+			$this->options['xhtmlvalid']		=$_POST['xhtmlvalid'];
+			$this->options['activaterss']		=$_POST['activaterss'];
+			$this->options['rssmessage']		=stripslashes($_POST['rssmessage']);
+			$this->options['repeat']			=$_POST['repeat'];
+			$this->options['overstretch']		=$_POST['overstretch'];
+			$this->options['showdigits']		=$_POST['showdigits'];
+			$this->options['showfsbutton']		=$_POST['showfsbutton'];
+			$this->options['backcolor']			=$_POST['backcolor'];
+			$this->options['frontcolor']		=$_POST['frontcolor'];
+			$this->options['lightcolor']		=$_POST['lightcolor'];
+			$this->options['volume']			=$_POST['volume'];
+			$this->options['bufferlength']		=$_POST['bufferlength'];
+			$this->options['statistic']			=$_POST['statistic'];
+			$this->options['showeq']			=$_POST['showeq'];
+			$this->options['showcontrolsmp3']	=$_POST['showcontrolsmp3'];
+			$this->options['mp3controls']		=$_POST['mp3controls'];
+			$this->options['usewatermark']		=$_POST['usewatermark'];
+			$this->options['watermarkurl']		=$_POST['watermarkurl'];
+			
+			$this->options['showcontrols']		=$_POST['showcontrols'];
+			$this->options['showicons']			=$_POST['showicons'];
+			$this->options['excerpt']			=$_POST['excerpt'];
+			$this->options['autostart']			=$_POST['autostart'];
+			$this->options['autoscroll']		=$_POST['autoscroll'];
+			$this->options['thumbnail']			=$_POST['thumbnail'];
+			$this->options['shuffle']			=$_POST['shuffle'];
+			$this->options['width']				=$_POST['width'];
+			$this->options['height']			=$_POST['height'];
+			$this->options['playlistsize']		=$_POST['playlistsize'];
+			$this->options['playlistwidth']		=$_POST['playlistwidth'];
+			$this->options['playlistright']		=$_POST['playlistright'];
+			$this->options['startsingle']		=$_POST['startsingle'];
+
+			update_option('wordtube_options', $this->options);
+		 	$this->text = '<font color="green">'.__('Update Successfully','wpTube').'</font>';
+		}
+	
+		$this->options = get_option('wordtube_options');
+		
+		$this->wp_urlpath = get_option('siteurl').'/'.get_option('upload_path').'/';  // get URL path
+		
+		?>
+		<script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
+		<!-- Option -->
+		<?php if(!empty($this->text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$this->text.'</p></div>'; } ?>
+		<div class="wrap">
+			<h2><?php _e('wordTube Option','wpTube'); ?></h2>
+			<form name="playeroption" method="post">
+			<input type="hidden" name="wordtube" value="setoptions" />
+			<fieldset class="options" <?php if (IS_WP25) echo 'style="border: none"'; ?>>
+				<?php wta_title(__('General Options','wpTube')); ?>
+				<table border="0" cellspacing="3" cellpadding="3" class="form-table">
+					<tr>
+						<th align="left"><?php _e('Upload folder','wpTube') ?></th>
+						<td <?php if (IS_WP25) echo 'style="width: 15%;"' ?>><input name="usewpupload" type="radio" value="1" <?php checked(true , $this->options['usewpupload']); ?> />
+						<br />
+						<input name="usewpupload" type="radio" value="0" <?php checked(false , $this->options['usewpupload']); ?> />
+						</td>
+						<td>
+						<?php _e('Standard upload folder : ','wpTube') ?>
+						<code><?php echo $this->wp_urlpath ?></code>
+						<br />
+						<?php _e('Store uploads in this folder : ','wpTube') ?>
+						<input type="text" size="50" maxlength="200" name="uploadurl" value="<?php echo $this->options['uploadurl'] ?>" /></td>
+					</tr>
+					<tr>
+						<th align="left"> <?php _e('Delete file with post','wpTube') ?> </th>
+						<td><input name="deletefile" type="checkbox" value="1" <?php checked(true , $this->options['deletefile']); ?> /></td> 
+						<td align="left"><?php _e('Should the media file deleted, when pressing delete ? ','wpTube') ?></td>
+					</tr>
+					<tr>
+						<th align="left"> <?php _e('XHTML valid','wpTube') ?> </th>
+						<td><input name="xhtmlvalid" type="checkbox" value="1" <?php checked(true , $this->options['xhtmlvalid']); ?> /></td> 
+						<td align="left"><?php _e('Insert CDATA and a comment code. Important : Recheck your webpage with all browser types.','wpTube') ?></td>
+					</tr>
+					<tr>
+						<th align="left"> <?php _e('Activate RSS Feed message','wpTube') ?> </th>
+						<td><input name="activaterss" type="checkbox" value="1" <?php checked(true , $this->options['activaterss']); ?> /></td>
+						<td><input type="text" size="50" maxlength="200" name="rssmessage" value="<?php echo $this->options['rssmessage'] ?>" /></td> 
+					</tr>
+					<tr>
+						<th align="left"> <?php _e('Use in Excerpt','wpTube') ?> </th>
+						<td><input name="excerpt" type="checkbox" value="1"  <?php checked(true , $this->options['excerpt']); ?> /></td>
+						<td align="left"><?php _e('Render media in excerpt if checked, replace tag with blank if not.','wpTube') ?></td>
+					</tr>
+				</table>
+			</fieldset> 	
+			<fieldset class="options" <?php if (IS_WP25) echo 'style="border: none"'; ?>>
+			<?php wta_title(__('Media Player Option','wpTube')); ?>
+			<p><?php _e('These settings are valid for all your flash video. The settings are used in the Flash Media Player Version 3.3', 'wpTube') ?> <br />
+			   <?php _e('See more information on the web page', 'wpTube') ?> <a href="http://www.jeroenwijering.com/?item=Flash_Media_Player" target="_blank">Flash Media Player from Jeroen Wijering</a></p>
+					<table border="0" cellspacing="3" cellpadding="3" class="form-table">
+						<tr>
+							<th align="left"><?php _e('Repeat','wpTube') ?></th>
+							<td <?php if (IS_WP25) echo 'style="width: 15%;"' ?>><input name="repeat" type="checkbox" value="1" <?php checked(true , $this->options['repeat']); ?> /></td> 
+							<td align="left"><i><?php _e('Automatically repeat playing when a file is completed.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Over stretch','wpTube') ?></th>
+							<td>
+							<select size="1" name="overstretch">
+								<option value="true" <?php selected("true" , $this->options['overstretch']); ?> ><?php _e('true', 'wpTube') ;?></option>
+								<option value="false" <?php selected("false" , $this->options['overstretch']); ?> ><?php _e('false', 'wpTube') ;?></option>
+								<option value="fit" <?php selected("fit" , $this->options['overstretch']); ?> ><?php _e('fit', 'wpTube') ;?></option>
+								<option value="none" <?php selected("none" , $this->options['overstretch']); ?> ><?php _e('none', 'wpTube') ;?></option>
+							</select>
+							</td>
+							<td align="left"><i><?php _e('Over stretch the image/video to fill the entire display.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Show digits','wpTube') ?></th>
+							<td><input name="showdigits" type="checkbox" value="1" <?php checked(true , $this->options['showdigits']); ?> /></td> 
+							<td align="left"><i><?php _e('Show the digits for loaded, elapsed and remaining time in the Flash player.','wpTube') ?></i></td>
+						</tr>									
+						<tr>
+							<th align="left"><?php _e('Enable Fullscreen','wpTube') ?></th>
+							<td><input name="showfsbutton" type="checkbox" value="1" <?php checked(true , $this->options['showfsbutton']); ?> /></td> 
+							<td align="left"><i><?php _e('Show the fullscreen button. Note : Javascript objects (i.e Lightbox) are not always on the top.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Background Color','wpTube') ?></th>
+							<td><input type="text" size="6" maxlength="6" name="backcolor" value="<?php echo $this->options['backcolor'] ?>" /><input type="text" size="1" readonly="readonly" name="color" style="background-color:	#<?php echo $this->options[backcolor] ?>" /></td>
+							<td align="left"><i><?php _e('Backgroundcolor of the Flash player (default FFFFFF).','wpTube') ?></i></td>
+						</tr>
+						<tr>					
+							<th align="left"><?php _e('Button Color','wpTube') ?></th>
+							<td><input type="text" size="6" maxlength="6" name="frontcolor" value="<?php echo $this->options['frontcolor'] ?>" /><input type="text" size="1" readonly="readonly" name="color" style="background-color:	#<?php echo $this->options[frontcolor] ?>" /></td>
+							<td align="left"><i><?php _e('Texts / buttons color of the Flash player (default 000000).','wpTube') ?></i></td>
+						</tr>
+						<tr>					
+							<th align="left"><?php _e('Active Color','wpTube') ?></th>
+							<td><input type="text" size="6" maxlength="6" name="lightcolor" value="<?php echo $this->options['lightcolor'] ?>" /><input type="text" size="1" readonly="readonly" name="color" style="background-color:	#<?php echo $this->options[lightcolor] ?>" /></td>
+							<td align="left"><i><?php _e('Rollover/ active color of the Flash player (default 000000).','wpTube') ?></i></td>
+						</tr>
+						<tr>					
+							<th align="left"><?php _e('Volume','wpTube') ?></th>
+							<td><input type="text" size="3" maxlength="3" name="volume" value="<?php echo $this->options['volume'] ?>" /></td>
+							<td align="left"><i><?php _e('Startup volume of the Flash player (default 80).','wpTube') ?></i></td>
+						</tr>
+						<tr>					
+							<th align="left"><?php _e('Buffer length','wpTube') ?></th>
+							<td><input type="text" size="3" maxlength="3" name="bufferlength" value="<?php echo $this->options['bufferlength'] ?>" /></td>
+							<td align="left"><i><?php _e('Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5).','wpTube') ?></i></td>
+						</tr>	
+						<tr>					
+							<th align="left"><?php _e('Activate statistic','wpTube') ?></th>
+							<td><input name="statistic" type="checkbox" value="1" <?php checked(true , $this->options['statistic']); ?> /></td>
+							<td align="left"><i><?php _e('Activate the internal view counter for each media file.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('mp3 display','wpTube') ?></th>
+							<td>
+							<select size="1" name="mp3controls">
+								<option value="default" <?php selected("default" , $this->options['mp3controls']); ?> ><?php _e('Default', 'wpTube') ;?></option>
+								<option value="eq" <?php selected("eq" , $this->options['mp3controls']); ?> ><?php _e('Equalizer', 'wpTube') ;?></option>
+								<option value="mini" <?php selected("mini" , $this->options['mp3controls']); ?> ><?php _e('Minimum', 'wpTube') ;?></option>
+							</select>
+							</td>
+							<td align="left"><i><?php _e('Choose player aspect for mp3. Default: like videos. Equalizer: purely cosmetic. Minimum: only control bar.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Start icon','wpTube') ?></th>
+							<td><input name="showicons" type="checkbox" value="1" <?php checked(true , $this->options['showicons']); ?> /></td>
+							<td align="left"><i><?php _e('Show or hide the play and activity icons in the middle of the display. Defaults to true for the players and false for the rotator. If set to false, the overlaid controlbar will also hide with the players.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Show controls','wpTube') ?></th>
+							<td><input name="showcontrols" type="checkbox" value="1" <?php checked(true , $this->options['showcontrols']); ?> /></td>
+							<td align="left"><i><?php _e('If checked, will display control bar under view screen. Otherwise, controls will appear on mouseover.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Show logo','wpTube') ?></th>
+							<td><input name="usewatermark" type="checkbox" value="1" <?php checked(true , $this->options['usewatermark']); ?> /></td>
+							<td><i><?php _e('URL to your watermark (PNG, JPG): ','wpTube') ?></i>
+							<input type="text" size="60" maxlength="200" name="watermarkurl" value="<?php echo $this->options['watermarkurl'] ?>" /></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Autostart first single media','wpTube') ?></th>
+							<td><input name="startsingle" type="checkbox" value="1" <?php checked(true , $this->options['startsingle']); ?> /></td>
+							<td><i><?php _e('If checked, first media in a single post will automatically starts.','wpTube') ?></i>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset class="options" <?php if (IS_WP25) echo 'style="border: none"'; ?>>
+					<?php wta_title(__('Playlist Settings','wpTube')); ?>
+					<p><?php _e('You can show all videos/media files in a playlist. Show the media player with the tag', 'wpTube') ?> <strong> [MYPLAYLIST=ID]</strong></p>
+						<table border="0" cellspacing="3" cellpadding="3" class="form-table">
+						<tr>
+							<th align="left"><?php _e('Autostart','wpTube') ?></th>
+							<td <?php if (IS_WP25) echo 'style="width: 15%;"' ?>><input name="autostart" type="checkbox" value="1" <?php checked(true , $this->options['autostart']); ?> /></td> 
+							<td align="left"><i><?php _e('Automatically start playing the media files.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Activate autoscroll','wpTube') ?></th>
+							<td><input name="autoscroll" type="checkbox" value="1" <?php checked(true , $this->options['autoscroll']); ?> /></td> 
+							<td align="left"><i><?php _e('Let the playlist automatically scroll, based upon the mouse cursor.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Show thumbnail','wpTube') ?></th>
+							<td><input name="thumbnail" type="checkbox" value="1" <?php checked(true , $this->options['thumbnail']); ?> /></td> 
+							<td align="left"><i><?php _e('Show a thumbnail in the playlist.','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Shuffle mode','wpTube') ?></th>
+							<td><input name="shuffle" type="checkbox" value="1" <?php checked(true , $this->options['shuffle']); ?> /></td> 
+							<td align="left"><i><?php _e('Activate the shuffle mode in the playlist','wpTube') ?></i></td>
+						</tr>
+						<tr>
+							<th align="left"><?php _e('Flash size (W x H)','wpTube') ?></th>
+							<td><input type="text" size="3" maxlength="4" name="width" value="<?php echo $this->options['width'] ?>" /> x
+							<input type="text" size="3" maxlength="4" name="height" value="<?php echo $this->options['height'] ?>" /></td>
+							<td align="left"><i><?php _e('Define width and height of the media player screen.','wpTube') ?></i></td>
+						</tr>
+						<tr>					
+							<th align="left"><?php _e('Playlist size','wpTube') ?></th>
+							<td><input type="text" size="3" maxlength="3" name="playlistsize" value="<?php echo $this->options['playlistsize'] ?>" /></td>
+							<td align="left"><i><?php _e('Define height of the playlist, should be larger the 20. (0 = Show no playlist)','wpTube') ?></i></td>
+						</tr>
+						<tr>					
+							<th align="left"><?php _e('Playlist on right side','wpTube') ?></th>
+							<td><input name="playlistright" type="checkbox" value="1" <?php checked(true , $this->options['playlistright']); ?> /></td>
+							<td align="left"><?php _e('Playlist width','wpTube') ?>
+							<input type="text" size="3" maxlength="3" name="playlistwidth" value="<?php echo $this->options['playlistwidth'] ?>" />
+							<i><?php _e('Define width of the playlist.','wpTube') ?></i></td>
+						</tr>
+						</table>
+						<div class="submit"><input type="submit" name="update" value="<?php _e('Update'); ?> &raquo;" class="button" /></div>
+				</fieldset>
 			</form>
 		</div>
-	<?php 
-}		
+		<?php
+	}		
+	/******************************************************************
+	/* get_playlist output für DBX
+	******************************************************************/
+	function get_playlist_for_dbx($mediaid) {
+	
+		global $wpdb;
 
-/*** MAIN ADMIN PAGE ***/	
-if ((empty($mode)) or ($mode == 'main')) {
- 	// check for page navigation
-	if ( isset( $_GET['apage'] ) )
-		$page = (int) $_GET['apage'];
-	else
-		$page = 1; 
+		// get playlist ID's 
+		$playids = $wpdb->get_col("SELECT pid FROM $wpdb->wordtube_playlist");
+
+		// get checked ID's'
+		$checked_playlist = $wpdb->get_col("
+			SELECT playlist_id
+			FROM $wpdb->wordtube_playlist, $wpdb->wordtube_med2play
+			WHERE $wpdb->wordtube_med2play.playlist_id = pid AND $wpdb->wordtube_med2play.media_id = '$mediaid'
+			");
 		
- 	$start = $offset = ( $page - 1 ) * 10;
- 
-	$tables = $wpdb->get_results("SELECT * FROM $wpdb->wordtube ORDER BY vid ASC LIMIT $start, 10");
-	$total = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->wordtube ");
-	?>
-	<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
-	<!-- Manage Video-->
-		<div class="wrap">
-		<h2><?php _e('Manage Media files','wpTube'); ?></h2>
-		<!-- Navigation -->
-		<?php if ( $total > 10 ) {
-		$total_pages = ceil( $total / 10 );
-		$r = '';
-		if ( 1 < $page ) {
-			$args['apage'] = ( 1 == $page - 1 ) ? FALSE : $page - 1;
-			$r .=  '<a class="prev" href="'. add_query_arg( $args ) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
-		}
-		if ( ( $total_pages = ceil( $total / 10 ) ) > 1 ) {
-			for ( $page_num = 1; $page_num <= $total_pages; $page_num++ ) {
-				if ( $page == $page_num ) {
-					$r .=  "<span>$page_num</span>\n";
-				} else {
-					$p = false;
-					if ( $page_num < 3 || ( $page_num >= $page - 3 && $page_num <= $page + 3 ) || $page_num > $total_pages - 3 ) {
-						$args['apage'] = ( 1 == $page_num ) ? FALSE : $page_num;
-						$r .= '<a class="page-numbers" href="' . add_query_arg($args) . '">' . ( $page_num ) . "</a>\n";
-						$in = true;
-					} elseif ( $in == true ) {
-						$r .= "...\n";
-						$in = false;
-					}
-				}
+		if (count($checked_playlist) == 0) $checked_playlist[] = 0;
+		
+		$result = array ();
+	
+		// create an array with playid, checked status and name
+		if (is_array($playids)) {
+			foreach ($playids as $playid) {
+				$result[$playid]['playid'] = $playid;
+				$result[$playid]['checked'] = in_array($playid, $checked_playlist);
+				$result[$playid]['name'] = $this->get_playlistname_by_ID($playid);
 			}
-		}
-		if ( ( $page ) * 10 < $total || -1 == $total ) {
-			$args['apage'] = $page + 1;
-			$r .=  '<a class="next" href="' . add_query_arg($args) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
-		}
-		echo "<p class='pagenav'>$r</p>\n";
-		?>
-		<?php } ?>
-			<!-- Table -->
-			<table id="the-list-x" width="100%" cellspacing="3" cellpadding="3">
-			<thead>
-			<tr>
-				<th scope="col"><?php _e('ID','wpTube'); ?></th>
-				<th scope="col"><?php _e('Title','wpTube'); ?></th>
-				<th scope="col"><?php _e('Creator','wpTube'); ?></th>					
-				<th scope="col"><?php _e('Path','wpTube'); ?></th>
-				<th scope="col"><?php _e('Views','wpTube'); ?></th>
-				<th scope="col" colspan="2"><?php _e('Action'); ?></th>
-			</tr>
-			</thead>
-			<?php
-				if($tables) {
-					$i = 0;
-					foreach($tables as $table) {
-					 	if($i%2 == 0) {
-							echo "<tr class='alternate'>\n";
-						}  else {
-							echo "<tr>\n";
-						}
-						echo "<th scope=\"row\">$table->vid</th>\n";
-						echo "<td>".stripslashes($table->name)."</td>\n";
-						echo "<td>".stripslashes($table->creator)."</td>\n";
-						echo "<td>$table->file</td>\n";
-						echo "<td>$table->counter</td>\n";
-						echo "<td><a href=\"$base_page&amp;mode=edit&amp;id=$table->vid\" class=\"edit\">".__('Edit')."</a></td>\n";
-						echo "<td><a href=\"$base_page&amp;mode=delete&amp;id=$table->vid\" class=\"delete\" onclick=\"javascript:check=confirm( '".__("Delete this file ?",'wpTube')."');if(check==false) return false;\">".__('Delete')."</a></td>\n";
-						echo '</tr>';
-						$i++;
-					}
-				} else {
-					echo '<tr><td colspan="7" align="center"><b>'.__('No entries found','wpTube').'</b></td></tr>';
-				}
-			?>
-			</table>
-		<h3><a href="?page=wordtube/<?php echo basename(__FILE__); ?>&mode=add"><?php _e('Insert new media file','wpTube') ?> &raquo;</a></h3>
-		</div>
-		<!-- Manage Video-->
-		<?php
-			$show_playlist = $_POST['show_playlist']; // selected playlist
-			if (!$show_playlist) $show_playlist = 0 ;
-			$count = count($wpdb->get_results("SELECT * FROM $wpdb->wordtube"));
-			$act_file = WORDTUBE_URLPATH."myextractXML.php?id=".$show_playlist;
-			$act_width = $wordtube_options[width];
-			$act_height = $wordtube_options[height] + (($count *43) + 20); // each entry with 43px + 20px for statusbar
-			if ($act_height > 665) $act_height = 665; //limit to 15 videos
-			
-			$flashplayer  = 'var so = new SWFObject("..'.WORDTUBE_RELPATH.'/'.$thisplayer.'", "mediapreview", "'.$act_width.'", "'.$act_height.'", "8", "#FFFFFF");';
-			$flashplayer .= "\n\t\t\t\t".'so.addVariable("file", "'.$act_file.'");';
-			$flashplayer .= "\n\t\t\t\t".'so.addVariable("displayheight", "'.$wordtube_options[height].'");';
-			$flashplayer .= "\n\t\t\t\t".'so.addVariable("thumbsinplaylist", "true");'."\n";
-		?>
-		<div class="wrap">
-		<h2><?php _e('Playlist Preview', 'wpTube') ?> (<a href="?page=wordtube/<?php echo basename(__FILE__); ?>&mode=playlist"><?php _e('Edit','wpTube') ?></a>)</h2>
-		<p><?php _e('You can show all videos/media files in a playlist. Show this playlist with the tag', 'wpTube') ?> <strong> [MYPLAYLIST=<?php echo $show_playlist ?>]</strong></p>
-		<form name="selectlist" action="?page=wordtube/<?php echo basename(__FILE__); ?>" method="post">
-		<legend><?php _e('Select Playlist :', 'wpTube'); ?></legend>
-		<select name="show_playlist" id="show_playlist">
-		<option value="0" ><?php _e('All files', 'wpTube') ?></option>
-		<?php
-		$playlists = $wpdb->get_results("SELECT * FROM $wpdb->wordtube_playlist ");
-		if($playlists) {
-			foreach($playlists as $playlist) {
-			 	echo '<option value="'.$playlist->pid.'" ';
-				if ($playlist->pid == $show_playlist) echo "selected='selected' ";
-				echo '>'.$playlist->playlist_name.'</option>'."\n\t"; 
-			}
-		}
-		?>
-		</select>
-		<input type="submit" value="<?php _e('OK','wpTube'); ?>"  />
-		</form>
-		<center>
-			<p id="flvpreview">
-			<a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.</p>
-	    	<script type="text/javascript">
-	    	//<![CDATA[
-				<?php echo $flashplayer ?>
-				so.addVariable("shuffle", "false");
-				so.addParam("wmode", "transparent");
-				so.write("flvpreview");
-			//]]>
-			</script>
-		</center>
-		</div>
-	<?php
+		} 
+	
+		foreach ($result as $playlist) :
+		
+			echo '<label for="playlist-'.$playlist['playid']
+				.'" class="selectit"><input value="'.$playlist['playid']
+				.'" type="checkbox" name="playlist[]" id="playlist-'.$playlist['playid']
+				.'"'.($playlist['checked'] ? ' checked="checked"' : "").'/> '.wp_specialchars($playlist['name'])."</label>\n";		
+
+		endforeach;
+	}
+	/******************************************************************
+	/* return filename of a complete url
+	******************************************************************/
+	function wpt_filename($urlpath) {
+       	
+		$filename = substr(($t=strrchr($urlpath,'/'))!==false?$t:'',1);
+		return $filename;
+	}
+	/******************************************************************
+	/* get_playlist by ID
+	******************************************************************/
+	function get_playlistname_by_ID($pid = 0) {
+	
+		global $wpdb;
+		return $wpdb->get_var("SELECT playlist_name FROM $wpdb->wordtube_playlist WHERE pid = $pid "); 
+	}
+	/******************************************************************
+	/* get WT options
+	******************************************************************/
+	function get_DefaultOption() {
+
+		$this->options = get_option('wordtube_options');
+
+		if ($this->options['deletefile']==''); 		$this->options['deletefile']=0;
+		if ($this->options['usewpupload']==''); 	$this->options['usewpupload']=1;
+		if ($this->options['uploadurl']==''); 		$this->options['uploadurl']=get_option('upload_path');
+		if ($this->options['autostart']==''); 		$this->options['autostart']=0;
+		if ($this->options['repeat']==''); 			$this->options['repeat']=0;
+		if ($this->options['overstretch']==''); 	$this->options['overstretch']="true";
+		if ($this->options['showdigits']==''); 		$this->options['showdigits']=1;
+		if ($this->options['showfsbutton']==''); 	$this->options['showfsbutton']=0;
+		if ($this->options['backcolor']==''); 		$this->options['backcolor']="FFFFFF";
+		if ($this->options['frontcolor']==''); 		$this->options['frontcolor']="000000";
+		if ($this->options['lightcolor']==''); 		$this->options['lightcolor']="000000";
+		if ($this->options['volume']==''); 			$this->options['volume']=80;
+		if ($this->options['bufferlength']==''); 	$this->options['bufferlength']=5;
+		// new since 1.10
+		if ($this->options['thumbnail']==''); 		$this->options['thumbnail']=true;
+		if ($this->options['width']==''); 			$this->options['width']=400;
+		if ($this->options['height']==''); 			$this->options['height']=320;
+		if ($this->options['playlistsize']==''); 	$this->options['playlistsize']=120;
+		if ($this->options['shuffle']==''); 		$this->options['shuffle']=false;
+		// new since 1.20
+		if ($this->options['showeq']==''); 			$this->options['showeq']=false;
+		if ($this->options['statistic']==''); 		$this->options['statistic']=true;
+		// new since 1.30
+		if ($this->options['usewatermark']==''); 	$this->options['usewatermark']=false;
+		if ($this->options['watermarkurl']==''); 	$this->options['watermarkurl']="";
+		if ($this->options['autoscroll']==''); 		$this->options['autoscroll']=true;
+		if ($this->options['xhtmlvalid']==''); 		$this->options['xhtmlvalid']=false;
+		if ($this->options['activaterss']=='');		$this->options['activaterss']=false;
+		if ($this->options['rssmessage']==''); 		$this->options['rssmessage']=__('See post to watch Flash video','wpTube');
+
+		if ($this->options['excerpt']==''); 		$this->options['excerpt']=true;
+		if ($this->options['showicons']=='');		$this->options['showicons']=true;
+		if ($this->options['showcontrols']=='');	$this->options['showcontrols']=true;
+
+		if ($this->options['playlistwidth']==''); 	$this->options['playlistwidth']=200;
+		if ($this->options['playlistright']=='');	$this->options['playlistright']=false;
+		if ($this->options['mp3controls3']=='');	$this->options['showcontrolsmp3']='default';
+	}
+
 
 }
+function wta_title($text) {
 
+	if (IS_WP25) echo '<h3>'; else echo '<legend>'; ?><?php _e($text, 'wpTube'); ?><?php if (IS_WP25) echo '</h3>'; else echo '</legend>';
+}
 ?>

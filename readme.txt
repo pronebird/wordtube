@@ -1,9 +1,9 @@
 === wordTube ===
-Contributors: Alex Rabe
+Contributors: Alex Rabe, Alakhnor
 Donate link: http://alexrabe.boelinger.com/?page_id=20
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin
 Requires at least: 2.0.4
-Tested up to: 2.3
+Tested up to: 2.5
 
 wordTube is your Media Center plugin for WordPress.
 
@@ -26,9 +26,7 @@ message (for the Internet Explorer) when you use the Flash player.
 
 == Credits ==
 
-Copyright 2007 Alex Rabe
-
-THX to the plugin's from GaMerZ (WP-Polls) which gives me a lot of education.
+Copyright 2007 Alex Rabe & Alakhnor
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -51,23 +49,43 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 1. 	Upload the files to wp-content/plugins/wordtube
 
-2.  Go to the web page http://www.jeroenwijering.com/?item=JW_Media_Player
-	and download the JW Media Player and unpack the conent
-	
+2.  Go to the web page http://www.jeroenwijering.com/?item=Flash_Media_Player
+	and download the Flash Media Player and unpack the conent
+
 3.	Upload the file mediaplayer.swf to the wordtube folder
 
 4. 	Activate the plugin
 
-5.	Upload a .flv video files to the wordpress upload folder or use the Upload form
+5.	Upload a .flv video file or an mp3 sound file to the wordpress upload folder or use the Upload form
 	at Manage -> wordTube
 
-6.	Optional you can upload a image to show a preview of the video file
+6.	Optional you can upload a image to show a preview of the video/mp3 file
 
-7. 	Go to your post an enter the tag [MEDIA=ID] or [MYPLAYLIST=ID].
+7. 	Go to your post and enter tag [MEDIA=ID] or [MYPLAYLIST=ID].
 
 That's it ... Have fun
 
 == Screenshots ==
 
 1. Screenshot of the Media Center Area .
-2. Demo of the Flash Player.
+2. Standard Playlist output
+3. Single Media output
+4. MP3 Player with Equalizer
+5. Playlist on the rigth side
+6. Controls off (with Mouse over effect)
+
+== Usage == 
+
+1.	Configure wordTube: go to admin panel -> Options -> wordtube.
+
+2.	Add media: Go to admin panel -> Manage -> Media Center. Click on 'Insert new media file'. Fill in the informations then submit with the submit button.
+
+3.	Add playlist: Go to admin panel -> Manage -> Media Center. Click on 'Edit' (next to 'Playlist Preview'). Fill in the informations then submit with the submit button.
+
+4.	Insert media or playlist using editor button: on the edit post screen, click on the wordTube button then select the element to insert.
+
+5.	Manual insert of media: type in [MEDIA=<media id>] wherever you want to display the media. Example: [MEDIA=1]
+
+6.	Manual insert of playlist: type in [MYPLAYLIST=<playlist id>] wherever you want to display the playlist. Example: [MYPLAYLIST=1]
+
+7. 	Playlist order: to gain control over playlist order, go to admin panel -> Manage -> Media Center. Select the playlist you want to order in the dropdown menu of the filter part of the screen. Click on order field for each media to choose order, enter to save.
