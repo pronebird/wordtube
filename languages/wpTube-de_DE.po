@@ -1,12 +1,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wordtube\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-03-16 18:24+0100\n"
-"Last-Translator: Alex Rabe\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-21 10:50+0100\n"
+"PO-Revision-Date: 2008-09-21 10:51+0100\n"
+"Last-Translator: Alex Rabe <alter.ego@boelinger.com>\n"
 "Language-Team: Alex Rabe\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
@@ -14,740 +15,1009 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../wordtube-admin.php:34
-#: ../wordtube-admin.php:1071
-msgid "The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder."
-msgstr "Der Flash Player wurde nicht gefunden. Bitte überprüfe den Inhalt des wordTube Verzeichnis."
-
-#: ../wordtube-admin.php:87
-#: ../wordtube-admin.php:88
-msgid "Click to edit..."
-msgstr "Klicken zum ändern"
-
-#: ../wordtube-admin.php:245
-#: ../wordtube.php:132
-msgid "Media Center"
-msgstr "Media Center"
-
-#: ../wordtube-admin.php:283
-#: ../wordtube-admin.php:529
-#: ../wordtube-admin.php:745
-#: ../javascript/wordtube-tinymce.php:79
-#: ../tinymce/window.php:80
-msgid "Playlist"
-msgstr "Playliste"
-
-#: ../wordtube-admin.php:283
-#: ../wordtube-admin.php:986
-msgid " added successfully"
-msgstr " erfolgreich eingefügt"
-
-#: ../wordtube-admin.php:296
-#: ../wordtube-admin.php:1059
-#: ../wordtube-admin.php:1112
-msgid "Update Successfully"
-msgstr "Erfolgreich aktualisiert"
-
-#: ../wordtube-admin.php:322
-msgid "Edit media file"
-msgstr "Mediadatei ändern"
-
-#: ../wordtube-admin.php:329
-#: ../wordtube-admin.php:447
-msgid "Select Playlist"
-msgstr "Wähle Playliste aus"
-
-#: ../wordtube-admin.php:336
-#: ../wordtube-admin.php:454
-#: ../wordtube-admin.php:1266
-msgid "Autostart"
-msgstr "Autostart"
-
-#: ../wordtube-admin.php:338
-#: ../wordtube-admin.php:456
-msgid "Start file automatic "
-msgstr "Starte Datei automatisch"
-
-#: ../wordtube-admin.php:342
-#: ../wordtube-admin.php:460
-msgid "Edit view counter"
-msgstr "Editiere Zähler"
-
-#: ../wordtube-admin.php:350
-msgid "Here you can edit the selected file. See global settings for the Flash Player under"
-msgstr "Hier kann die Datei editiert werden. Allgemeine Einstellungen des Flash Player liegen unter"
-
-#: ../wordtube-admin.php:350
-msgid "Options->wordTube"
-msgstr "Einstellungen->wordTube"
-
-#: ../wordtube-admin.php:351
-msgid "If you want to show this media file in your page, enter the tag :"
-msgstr "Wenn du diese Datei in einem Beitrag anzeigen möchtest verwende den Tag : "
-
-#: ../wordtube-admin.php:355
-msgid "Media title"
-msgstr "Titel / Name"
-
-#: ../wordtube-admin.php:359
-#: ../wordtube-admin.php:476
-msgid "Creator / Author"
-msgstr "Autor / Band"
-
-#: ../wordtube-admin.php:363
-msgid "Media URL"
-msgstr "Media Datei URL"
-
-#: ../wordtube-admin.php:365
-msgid "Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)"
-msgstr "Bitte den absoluten Pfad (URL) zur Datei  (MP3,FLV,SWF,JPG,PNG oder GIF) angeben"
-
-#: ../wordtube-admin.php:368
-msgid "Thumbnail URL"
-msgstr "Thumbnail URL Pfad"
-
-#: ../wordtube-admin.php:370
-msgid "Enter the URL to show a preview of the media file"
-msgstr "Eine Bild (URL) angeben damit ein Vorschau angezeigt wird"
-
-#: ../wordtube-admin.php:373
-msgid "Link URL"
-msgstr "Link URL"
-
-#: ../wordtube-admin.php:375
-msgid "Enter the URL to the page/file, if you click on the player"
-msgstr "Eine Link (URL) angeben, der aufgerufen wird wenn man auf den Player klickt."
-
-#: ../wordtube-admin.php:378
-msgid "Default player size (Width x Heigth)"
-msgstr "Playergröße (Breite x Höhe)"
-
-#: ../wordtube-admin.php:381
-msgid "Note on heigth : 20 pixel are used for the player itself"
-msgstr "Hinweis : Zur Videohöhe muss immer 20 Pixel für den Player gerechnet werden."
-
-#: ../wordtube-admin.php:384
-#: ../wordtube-admin.php:578
-#: ../javascript/wordtube-tinymce.php:133
-#: ../tinymce/window.php:134
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: ../wordtube-admin.php:385
-#: ../wordtube-admin.php:1304
-msgid "Update"
-msgstr "Aktualisieren"
-
-#: ../wordtube-admin.php:389
-msgid "Preview"
-msgstr "Vorschau"
-
-#: ../wordtube-admin.php:407
-#: ../wordtube-admin.php:414
-msgid "Error in deleting file"
-msgstr "Fehler : Datei kann nicht gelöscht werden. "
-
-#: ../wordtube-admin.php:424
-msgid "Error in deleting media file"
-msgstr "Fehler : Datei kann nicht gelöscht werden. "
-
-#: ../wordtube-admin.php:427
-#: ../wordtube-admin.php:986
-msgid "Media file"
-msgstr "Mediadatei"
-
-#: ../wordtube-admin.php:427
-#: ../wordtube-admin.php:529
-msgid "deleted successfully"
-msgstr " erfolgreich gelöscht"
-
-#: ../wordtube-admin.php:441
-msgid "Add a new media file"
-msgstr "Neue Mediadatei hinzufügen"
-
-#: ../wordtube-admin.php:472
-msgid "Title / Name"
-msgstr "Titel / Name"
-
-#: ../wordtube-admin.php:480
-msgid "Media file size (Width x Heigth)"
-msgstr "Mediagröße (Breite x Höhe)"
-
-#: ../wordtube-admin.php:486
-msgid "Upload file"
-msgstr "Upload Datei"
-
-#: ../wordtube-admin.php:490
-#: ../javascript/wordtube-tinymce.php:89
-#: ../tinymce/window.php:90
-msgid "Select media file"
-msgstr "Wähle Mediadatei aus"
-
-#: ../wordtube-admin.php:493
-msgid "Note : The upload limit on your server is "
-msgstr "Hinweis : Das Upload Limit auf diesem Server liegt bei "
-
-#: ../wordtube-admin.php:494
-msgid "The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF"
-msgstr "Der Flash Media Player verwaltet : MP3,FLV,SWF,JPG,PNG oder GIF"
-
-#: ../wordtube-admin.php:497
-msgid "Select thumbnail"
-msgstr "Wähle Thumbnail aus"
-
-#: ../wordtube-admin.php:499
-msgid "Upload a image to show a preview of the media file (optional)"
-msgstr "Lade ein Bild hoch, damit eine Vorschau angezeigt wird (Optional)"
-
-#: ../wordtube-admin.php:503
-msgid "Enter URL to file"
-msgstr "Datei URL"
-
-#: ../wordtube-admin.php:507
-msgid "URL to media file"
-msgstr "Mediadatei URL"
-
-#: ../wordtube-admin.php:509
-msgid "Here you need to enter the absolute URL to the media file"
-msgstr "Bitte den absoluten Pfad (URL) zur Datei angeben"
-
-#: ../wordtube-admin.php:512
-msgid "URL to thumbnail file"
-msgstr "Thumbnail URL (.jpg)"
-
-#: ../wordtube-admin.php:514
-msgid "Enter the URL to show a preview of the media file (optional)"
-msgstr "Eine URL für ein Vorschaubild angeben (Optional)"
-
-#: ../wordtube-admin.php:517
-msgid "Add media file"
-msgstr "Mediadatei hinzufügen"
-
-#: ../wordtube-admin.php:545
-msgid "Manage Playlist"
-msgstr "Bearbeite Playlisten"
-
-#: ../wordtube-admin.php:550
-#: ../wordtube-admin.php:813
-msgid "ID"
-msgstr "ID"
-
-#: ../wordtube-admin.php:551
-msgid "Name"
-msgstr "Name"
-
-#: ../wordtube-admin.php:552
-msgid "Description"
-msgstr "Beschreibung"
-
-#: ../wordtube-admin.php:553
-#: ../wordtube-admin.php:821
-msgid "Action"
-msgstr "Aktion"
-
-#: ../wordtube-admin.php:568
-#: ../wordtube-admin.php:840
-#: ../wordtube-admin.php:871
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: ../wordtube-admin.php:569
-#: ../wordtube-admin.php:841
-msgid "Delete this file ?"
-msgstr "Diesen Eintrag löschen ?"
-
-#: ../wordtube-admin.php:569
-#: ../wordtube-admin.php:841
-msgid "Delete"
-msgstr "Löschen"
-
-#: ../wordtube-admin.php:574
-#: ../wordtube-admin.php:846
-msgid "No entries found"
-msgstr "Keine Einträge gefunden"
-
-#: ../wordtube-admin.php:584
-#: ../wordtube-admin.php:594
-msgid "Add Playlist"
-msgstr "Playlist hinzufügen"
-
-#: ../wordtube-admin.php:585
-#: ../wordtube-admin.php:595
-msgid "Update Playlist"
-msgstr "Playliste aktualisieren"
-
-#: ../wordtube-admin.php:589
-msgid "Name:"
-msgstr "Name:"
-
-#: ../wordtube-admin.php:590
-msgid "Description: (optional)"
-msgstr "Beschreibung: (optional)"
-
-#: ../wordtube-admin.php:591
-msgid "Media ID sorting order:"
-msgstr "Media ID Sortierung:"
-
-#: ../wordtube-admin.php:591
-msgid "ascending"
-msgstr "Aufsteigend"
-
-#: ../wordtube-admin.php:592
-msgid "descending"
-msgstr "Absteigend"
-
-#: ../wordtube-admin.php:678
-msgid "Previous Page"
-msgstr "Letzte Seite"
-
-#: ../wordtube-admin.php:709
-msgid "Next Page"
-msgstr "Nächste Seite"
-
-#: ../wordtube-admin.php:721
-#: ../wordtube-admin.php:768
-msgid "Manage Media files"
-msgstr "Bearbeite Mediadateien"
-
-#: ../wordtube-admin.php:724
-msgid "Search term"
-msgstr "Suchbegriff"
-
-#: ../wordtube-admin.php:728
-#: ../wordtube-admin.php:819
-msgid "Order"
-msgstr "Reihenfolge"
-
-#: ../wordtube-admin.php:730
-#: ../wordtube-admin.php:779
-msgid "Sort Ascending"
-msgstr "Aufsteigend sortieren"
-
-#: ../wordtube-admin.php:731
-#: ../wordtube-admin.php:780
-msgid "Sort Descending"
-msgstr "Absteigend sortieren"
-
-#: ../wordtube-admin.php:735
-msgid "File type"
-msgstr "Dateityp"
-
-#: ../wordtube-admin.php:737
-#: ../wordtube-admin.php:783
-msgid "Any file type"
-msgstr "Jeder Dateityp"
-
-#: ../wordtube-admin.php:747
-#: ../wordtube-admin.php:790
-msgid "All playlists"
-msgstr "Alle Playlisten"
-
-#: ../wordtube-admin.php:748
-#: ../wordtube-admin.php:791
-msgid "No playlist"
-msgstr "Keine Playliste"
-
-#: ../wordtube-admin.php:761
-#: ../wordtube-admin.php:802
-msgid "Filter"
-msgstr "Filter"
-
-#: ../wordtube-admin.php:771
-msgid "Search Media"
-msgstr "Surche Datei"
-
-#: ../wordtube-admin.php:814
-msgid "Title"
-msgstr "Titel"
-
-#: ../wordtube-admin.php:815
-msgid "Creator"
-msgstr "Autor"
-
-#: ../wordtube-admin.php:816
-msgid "Path"
-msgstr "Pfad"
-
-#: ../wordtube-admin.php:817
-msgid "Views"
-msgstr "Zugriffe"
-
-#: ../wordtube-admin.php:858
-msgid "Insert new media file"
-msgstr "Neue Mediadatei hinzufügen"
-
-#: ../wordtube-admin.php:871
-msgid "Playlist Preview"
-msgstr "Playlisten Vorschau"
-
-#: ../wordtube-admin.php:872
-msgid "You can show all videos/media files in a playlist. Show this playlist with the tag"
-msgstr "Du kannst alle Mediadateien in einer Playliste anzeigen. Um diese Playliste anzuzeigen, nutze das Stichwort"
-
-#: ../wordtube-admin.php:879
-msgid "Select Playlist :"
-msgstr "Playliste auswählen :"
-
-#: ../wordtube-admin.php:881
-msgid "Most viewed"
-msgstr "Meist gesehen"
-
-#: ../wordtube-admin.php:882
-#: ../javascript/wordtube-tinymce.php:115
-#: ../tinymce/window.php:116
-msgid "All files"
-msgstr "Alle Dateien"
-
-#: ../wordtube-admin.php:883
-msgid "All mp3"
-msgstr "Alle MP3's"
-
-#: ../wordtube-admin.php:884
-msgid "All videos"
-msgstr "Alle Videos"
-
-#: ../wordtube-admin.php:896
-msgid "OK"
-msgstr "OK"
-
-#: ../wordtube-admin.php:964
-#: ../wordtube-admin.php:971
-msgid "Unable to change permissions for file "
-msgstr "Dateirechte konnten nicht geändert werden"
-
-#: ../wordtube-admin.php:977
-msgid "ERROR : File cannot be saved. Check the permission of the wordpress upload folder"
-msgstr "FEHLER : Zwischenspeicherung fehlgeschlagen. Bitte überpüfe die Rechte des Wordpress Upload Verzeichnis"
-
-#: ../wordtube-admin.php:979
-msgid "ERROR : Upload failed. Check the file size"
-msgstr "FEHLER : Upload fehlgeschlagen. Überprüfe die Dateigrösse"
-
-#: ../wordtube-admin.php:1124
-msgid "wordTube Option"
-msgstr "wordTube Einstellungen"
-
-#: ../wordtube-admin.php:1128
-msgid "General Options"
-msgstr "Allgemeine Optionen"
-
-#: ../wordtube-admin.php:1131
-msgid "Upload folder"
-msgstr "Upload Verzeichnis"
-
-#: ../wordtube-admin.php:1137
-msgid "Standard upload folder : "
-msgstr "Wordpress Upload Verzeichnis :"
-
-#: ../wordtube-admin.php:1140
-msgid "Store uploads in this folder : "
-msgstr "Uploads in folgendem Ordner speichern :"
-
-#: ../wordtube-admin.php:1144
-msgid "Delete file with post"
-msgstr "Lösche Videodatei mit Eintrag"
-
-#: ../wordtube-admin.php:1146
-msgid "Should the media file deleted, when pressing delete ? "
-msgstr "Soll die Media-Datei auch gelöscht werden, wenn du den Eintrag löschst ?"
-
-#: ../wordtube-admin.php:1149
-msgid "XHTML valid"
-msgstr "XHTML Valid"
-
-#: ../wordtube-admin.php:1151
-msgid "Insert CDATA and a comment code. Important : Recheck your webpage with all browser types."
-msgstr "Fügt ein CDATA und Kommentar-Zeichen ein. Wichtig : Unbedingt mit allen möglichen Browsern überprüfen."
-
-#: ../wordtube-admin.php:1154
-msgid "Activate RSS Feed message"
-msgstr "Aktiviere Meldung im RSS Feed "
-
-#: ../wordtube-admin.php:1159
-msgid "Use in Excerpt"
-msgstr "Zeige im Auzzug"
-
-#: ../wordtube-admin.php:1161
-msgid "Render media in excerpt if checked, replace tag with blank if not."
-msgstr "Zeigt das Video oder entfernt das Stichwort"
-
-#: ../wordtube-admin.php:1166
-msgid "Media Player Option"
-msgstr "Media Player Optionen"
-
-#: ../wordtube-admin.php:1167
-msgid "These settings are valid for all your flash video. The settings are used in the Flash Media Player Version 3.3"
-msgstr "Diese Einstellungen sind für alle Flash Mediadateien auf dieser Seite gültig. Die Einstellungen werden in der Version 3.3 verwendet."
-
-#: ../wordtube-admin.php:1168
-msgid "See more information on the web page"
-msgstr "Mehr Informationen auf der Webseite"
-
-#: ../wordtube-admin.php:1171
-msgid "Repeat"
-msgstr "Wiederholung"
-
-#: ../wordtube-admin.php:1173
-msgid "Automatically repeat playing when a file is completed."
-msgstr "Mediadateien in einer Schleife abspielen."
-
-#: ../wordtube-admin.php:1176
-msgid "Over stretch"
-msgstr "Video maximieren"
-
-#: ../wordtube-admin.php:1179
-msgid "true"
-msgstr "True"
-
-#: ../wordtube-admin.php:1180
-msgid "false"
-msgstr "False"
-
-#: ../wordtube-admin.php:1181
-msgid "fit"
-msgstr "Einpassen"
-
-#: ../wordtube-admin.php:1182
-msgid "none"
-msgstr "Inaktiv"
-
-#: ../wordtube-admin.php:1185
-msgid "Over stretch the image/video to fill the entire display."
-msgstr "Maximiere das Bild/Video um den ganzen Player zufüllen."
-
-#: ../wordtube-admin.php:1188
-msgid "Show digits"
-msgstr "Anzeigedauer"
-
-#: ../wordtube-admin.php:1190
-msgid "Show the digits for loaded, elapsed and remaining time in the Flash player."
-msgstr "Zeige die Ladezeit, Restlaufzeit und Länge an"
-
-#: ../wordtube-admin.php:1193
-msgid "Enable Fullscreen"
-msgstr "Aktiviere Vollbildmodus"
-
-#: ../wordtube-admin.php:1195
-msgid "Show the fullscreen button. Note : Javascript objects (i.e Lightbox) are not always on the top."
-msgstr "Zeige Vollbildmodus. Hinweis : Javascript Element (z.B. Lightbox) können dann nicht oberhalb angezeigt werden."
-
-#: ../wordtube-admin.php:1198
-msgid "Background Color"
-msgstr "Hintergrundfarbe"
-
-#: ../wordtube-admin.php:1200
-msgid "Backgroundcolor of the Flash player (default FFFFFF)."
-msgstr "Hintergundfarbe des Flash Player (Default FFFFFF)"
-
-#: ../wordtube-admin.php:1203
-msgid "Button Color"
-msgstr "Schalterfarbe"
-
-#: ../wordtube-admin.php:1205
-msgid "Texts / buttons color of the Flash player (default 000000)."
-msgstr "Text / Schalterfarbe (Default 000000)"
-
-#: ../wordtube-admin.php:1208
-msgid "Active Color"
-msgstr "Aktive Farbe"
-
-#: ../wordtube-admin.php:1210
-msgid "Rollover/ active color of the Flash player (default 000000)."
-msgstr "Rollover / Aktive Farbe (Default 000000)"
-
-#: ../wordtube-admin.php:1213
-msgid "Volume"
-msgstr "Lautstärke"
-
-#: ../wordtube-admin.php:1215
-msgid "Startup volume of the Flash player (default 80)."
-msgstr "Start-Lautstärke des Flash Player (Default 80)"
-
-#: ../wordtube-admin.php:1218
-msgid "Buffer length"
-msgstr "Buffer Länge"
-
-#: ../wordtube-admin.php:1220
-msgid "Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5)."
-msgstr "Anzahl der Sekunden die gepuffert werden, bevor der Player startet. Setzte einen kleineren Wert für eine schnelle Verbindung bzw. kleine Videogröße. Ein größerer Wert ist für langsame Verbindungen sinnvoll (Default  5)."
-
-#: ../wordtube-admin.php:1223
-msgid "Activate statistic"
-msgstr "Aktiviere Statistik"
-
-#: ../wordtube-admin.php:1225
-msgid "Activate the internal view counter for each media file."
-msgstr "Aktiviere den interen Zugriffszähler für die Mediadateien"
-
-#: ../wordtube-admin.php:1228
-msgid "mp3 display"
-msgstr "MP3 Display"
-
-#: ../wordtube-admin.php:1231
-msgid "Default"
-msgstr "Default"
-
-#: ../wordtube-admin.php:1232
-msgid "Equalizer"
-msgstr "Equalizer"
-
-#: ../wordtube-admin.php:1233
-msgid "Minimum"
-msgstr "Minimum"
-
-#: ../wordtube-admin.php:1236
-msgid "Choose player aspect for mp3. Default: like videos. Equalizer: purely cosmetic. Minimum: only control bar."
-msgstr "Darstellung bei MP3 Musik. Default : Wie bei Videos. Equalizer : Nur Show oder Minimum : Zeigt nur Steuerlemenete"
-
-#: ../wordtube-admin.php:1239
-msgid "Start icon"
-msgstr "Starticon"
-
-#: ../wordtube-admin.php:1241
-msgid "Show or hide the play and activity icons in the middle of the display. Defaults to true for the players and false for the rotator. If set to false, the overlaid controlbar will also hide with the players."
-msgstr "Zeigt Play/Stop Button im Bild."
-
-#: ../wordtube-admin.php:1244
-msgid "Show controls"
-msgstr "Zeige Buttons"
-
-#: ../wordtube-admin.php:1246
-msgid "If checked, will display control bar under view screen. Otherwise, controls will appear on mouseover."
-msgstr "Anzeige der Steuerelemente unterhalb des Bildes"
-
-#: ../wordtube-admin.php:1249
-msgid "Show logo"
-msgstr "Zeige Wasserzeichen"
-
-#: ../wordtube-admin.php:1251
-msgid "URL to your watermark (PNG, JPG): "
-msgstr "URL des Wasserzeichen (PNG, JPG)"
-
-#: ../wordtube-admin.php:1255
-msgid "Autostart first single media"
-msgstr "Starte erste Datei automatisch"
-
-#: ../wordtube-admin.php:1257
-msgid "If checked, first media in a single post will automatically starts."
-msgstr "Startet das erste Video in einem Beitrag automatisch"
-
-#: ../wordtube-admin.php:1262
-msgid "Playlist Settings"
-msgstr "Playlisten Einstellungen"
-
-#: ../wordtube-admin.php:1263
-msgid "You can show all videos/media files in a playlist. Show the media player with the tag"
-msgstr "Du kannst alle Mediadateien in einer Playliste anzeigen. Um die Playliste anzuzeigen nutze das Tag "
-
-#: ../wordtube-admin.php:1268
-msgid "Automatically start playing the media files."
-msgstr "Start automatisch den Flash Player"
-
-#: ../wordtube-admin.php:1271
-msgid "Activate autoscroll"
-msgstr "Aktiviere Scrollen"
-
-#: ../wordtube-admin.php:1273
-msgid "Let the playlist automatically scroll, based upon the mouse cursor."
-msgstr "Den automatischen Bildlauf in der Playliste aktivieren"
-
-#: ../wordtube-admin.php:1276
-msgid "Show thumbnail"
-msgstr "Zeige Thumbnails"
-
-#: ../wordtube-admin.php:1278
-msgid "Show a thumbnail in the playlist."
-msgstr "Zeigt Vorschaubilder in der Playliste"
-
-#: ../wordtube-admin.php:1281
-msgid "Shuffle mode"
-msgstr "Zufällige Wiedergabe"
-
-#: ../wordtube-admin.php:1283
-msgid "Activate the shuffle mode in the playlist"
-msgstr "Die zufällige Wiedergabe der Playliste aktivieren"
-
-#: ../wordtube-admin.php:1286
-msgid "Flash size (W x H)"
-msgstr "Flashgröße (B x H)"
-
-#: ../wordtube-admin.php:1289
-msgid "Define width and height of the media player screen."
-msgstr "Bestimme die Breite / Höhe des Media Player"
-
-#: ../wordtube-admin.php:1292
-msgid "Playlist size"
-msgstr "Größe der Playlist"
-
-#: ../wordtube-admin.php:1294
-msgid "Define height of the playlist, should be larger the 20. (0 = Show no playlist)"
-msgstr "Höhe der Playliste bestimmen. Sie sollte größer 20 Pixel sein. (0 = Keine Playliste)"
-
-#: ../wordtube-admin.php:1297
-msgid "Playlist on right side"
-msgstr "Playlist auf der rechten Seite"
-
-#: ../wordtube-admin.php:1299
-msgid "Playlist width"
-msgstr "Playlist Breite"
-
-#: ../wordtube-admin.php:1301
-msgid "Define width of the playlist."
-msgstr "Bestimme die Breite der Playlist"
-
-#: ../wordtube-admin.php:1400
-msgid "See post to watch Flash video"
-msgstr "Lese Blog-eintrag um das Viedo anzuschauen"
-
-#: ../wordtube.php:133
+#: ../wordtube.php:41
+msgid "Sorry, wordTube works only under WordPress 2.6 or higher"
+msgstr "Sorry, wordTube läuft nur unter WordPress 2.6 oder höher"
+
+#: ../wordtube.php:52
+msgid "The player.swf is not in the wordTube folder, the player will not work."
+msgstr "Die Datei player.swf ist nicht im wordTube Verzeichnis"
+
+#: ../admin/admin.php:82
+#: ../admin/admin.php:83
 msgid "wordTube"
 msgstr "wordTube"
 
-#: ../wordtube.php:551
+#: ../admin/admin.php:109
+msgid "Insert wordTube media"
+msgstr "Neue Mediadatei hinzufügen"
+
+#: ../admin/functions.php:111
+msgid "Could not retrieve Youtube video information"
+msgstr "Konnte die YouTube Daten nicht einlesen"
+
+#: ../admin/functions.php:118
+#: ../admin/functions.php:124
+msgid "Unable to change permissions for file "
+msgstr "Dateirechte konnten nicht geändert werden"
+
+#: ../admin/functions.php:129
+msgid "ERROR : File cannot be saved. Check the permission of the wordpress upload folder"
+msgstr "FEHLER : Zwischenspeicherung fehlgeschlagen. Bitte überpüfe die Rechte des Wordpress Upload Verzeichnis"
+
+#: ../admin/functions.php:131
+msgid "ERROR : Upload failed. Check the file size"
+msgstr "FEHLER : Upload fehlgeschlagen. Überprüfe die Dateigrösse"
+
+#: ../admin/functions.php:141
+#: ../admin/functions.php:265
+msgid "Media file"
+msgstr "Mediadatei"
+
+#: ../admin/functions.php:141
+#: ../admin/functions.php:286
+msgid " added successfully"
+msgstr " erfolgreich eingefügt"
+
+#: ../admin/functions.php:221
+#: ../admin/functions.php:306
+#: ../admin/settings.php:29
+msgid "Update Successfully"
+msgstr "Erfolgreich aktualisiert"
+
+#: ../admin/functions.php:241
+#: ../admin/functions.php:249
+msgid "Error in deleting file"
+msgstr "Fehler : Datei kann nicht gelöscht werden. "
+
+#: ../admin/functions.php:262
+msgid "Error in deleting media file"
+msgstr "Fehler : Datei kann nicht gelöscht werden. "
+
+#: ../admin/functions.php:265
+#: ../admin/functions.php:321
+msgid "deleted successfully"
+msgstr " erfolgreich gelöscht"
+
+#: ../admin/functions.php:286
+#: ../admin/functions.php:321
+#: ../admin/settings.php:76
+#: ../tinymce/window.php:100
+msgid "Playlist"
+msgstr "Playliste"
+
+#: ../admin/install.php:169
+msgid "See post to watch Flash video"
+msgstr "Lese Blogeintrag um das Video anzuschauen"
+
+#: ../admin/manage.php:36
+msgid "The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder."
+msgstr "Der Flash Player wurde nicht gefunden. Bitte überprüfe den Inhalt des wordTube Verzeichnis."
+
+#: ../admin/manage.php:78
+#, php-format
+msgid "Unable to create directory %s. Is its parent directory writable by the server?"
+msgstr "Das Verzeichnis %s konnte nicht erstellt werden. Ist das Wurzelverzeichnis schreibar ?"
+
+#: ../admin/manage.php:204
+msgid "Manage Media files"
+msgstr "Bearbeite Mediadateien"
+
+#: ../admin/manage.php:207
+msgid "Search Media"
+msgstr "Surche Datei"
+
+#: ../admin/manage.php:216
+msgid "Filter"
+msgstr "Filter"
+
+#: ../admin/manage.php:226
+#: ../admin/manage.php:512
+msgid "ID"
+msgstr "ID"
+
+#: ../admin/manage.php:227
+msgid "Title"
+msgstr "Titel"
+
+#: ../admin/manage.php:228
+msgid "Creator"
+msgstr "Autor"
+
+#: ../admin/manage.php:229
+msgid "Path"
+msgstr "Pfad"
+
+#: ../admin/manage.php:230
+msgid "Views"
+msgstr "Zugriffe"
+
+#: ../admin/manage.php:232
+msgid "Order"
+msgstr "Reihenfolge"
+
+#: ../admin/manage.php:234
+#: ../admin/manage.php:515
+msgid "Action"
+msgstr "Aktion"
+
+#: ../admin/manage.php:251
+#: ../admin/manage.php:276
+#: ../admin/manage.php:530
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: ../admin/manage.php:252
+#: ../admin/manage.php:531
+msgid "Delete this file ?"
+msgstr "Diesen Eintrag löschen ?"
+
+#: ../admin/manage.php:252
+#: ../admin/manage.php:531
+msgid "Delete"
+msgstr "Löschen"
+
+#: ../admin/manage.php:257
+#: ../admin/manage.php:536
+msgid "No entries found"
+msgstr "Keine Einträge gefunden"
+
+#: ../admin/manage.php:268
+msgid "Insert new media file"
+msgstr "Neue Mediadatei hinzufügen"
+
+#: ../admin/manage.php:276
+msgid "Playlist Preview"
+msgstr "Playlisten Vorschau"
+
+#: ../admin/manage.php:277
+msgid "You can show all videos/media files in a playlist. Show this playlist with the tag"
+msgstr "Du kannst alle Mediadateien in einer Playliste anzeigen. Um diese Playliste anzuzeigen, nutze das Stichwort"
+
+#: ../admin/manage.php:284
+msgid "Select Playlist :"
+msgstr "Playliste auswählen :"
+
+#: ../admin/manage.php:287
+#: ../tinymce/window.php:142
+msgid "All files"
+msgstr "Alle Dateien"
+
+#: ../admin/manage.php:288
+msgid "All mp3"
+msgstr "Alle MP3's"
+
+#: ../admin/manage.php:289
+msgid "All videos"
+msgstr "Alle Videos"
+
+#: ../admin/manage.php:301
+msgid "OK"
+msgstr "OK"
+
+#: ../admin/manage.php:333
+msgid "Edit media file"
+msgstr "Mediadatei ändern"
+
+#: ../admin/manage.php:338
+msgid "Here you can edit the selected file. See global settings for the Flash Player under"
+msgstr "Hier kann die Datei geändert werden. Allgemeine Einstellungen des Flash Player liegen unter"
+
+#: ../admin/manage.php:338
+msgid "Options->wordTube"
+msgstr "Einstellungen->wordTube"
+
+#: ../admin/manage.php:339
+msgid "If you want to show this media file in your page, enter the tag :"
+msgstr "Wenn du diese Datei in einem Beitrag anzeigen möchtest verwende den Tag : "
+
+#: ../admin/manage.php:340
+#: ../admin/manage.php:413
+msgid "Select Playlist"
+msgstr "Wähle Playliste aus"
+
+#: ../admin/manage.php:343
+#: ../admin/manage.php:416
+msgid "Edit view counter"
+msgstr "Editiere Zähler"
+
+#: ../admin/manage.php:345
+#: ../admin/manage.php:418
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: ../admin/manage.php:346
+#: ../admin/manage.php:419
+msgid "Start file automatic "
+msgstr "Starte Datei automatisch"
+
+#: ../admin/manage.php:348
+#: ../admin/manage.php:421
+msgid "Disable Ads for this Media"
+msgstr "Keine Werbung für dieses Video"
+
+#: ../admin/manage.php:351
+#: ../admin/settings.php:115
+#: ../admin/settings.php:192
+#: ../admin/settings.php:240
+#: ../admin/settings.php:301
+#: ../admin/settings.php:332
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: ../admin/manage.php:352
+#: ../admin/manage.php:541
+#: ../tinymce/window.php:164
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ../admin/manage.php:359
+msgid "Media title"
+msgstr "Titel / Name"
+
+#: ../admin/manage.php:363
+#: ../admin/manage.php:432
+msgid "Creator / Author"
+msgstr "Autor / Band"
+
+#: ../admin/manage.php:367
+#: ../admin/manage.php:436
+#: ../admin/manage.php:514
+msgid "Description"
+msgstr "Beschreibung"
+
+#: ../admin/manage.php:371
+msgid "Media URL"
+msgstr "Media Datei URL"
+
+#: ../admin/manage.php:373
+msgid "Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)"
+msgstr "Bitte den absoluten Pfad (URL) zur Datei  (MP3,FLV,SWF,JPG,PNG oder GIF) angeben"
+
+#: ../admin/manage.php:374
+msgid "It also accept Youtube links. Example: http://youtube.com/watch?v=O_MP_6ldeB4"
+msgstr "Man kann auch YouTube Links angeben : http://youtube.com/watch?v=O_MP_6ldeB4"
+
+#: ../admin/manage.php:375
+msgid "RTMP streams must be look like : rtmp://streaming-server/path/?id=filename"
+msgstr "Ein RTMP Stream muss in dem Format : <strong>rtmp://streaming-server/path/?id=filename</strong> angegeben werden"
+
+#: ../admin/manage.php:378
+msgid "Thumbnail URL"
+msgstr "Thumbnail URL Pfad"
+
+#: ../admin/manage.php:380
+msgid "Enter the URL to show a preview of the media file"
+msgstr "Eine Bild (URL) angeben damit ein Vorschau angezeigt wird"
+
+#: ../admin/manage.php:383
+msgid "Link URL"
+msgstr "Link URL"
+
+#: ../admin/manage.php:385
+msgid "Enter the URL to the page/file, if you click on the player"
+msgstr "Eine Link (URL) angeben, der aufgerufen wird wenn man auf den Player klickt."
+
+#: ../admin/manage.php:388
+msgid "Tags"
+msgstr "Stichwörter"
+
+#: ../admin/manage.php:390
+msgid "Enter media tags"
+msgstr "Stichwörter eingeben :"
+
+#: ../admin/manage.php:396
+msgid "Preview"
+msgstr "Vorschau"
+
+#: ../admin/manage.php:408
+msgid "Add a new media file"
+msgstr "Neue Mediadatei hinzufügen"
+
+#: ../admin/manage.php:428
+msgid "Title / Name"
+msgstr "Titel / Name"
+
+#: ../admin/manage.php:441
+msgid "Upload file"
+msgstr "Upload Datei"
+
+#: ../admin/manage.php:445
+#: ../tinymce/window.php:110
+msgid "Select media file"
+msgstr "Wähle Mediadatei aus"
+
+#: ../admin/manage.php:448
+msgid "Note : The upload limit on your server is "
+msgstr "Hinweis : Das Upload Limit auf diesem Server liegt bei "
+
+#: ../admin/manage.php:449
+msgid "The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF"
+msgstr "Der Flash Media Player verwaltet : MP3,FLV,SWF,JPG,PNG oder GIF"
+
+#: ../admin/manage.php:452
+msgid "Select thumbnail"
+msgstr "Wähle Thumbnail aus"
+
+#: ../admin/manage.php:454
+msgid "Upload a image to show a preview of the media file (optional)"
+msgstr "Lade ein Bild hoch, damit eine Vorschau angezeigt wird (Optional)"
+
+#: ../admin/manage.php:458
+msgid "Enter URL to file"
+msgstr "Datei URL"
+
+#: ../admin/manage.php:462
+msgid "URL to media file"
+msgstr "Mediadatei URL"
+
+#: ../admin/manage.php:464
+msgid "Here you need to enter the absolute URL to the media file"
+msgstr "Bitte den absoluten Pfad (URL) zur Datei angeben"
+
+#: ../admin/manage.php:465
+msgid "It accept also a Youtube link: http://youtube.com/watch?v=O_MP_6ldeB4"
+msgstr "Es können auch YouTube Clips eingegeben werden : http://youtube.com/watch?v=O_MP_6ldeB4"
+
+#: ../admin/manage.php:468
+msgid "URL to thumbnail file"
+msgstr "Thumbnail URL (.jpg)"
+
+#: ../admin/manage.php:470
+msgid "Enter the URL to show a preview of the media file (optional)"
+msgstr "Eine URL für ein Vorschaubild angeben (Optional)"
+
+#: ../admin/manage.php:473
+msgid "Add media file"
+msgstr "Mediadatei hinzufügen"
+
+#: ../admin/manage.php:506
+msgid "Manage Playlist"
+msgstr "Bearbeite Playlisten"
+
+#: ../admin/manage.php:513
+msgid "Name"
+msgstr "Name"
+
+#: ../admin/manage.php:548
+#: ../admin/manage.php:558
+msgid "Add Playlist"
+msgstr "Playlist hinzufügen"
+
+#: ../admin/manage.php:549
+#: ../admin/manage.php:559
+msgid "Update Playlist"
+msgstr "Playliste aktualisieren"
+
+#: ../admin/manage.php:553
+msgid "Name:"
+msgstr "Name:"
+
+#: ../admin/manage.php:554
+msgid "Description: (optional)"
+msgstr "Beschreibung: (optional)"
+
+#: ../admin/manage.php:555
+msgid "Media ID sorting order:"
+msgstr "Media ID Sortierung:"
+
+#: ../admin/manage.php:555
+msgid "ascending"
+msgstr "Aufsteigend"
+
+#: ../admin/manage.php:556
+msgid "descending"
+msgstr "Absteigend"
+
+#: ../admin/manage.php:570
+msgid "Sort Ascending"
+msgstr "Aufsteigend sortieren"
+
+#: ../admin/manage.php:571
+msgid "Sort Descending"
+msgstr "Absteigend sortieren"
+
+#: ../admin/manage.php:580
+msgid "Any file type"
+msgstr "Jeder Dateityp"
+
+#: ../admin/manage.php:581
+msgid "mp3 only"
+msgstr "nur MP3 Ansicht"
+
+#: ../admin/manage.php:582
+msgid "flv only"
+msgstr "nur .flv"
+
+#: ../admin/manage.php:583
+msgid "swf only"
+msgstr "nur .swf"
+
+#: ../admin/manage.php:584
+msgid "images only"
+msgstr "nur Bilder"
+
+#: ../admin/manage.php:594
+msgid "All playlists"
+msgstr "Alle Playlisten"
+
+#: ../admin/manage.php:595
+msgid "No playlist"
+msgstr "Keine Playliste"
+
+#: ../admin/manage.php:625
+msgid "Previous Page"
+msgstr "Letzte Seite"
+
+#: ../admin/manage.php:656
+msgid "Next Page"
+msgstr "Nächste Seite"
+
+#: ../admin/manage.php:676
+msgid "The JW Players are licensed under <a href=\"http://creativecommons.org/licenses/by-nc-sa/3.0/\">Creative Commons</a> license. It allows you to use, modify and redistribute the script for noncommercial purposes. For all other use, buy a <a href=\"/?page=license\">commercial license</a>."
+msgstr "Der JW Players ist lizensiert unter einer  <a href=\"http://creativecommons.org/licenses/by-nc-sa/3.0/\">Creative Commons</a> Lizenz. Es erlaubt eine Nutzung, Modifizierung und Weitergabe für Nicht-kommerzielle Projekte. Für anderweitige Nutzung kaufe bitte eine  <a href=\"/?page=license\">Nutzungslizenz</a>."
+
+#: ../admin/manage.php:677
+msgid "You must buy a commercial license if:"
+msgstr "Du must eine Lizenz kaufen, wenn :"
+
+#: ../admin/manage.php:679
+msgid "Your site has any ads (AdSense, display banners, etc.)"
+msgstr "Deine Webseite Werbung nutzt (AdSense, Werbebanner, etc.)"
+
+#: ../admin/manage.php:680
+msgid "You want to remove the players' attribution (eliminate the right-click link)"
+msgstr "Du den Link zum Hersteller entfernen möchtest"
+
+#: ../admin/manage.php:681
+msgid "You are a corporation (governmental or nonprofit use is free)"
+msgstr "Du dieses Player als Firma nutzt (Non-Profit Organisationen sind ausgenommen)"
+
+#: ../admin/manage.php:685
+msgid "I agree to the license"
+msgstr "Ich stimme der Lizenz zu"
+
+#: ../admin/settings.php:44
+msgid "Reset all settings to default parameter"
+msgstr "Alle Einstellung zurückgesetzten"
+
+#: ../admin/settings.php:58
+msgid "Tables and settings deleted, deactivate the plugin now"
+msgstr "Alle Tabllen und Einstellungen wurden entfernt, deaktiviere das Plugin jetzt"
+
+#: ../admin/settings.php:74
+#: ../admin/settings.php:85
+msgid "General Options"
+msgstr "Allgemeine Optionen"
+
+#: ../admin/settings.php:75
+#: ../admin/settings.php:122
+msgid "Media Player"
+msgstr "Media Player"
+
+#: ../admin/settings.php:77
+msgid "Layout"
+msgstr "Layout"
+
+#: ../admin/settings.php:78
+#: ../admin/settings.php:309
+msgid "LongTail Adsolution"
+msgstr "LongTail Werbungen"
+
+#: ../admin/settings.php:79
+#: ../admin/settings.php:341
+msgid "Setup"
+msgstr "Setup"
+
+#: ../admin/settings.php:91
+msgid "Upload folder"
+msgstr "Upload Verzeichnis"
+
+#: ../admin/settings.php:93
+msgid "Standard upload folder : "
+msgstr "Wordpress Upload Verzeichnis :"
+
+#: ../admin/settings.php:94
+msgid "Store uploads in this folder : "
+msgstr "Uploads in folgendem Ordner speichern :"
+
+#: ../admin/settings.php:99
+msgid "Delete file with post"
+msgstr "Lösche Videodatei mit Eintrag"
+
+#: ../admin/settings.php:101
+msgid "Should the media file be deleted, when pressing delete ? "
+msgstr "Soll die Media-Datei auch gelöscht werden, wenn du den Eintrag löschst ?"
+
+#: ../admin/settings.php:104
+msgid "Try XHTML validation (with CDATA)"
+msgstr "Aktiviere XHTML Code (mittels CDATA)"
+
+#: ../admin/settings.php:106
+msgid "Insert CDATA and a comment code. Important : Recheck your webpage with all browser types."
+msgstr "Fügt ein CDATA und Kommentar-Zeichen ein. Wichtig : Unbedingt mit allen möglichen Browsern überprüfen."
+
+#: ../admin/settings.php:109
+msgid "Activate RSS Feed message"
+msgstr "Aktiviere Meldung im RSS Feed "
+
+#: ../admin/settings.php:126
+msgid "These settings are valid for all your flash video. The settings are used in the JW Flash Media Player Version 4.1"
+msgstr "Diese Einstellungen sind für alle Flash Mediadateien gültig. Die Einstellungen werden in der Version 4.1 verwendet."
+
+#: ../admin/settings.php:127
+#: ../admin/settings.php:314
+msgid "See more information on the web page"
+msgstr "Mehr Informationen auf der Webseite"
+
+#: ../admin/settings.php:130
+msgid "Repeat"
+msgstr "Wiederholung"
+
+#: ../admin/settings.php:132
+msgid "Automatically repeat playing when a file is completed."
+msgstr "Mediadateien in einer Schleife abspielen."
+
+#: ../admin/settings.php:135
+msgid "Resize images"
+msgstr "Ausmaß verändern"
+
+#: ../admin/settings.php:138
+msgid "exact fit"
+msgstr "genau einpassen"
+
+#: ../admin/settings.php:139
+msgid "fill"
+msgstr "Ausfüllen"
+
+#: ../admin/settings.php:140
+msgid "uniform"
+msgstr "Einheitlich"
+
+#: ../admin/settings.php:141
+#: ../admin/settings.php:153
+#: ../admin/settings.php:233
+#: ../admin/settings.php:259
+msgid "none"
+msgstr "Inaktiv"
+
+#: ../admin/settings.php:144
+msgid "Defines how to resize images in the display. Can be none (no stretching), exactfit (disproportionate), uniform (stretch with black borders) or fill (uniform, but completely fill the display)."
+msgstr "Definiert wie das Bild angezeigt wird : Ohne Dehnung, Passend (unverhältnismäßig ), Einheitlich (Mit schwarzen Rändern) oder Füllend ( ohne Ränder)"
+
+#: ../admin/settings.php:147
+msgid "Click option"
+msgstr "Klickverhalten"
+
+#: ../admin/settings.php:150
+msgid "play"
+msgstr "Start"
+
+#: ../admin/settings.php:151
+msgid "link"
+msgstr "Link"
+
+#: ../admin/settings.php:152
+msgid "fullscreen"
+msgstr "Vollbild"
+
+#: ../admin/settings.php:154
+msgid "mute"
+msgstr "Stumm"
+
+#: ../admin/settings.php:155
+msgid "next"
+msgstr "Nächste"
+
+#: ../admin/settings.php:158
+msgid "Select what to do when one clicks the display. Can be play, link, fullscreen, none, mute, next."
+msgstr "Welche Aktion soll ausgeführt werden, wenn aus das Fenster geklickt wird :  Start, Link, Vollbild, Nichts, Mute, Nächstes Video"
+
+#: ../admin/settings.php:161
+msgid "High quality video"
+msgstr "Hohe Qualität"
+
+#: ../admin/settings.php:163
+msgid "Enables high-quality playback. This sets the smoothing of videos on/off, the deblocking of videos on/off and the dimensions of the camera small/large."
+msgstr "Ermöglicht eine bessere Qualität, zu Lasten der Performance."
+
+#: ../admin/settings.php:166
+msgid "Enable Fullscreen"
+msgstr "Aktiviere Vollbildmodus"
+
+#: ../admin/settings.php:168
+msgid "Show the fullscreen button."
+msgstr "Aktiviere die Vollbildansicht"
+
+#: ../admin/settings.php:171
+msgid "Volume"
+msgstr "Lautstärke"
+
+#: ../admin/settings.php:173
+msgid "Startup volume of the Flash player (default 80)."
+msgstr "Start-Lautstärke des Flash Player (Default 80)"
+
+#: ../admin/settings.php:176
+msgid "Buffer length"
+msgstr "Buffer Länge"
+
+#: ../admin/settings.php:178
+msgid "Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5)."
+msgstr "Anzahl der Sekunden die gepuffert werden, bevor der Player startet. Setzte einen kleineren Wert für eine schnelle Verbindung bzw. kleine Videogröße. Ein größerer Wert ist für langsame Verbindungen sinnvoll (Default  5)."
+
+#: ../admin/settings.php:181
+#: ../admin/settings.php:216
+msgid "Default size (W x H)"
+msgstr "Defaultgröße (B x H)"
+
+#: ../admin/settings.php:184
+msgid "Define width and height of the media player screen."
+msgstr "Bestimme die Breite / Höhe des Media Player"
+
+#: ../admin/settings.php:187
+msgid "Autostart first single media"
+msgstr "Starte erste Datei automatisch"
+
+#: ../admin/settings.php:189
+msgid "If checked, first media in a single post will automatically start."
+msgstr "Startet das erste Video in einem Beitrag automatisch"
+
+#: ../admin/settings.php:199
+msgid "Playlist Settings"
+msgstr "Playlisten Einstellungen"
+
+#: ../admin/settings.php:203
+msgid "You can show all videos/media files in a playlist. Show the media player with the tag"
+msgstr "Du kannst alle Mediadateien in einer Playliste anzeigen. Um die Playliste anzuzeigen nutze das Tag "
+
+#: ../admin/settings.php:206
+msgid "Autostart"
+msgstr "Autostart"
+
+#: ../admin/settings.php:208
+msgid "Automatically start playing the media files."
+msgstr "Startet automatisch den Flash Player"
+
+#: ../admin/settings.php:211
+msgid "Shuffle mode"
+msgstr "Zufällige Wiedergabe"
+
+#: ../admin/settings.php:213
+msgid "Activate the shuffle mode in the playlist"
+msgstr "Die zufällige Wiedergabe der Playliste aktivieren"
+
+#: ../admin/settings.php:219
+msgid "Define width and height of the Media Player when a playlist is shown"
+msgstr "Bestimme die Breite / Höhe des Media Player wenn eine Playliste angezeigt wird"
+
+#: ../admin/settings.php:222
+msgid "Playlist size"
+msgstr "Größe der Playlist"
+
+#: ../admin/settings.php:224
+msgid "Size of the playlist. When below or above, this refers to the height, when right, this refers to the width of the playlist"
+msgstr "Größe der Playliste. Wenn Sie rechts  positioniert ist, bezieht Sie sich auf die Breite, ansonsten auf die Höhe"
+
+#: ../admin/settings.php:227
+msgid "Playlist position"
+msgstr "Playlistposition"
+
+#: ../admin/settings.php:230
+#: ../admin/settings.php:257
+msgid "bottom"
+msgstr "Unten"
+
+#: ../admin/settings.php:231
+#: ../admin/settings.php:258
+msgid "over"
+msgstr "Überlagert"
+
+#: ../admin/settings.php:232
+msgid "right"
+msgstr "Rechts"
+
+#: ../admin/settings.php:236
+msgid "Position of the playlist. Can be set to bottom, over, right or none."
+msgstr "Position der Playliste (Unten, rechts oder darüber)"
+
+#: ../admin/settings.php:247
+msgid "Layout  / Skin"
+msgstr "Layout / Skin"
+
+#: ../admin/settings.php:251
+msgid "Here you can change the colors and skin of your player and playlist"
+msgstr "Hier kann man die Farben und das Aussehen anpassen"
+
+#: ../admin/settings.php:254
+msgid "Controls position"
+msgstr "Position der Regler"
+
+#: ../admin/settings.php:262
+msgid "Position of the controlbar. Can be set to bottom, over and none."
+msgstr "Position der Kontrolleiste (Unten, Darüber oder keine)"
+
+#: ../admin/settings.php:265
+msgid "Skin file"
+msgstr "Skin Datei"
+
+#: ../admin/settings.php:267
+msgid "URL of a SWF skin file with the player graphics"
+msgstr "URL einer Skin datei."
+
+#: ../admin/settings.php:270
+msgid "Show logo"
+msgstr "Zeige Wasserzeichen"
+
+#: ../admin/settings.php:273
+msgid "URL to your watermark (PNG, JPG): "
+msgstr "URL des Wasserzeichen (PNG, JPG)"
+
+#: ../admin/settings.php:276
+msgid "Background Color"
+msgstr "Hintergrundfarbe"
+
+#: ../admin/settings.php:279
+msgid "Background color of the controlbar and playlist"
+msgstr "Hintergundfarbe der Statuszeile und der Liste (Default FFFFFF)"
+
+#: ../admin/settings.php:282
+msgid "Texts / Buttons Color"
+msgstr "Textfarbe"
+
+#: ../admin/settings.php:285
+msgid "Color of all icons and texts in the controlbar and playlist"
+msgstr "Farbe aller Icons und Texte in der Abspielleiste"
+
+#: ../admin/settings.php:288
+msgid "Rollover / Active Color"
+msgstr "Hover / Aktive Farbe"
+
+#: ../admin/settings.php:291
+msgid "Color of an icon or text when you rollover it with the mouse"
+msgstr "Farbe eines Icon beim Rollover der Maus"
+
+#: ../admin/settings.php:294
+msgid "Screen Color"
+msgstr "Playerfarbe"
+
+#: ../admin/settings.php:297
+msgid "Background color of the display"
+msgstr "Hintergundfarbe der Flash Player (Default FFFFFF)"
+
+#: ../admin/settings.php:313
+msgid "With LongTail Adsolution you can embed any ad tag into your media player, allowing them to run pre-, overlay mid- and post-roll advertisements."
+msgstr "Mit den LongTail Adsolution ist en möglich in der Media Player Werbung einzubauen."
+
+#: ../admin/settings.php:317
+msgid "Activate Ads"
+msgstr "Aktiviere Werbung"
+
+#: ../admin/settings.php:321
+msgid "API Script"
+msgstr "API Script"
+
+#: ../admin/settings.php:323
+msgid "Look for the script code at your"
+msgstr "Für den Script Code schaue unter"
+
+#: ../admin/settings.php:323
+msgid "LongTail dashboard"
+msgstr "LongTail Dashboard"
+
+#: ../admin/settings.php:327
+msgid "Channel ID"
+msgstr "Channel ID"
+
+#: ../admin/settings.php:342
+msgid "You can reset all options/settings to the default installation."
+msgstr "Du kannst alle Einstellungen zurücksetzten"
+
+#: ../admin/settings.php:343
+msgid "Reset settings"
+msgstr "Einstellungen zurücksetzen"
+
+#: ../admin/settings.php:343
+msgid ""
+"Reset all options to default settings ?\\n"
+"\\n"
+"Choose [Cancel] to Stop, [OK] to proceed.\\n"
+msgstr ""
+"Alle Einstellungen zurücksetzen ?\\n"
+"\\n"
+"Wähle [Abbrechen] oder [OK] zum fortführen.\\n"
+
+#: ../admin/settings.php:345
+msgid "You don't like wordTube ?"
+msgstr "Du magst wordTube nicht ?"
+
+#: ../admin/settings.php:346
+msgid "No problem, before you deactivate this plugin press the Uninstall Button, because deactivating wordTube does not remove any data that may have been created. "
+msgstr "Kein Problem, bevor Du das Plugin löschst, drücke bitte den Deinstallieren Knopf, ansonsten werden die zusätzlichen Tabellen nicht gelöscht."
+
+#: ../admin/settings.php:348
+msgid "WARNING:"
+msgstr "WARNUNG:"
+
+#: ../admin/settings.php:349
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to backup all the tables first."
+msgstr "Bitte unbedingt eine Backup der Datenbank erstellen, die Deinstallation kann nicht rückgängig gemacht werden."
+
+#: ../admin/settings.php:351
+msgid "Uninstall plugin"
+msgstr "Deinstalliere Plugin"
+
+#: ../admin/settings.php:351
+msgid ""
+"You are about to Uninstall this plugin from WordPress.\\n"
+"This action is not reversible.\\n"
+"\\n"
+"Choose [Cancel] to Stop, [OK] to Uninstall.\\n"
+msgstr ""
+"Soll das Plugin deinstalliert werden ?.\\n"
+"Dieser Vorgang ist irreversibel.\\n"
+"\\n"
+"Wähle [Abbrechen] oder [OK] für die Deinstallation.\\n"
+
+#: ../lib/shortcodes.php:171
+msgid "[MEDIA not found]"
+msgstr "[MEDIA nicht gefunden]"
+
+#: ../lib/shortcodes.php:195
+msgid "[PLAYLIST not found]"
+msgstr "[PLAYLIST nicht gefunden]"
+
+#: ../lib/widget.php:77
 msgid "Title:"
 msgstr "Titel:"
 
-#: ../wordtube.php:554
+#: ../lib/widget.php:80
 msgid "Select Media:"
 msgstr "Wähle Mediadatei aus:"
 
-#: ../wordtube.php:558
-#: ../javascript/wordtube-tinymce.php:92
-#: ../tinymce/window.php:93
+#: ../lib/widget.php:84
+#: ../tinymce/window.php:113
 msgid "Last media"
 msgstr "Zuletzt hinzugefügt"
 
-#: ../wordtube.php:561
-#: ../javascript/wordtube-tinymce.php:93
-#: ../tinymce/window.php:94
+#: ../lib/widget.php:87
+#: ../tinymce/window.php:114
 msgid "Random media"
 msgstr "Zufälliges Mediadatei"
 
-#: ../wordtube.php:572
+#: ../lib/widget.php:98
 msgid "Width (0 for media default):"
 msgstr "Breite (0 für Default)"
 
-#: ../wordtube.php:574
+#: ../lib/widget.php:100
 msgid "Height (0 for media default):"
 msgstr "Höhe (0 für Default)"
 
-#: ../javascript/wordtube-tinymce.php:78
-#: ../tinymce/window.php:79
+#: ../tinymce/window.php:16
+msgid "You are not allowed to be here"
+msgstr "Ups, kein Zugriff...sorry"
+
+#: ../tinymce/window.php:99
 msgid "Media"
 msgstr "Media"
 
-#: ../javascript/wordtube-tinymce.php:91
-#: ../tinymce/window.php:92
+#: ../tinymce/window.php:112
 msgid "No file"
 msgstr "Keine Datei"
 
-#: ../javascript/wordtube-tinymce.php:113
-#: ../tinymce/window.php:114
-msgid "Select playlist"
-msgstr "Wähle Playliste aus"
+#: ../tinymce/window.php:126
+#: ../tinymce/window.php:154
+msgid "Width x Height"
+msgstr "Breite x Höhe"
 
-#: ../javascript/wordtube-tinymce.php:137
-#: ../tinymce/window.php:138
+#: ../tinymce/window.php:128
+msgid "(0 = default value )"
+msgstr "(0 = Default Wert)"
+
+#: ../tinymce/window.php:140
+msgid "Select playlist"
+msgstr "Wähle eine Playliste aus"
+
+#: ../tinymce/window.php:168
 msgid "Insert"
 msgstr "Einfügen"
+
+#~ msgid "Click to edit..."
+#~ msgstr "Klicken zum ändern"
+#~ msgid "Media Center"
+#~ msgstr "Media Center"
+#~ msgid "Default player size (Width x Heigth)"
+#~ msgstr "Playergröße (Breite x Höhe)"
+#~ msgid "Note on heigth : 20 pixel are used for the player itself"
+#~ msgstr ""
+#~ "Hinweis : Zur Videohöhe muss immer 20 Pixel für den Player gerechnet "
+#~ "werden."
+#~ msgid "Media file size (Width x Heigth)"
+#~ msgstr "Mediagröße (Breite x Höhe)"
+#~ msgid "Search term"
+#~ msgstr "Suchbegriff"
+#~ msgid "File type"
+#~ msgstr "Dateityp"
+#~ msgid "Most viewed"
+#~ msgstr "Meist gesehen"
+#~ msgid "wordTube Option"
+#~ msgstr "wordTube Einstellungen"
+#~ msgid "XHTML valid"
+#~ msgstr "XHTML Valid"
+#~ msgid "Use in Excerpt"
+#~ msgstr "Zeige im Auzzug"
+#~ msgid "Render media in excerpt if checked, replace tag with blank if not."
+#~ msgstr "Zeigt das Video oder entfernt das Stichwort"
+#~ msgid "Over stretch"
+#~ msgstr "Video maximieren"
+#~ msgid "true"
+#~ msgstr "True"
+#~ msgid "false"
+#~ msgstr "False"
+#~ msgid "fit"
+#~ msgstr "Einpassen"
+#~ msgid "Over stretch the image/video to fill the entire display."
+#~ msgstr "Maximiere das Bild/Video um den ganzen Player zufüllen."
+#~ msgid "Show digits"
+#~ msgstr "Anzeigedauer"
+#~ msgid ""
+#~ "Show the digits for loaded, elapsed and remaining time in the Flash "
+#~ "player."
+#~ msgstr "Zeige die Ladezeit, Restlaufzeit und Länge an"
+#~ msgid ""
+#~ "Show the fullscreen button. Note : Javascript objects (i.e Lightbox) are "
+#~ "not always on the top."
+#~ msgstr ""
+#~ "Zeige Vollbildmodus. Hinweis : Javascript Element (z.B. Lightbox) können "
+#~ "dann nicht oberhalb angezeigt werden."
+#~ msgid "Texts / buttons color of the Flash player (default 000000)."
+#~ msgstr "Text / Schalterfarbe (Default 000000)"
+#~ msgid "Rollover/ active color of the Flash player (default 000000)."
+#~ msgstr "Rollover / Aktive Farbe (Default 000000)"
+#~ msgid "Activate the internal view counter for each media file."
+#~ msgstr "Aktiviere den interen Zugriffszähler für die Mediadateien"
+#~ msgid "Default"
+#~ msgstr "Default"
+#~ msgid "Equalizer"
+#~ msgstr "Equalizer"
+#~ msgid "Minimum"
+#~ msgstr "Minimum"
+#~ msgid ""
+#~ "Choose player aspect for mp3. Default: like videos. Equalizer: purely "
+#~ "cosmetic. Minimum: only control bar."
+#~ msgstr ""
+#~ "Darstellung bei MP3 Musik. Default : Wie bei Videos. Equalizer : Nur Show "
+#~ "oder Minimum : Zeigt nur Steuerlemenete"
+#~ msgid "Start icon"
+#~ msgstr "Starticon"
+#~ msgid ""
+#~ "Show or hide the play and activity icons in the middle of the display. "
+#~ "Defaults to true for the players and false for the rotator. If set to "
+#~ "false, the overlaid controlbar will also hide with the players."
+#~ msgstr "Zeigt Play/Stop Button im Bild."
+#~ msgid "Show controls"
+#~ msgstr "Zeige Buttons"
+#~ msgid ""
+#~ "If checked, will display control bar under view screen. Otherwise, "
+#~ "controls will appear on mouseover."
+#~ msgstr "Anzeige der Steuerelemente unterhalb des Bildes"
+#~ msgid "Activate autoscroll"
+#~ msgstr "Aktiviere Scrollen"
+#~ msgid "Let the playlist automatically scroll, based upon the mouse cursor."
+#~ msgstr "Den automatischen Bildlauf in der Playliste aktivieren"
+#~ msgid "Show thumbnail"
+#~ msgstr "Zeige Thumbnails"
+#~ msgid "Show a thumbnail in the playlist."
+#~ msgstr "Zeigt Vorschaubilder in der Playliste"
+#~ msgid ""
+#~ "Define height of the playlist, should be larger the 20. (0 = Show no "
+#~ "playlist)"
+#~ msgstr ""
+#~ "Höhe der Playliste bestimmen. Sie sollte größer 20 Pixel sein. (0 = Keine "
+#~ "Playliste)"
+#~ msgid "Playlist on right side"
+#~ msgstr "Playlist auf der rechten Seite"
+#~ msgid "Playlist width"
+#~ msgstr "Playlist Breite"
+#~ msgid "Define width of the playlist."
+#~ msgstr "Bestimme die Breite der Playlist"
 

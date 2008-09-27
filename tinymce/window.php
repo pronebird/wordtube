@@ -7,20 +7,18 @@
 +   required for wordtube and WordPress 2.5
 +----------------------------------------------------------------+
 */
-$wpconfig = realpath("../../../../wp-config.php");
 
-if (!file_exists($wpconfig))  {
-	echo "Could not found wp-config.php. Error in path :\n\n".$wpconfig ;	
-	die;	
-}// stop when wp-config is not there
-
-require_once($wpconfig);
-require_once(ABSPATH.'/wp-admin/admin.php');
+// look up for the path
+require_once( dirname( dirname(__FILE__) ) .'/wordtube-config.php');
 
 // check for rights
-if(!current_user_can('edit_posts')) die;
+if ( !is_user_logged_in() || !current_user_can('edit_posts') ) 
+	wp_die(__("You are not allowed to be here"));
 
 global $wpdb;
+
+// get the options
+$options = get_option('wordtube_options');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -46,15 +44,37 @@ global $wpdb;
 		// who is active ?
 		if (media.className.indexOf('current') != -1) {
 			var mediaid = document.getElementById('mediatag').value;
+			var mediaWidth = document.getElementById('mediaWidth').value;
+			var mediaHeight = document.getElementById('mediaHeight').value;
+			var new_width = "";
+			var new_height = "";
+			
+			if (mediaWidth != 0 )
+				new_width = " width=" + mediaWidth;
+
+			if (mediaHeight != 0 )
+				new_height = " height=" + mediaHeight;
+			
 			if (mediaid != 0 )
-				tagtext = "[MEDIA=" + mediaid + "]";
+				tagtext = "[media id=" + mediaid + new_width + new_height + "]";
 			else
 				tinyMCEPopup.close();
 		}
 	
 		if (playlist.className.indexOf('current') != -1) {
 			var playlistid = document.getElementById('playlist').value;
-			tagtext = "[MYPLAYLIST=" + playlistid + "]";
+			var plyWidth = document.getElementById('plyWidth').value;
+			var plyHeight = document.getElementById('plyHeight').value;
+			var new_width = "";
+			var new_height = "";
+			
+			if (plyWidth != 0 )
+				new_width = " width=" + plyWidth;
+
+			if (plyHeight != 0 )
+				new_height = " height=" + plyHeight;
+			
+			tagtext = "[playlist id=" + playlistid + new_width + new_height + "]";
 		}
 		
 		if(window.tinyMCE) {
@@ -88,7 +108,7 @@ global $wpdb;
 		<table border="0" cellpadding="4" cellspacing="0">
          <tr>
             <td nowrap="nowrap"><label for="mediatag"><?php _e("Select media file", 'wpTube'); ?></label></td>
-            <td><select id="mediatag" name="mediatag" style="width: 200px">
+            <td><select id="mediatag" name="mediatag" style="width: 190px">
                 <option value="0"><?php _e("No file", 'wpTube'); ?></option>
                 <option value="last"><?php _e("Last media", 'wpTube'); ?></option>
                 <option value="random"><?php _e("Random media", 'wpTube'); ?></option>
@@ -102,6 +122,12 @@ global $wpdb;
 				?>	
             </select></td>
           </tr>
+          <tr>
+            <td nowrap="nowrap"><?php _e("Width x Height", 'nggallery'); ?></td>
+            <td>
+				<input type="text" size="5" id="mediaWidth" name="mediaWidth" value="<?php echo $options['media_width']; ?>" /> x <input type="text" size="5" id="mediaHeight" name="mediaHeight" value="<?php echo $options['media_height']; ?>" /><br /> <?php _e("(0 = default value )", 'wpTube'); ?>
+			</td>
+          </tr>
         </table>
 		</div>
 		<!-- media panel -->
@@ -112,7 +138,7 @@ global $wpdb;
 		<table border="0" cellpadding="4" cellspacing="0">
          <tr>
             <td nowrap="nowrap"><label for="playlist"><?php _e("Select playlist", 'wpTube'); ?></label></td>
-            <td><select id="playlist" name="playlist" style="width: 200px">
+            <td><select id="playlist" name="playlist" style="width: 190px">
                 <option value="0"><?php _e("All files", 'wpTube'); ?></option>
 				<?php
 					$tables = $wpdb->get_results("SELECT * FROM $wpdb->wordtube_playlist ORDER BY pid DESC ");
@@ -123,6 +149,10 @@ global $wpdb;
 					}
 				?>		
             </select></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap"><?php _e("Width x Height", 'nggallery'); ?></td>
+            <td><input type="text" size="5" id="plyWidth" name="plyWidth" value="<?php echo $options['width']; ?>" /> x <input type="text" size="5" id="plyHeight" name="plyHeight" value="<?php echo $options['height']; ?>" /></td>
           </tr>
         </table>
 		</div>

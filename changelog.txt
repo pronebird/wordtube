@@ -1,3 +1,30 @@
+V2.00 / 27.09.2008
+- Added JW Media Player 4.1 support
+- Added WordPress Shortcode support. 
+  Shortcodes changed from [MEDIA=X]/[MYPLAYLIST=X] to [media id=x]/[playlist id=x]
+- Added LongTail Ads support
+- Updated to swfobject 2.1
+- Rework of all classes
+- Remove all pre 4.0 Flash vars and conditions
+- Remove all pre WP 2.6 dependencies
+- Remove media player content in the_excerp()
+- Remove MP3 layout, statistic, color settings. This will be return in 4.1 as new plugin later on. Stay tuned.
+
+V1.61 (will not released) 
+Additions by Alakhnor:
+- This version has two major enhancements: tag management and youtube support. 
+- Tags can be added to each media. They use the standard WP term table. 
+- A tag list edit screen is available to ease input. 
+- Related media can be displayed. They can be related to a post or another media. 
+- An option has been added to display related media in the end screen of each media (requires mediaplayer v3.15 or above). 
+- Youtube support has been added. From version 3.16, mediaplayer supports Youtube links. 
+  If Youtube checkbox is checked when adding a new media in the media center, informations (title, author, image and tags) 
+  will be retrieved from Youtube.com. 
+- Insert button is now in the new "Add media" toolbar for WordPress 2.5. 
+- A display mask can be set in option. upload directory is now manage like WordPress? (with year/month). 
+- Fix excerpt. some options didn't work in some cases. 
+- Add wordtube.jpg (default image) to prevent some hidden 404 message (didn't have any other impact). 
+
 V1.60 / 16.03.2008
 Additions by Alakhnor:
 - complete rewrite into a class
