@@ -9,9 +9,9 @@ wordTube is your Media Center plugin for WordPress.
 
 == Description ==
 
-The wordTube Plugin creates your personal "YouTube" in wordpress.
-Together with the fantastic Flash Media Player from Jeroen Wijering you
-are able to show very easy your streaming videos.
+This plugin manages the JW FLV MEDIA PLAYER 4.1 and makes it easy for 
+you to put music, videos or flash movies onto your WordPress posts and pages. 
+Various skins for the JW PLAYER are available via www.jeroenwijering.com 
 
 wordTube supports the streaming video format (Format .flv or .swf), 
 sound files as MP3 and JPG, GIF or PNG grafic files. 
