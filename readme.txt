@@ -16,7 +16,11 @@ Various skins for the JW PLAYER are available via www.jeroenwijering.com
 wordTube supports the streaming video format (Format .flv or .swf), 
 sound files as MP3 and JPG, GIF or PNG grafic files. 
 With wordTube you can simply insert it into your blog with the 
-tag [media id=<media id>] or as playlist [playlist id=<playlist id>].
+tag [media id="media id"] or as playlist [playlist id="playlist id"].
+
+Since Version 2.0 it supports LongTail's AdSolution which allows you 
+to run pre-roll, overlay mid-roll, and post-roll advertisements in your media player.
+Have a look at http://www.longtailvideo.com/adsolution.html
 
 You don't need to change the WYSIWYG mode or special HTML knowledge 
 to insert such a tag. You can show a simple media file (i.e. a flv Format) 
@@ -59,7 +63,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 6.	Optional you can upload a image to show a preview of the video/mp3 file
 
-7. 	Go to your post and enter tag [media id=<media id>] or [playlist id=<playlist id>].
+7. 	Go to your post and enter tag [media id="media id"] or [playlist id="playlist id"].
 
 That's it ... Have fun
 
@@ -81,8 +85,8 @@ That's it ... Have fun
 
 4.	Insert media or playlist using editor button: on the edit post screen, click on the wordTube button then select the element to insert.
 
-5.	Manual insert of media: type in [media id=<media id>] wherever you want to display the media. Example: [media id=1]
+5.	Manual insert of media: type in [media id="media id"] wherever you want to display the media. Example: [media id=1]
 
-6.	Manual insert of playlist: type in [playlist id=<playlist id>] wherever you want to display the playlist. Example: [playlist id=1]
+6.	Manual insert of playlist: type in [playlist id="playlist id"] wherever you want to display the playlist. Example: [playlist id=1]
 
 7. 	Playlist order: to gain control over playlist order, go to admin panel -> Manage -> Media Center. Select the playlist you want to order in the dropdown menu of the filter part of the screen. Click on order field for each media to choose order, enter to save.
