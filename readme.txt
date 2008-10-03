@@ -4,6 +4,7 @@ Donate link: http://alexrabe.boelinger.com/?page_id=20
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.6
 Tested up to: 2.6.2
+Stable tag: trunk
 
 wordTube is your Media Center plugin for WordPress.
 
@@ -20,7 +21,7 @@ tag [media id="media id"] or as playlist [playlist id="playlist id"].
 
 Since Version 2.0 it supports LongTail's AdSolution which allows you 
 to run pre-roll, overlay mid-roll, and post-roll advertisements in your media player.
-Have a look at http://www.longtailvideo.com/adsolution.html
+[Click here to sign up for LongTail](http://www.longtailvideo.com/referral.aspx?page=landingpage&ref=grwihxmxxldugmq "LongTail Adsolution")
 
 You don't need to change the WYSIWYG mode or special HTML knowledge 
 to insert such a tag. You can show a simple media file (i.e. a flv Format) 
