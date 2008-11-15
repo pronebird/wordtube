@@ -3,7 +3,7 @@ Contributors: Alex Rabe, Alakhnor
 Donate link: http://alexrabe.boelinger.com/?page_id=20
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.6
-Tested up to: 2.6.2
+Tested up to: 2.6.3
 Stable tag: trunk
 
 wordTube is your Media Center plugin for WordPress.
