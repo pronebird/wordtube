@@ -19,6 +19,7 @@ class wordTubeClass {
 	var $addLongTail = false;
 	var $enableAds = false;
 	var $swfobject;
+	var $media;
 
 	/**
 	 * wordTubeClass::wordTubeClass()
@@ -64,29 +65,30 @@ class wordTubeClass {
 		// get some default values
 		$width  = ( $width  == 0 ) ? $this->options['media_width'] : $width;
 		$height = ( $height == 0 ) ? $this->options['media_height'] : $height;
+		$this->media = $media;
 		
-		if (!is_object($media) )
-			$media = $this->GetVidByID( intval($id) );
-
+		if (!is_object($this->media) )
+			$this->media = $this->GetVidByID( intval($id) );
+		
 		// remove the code in a feed
 		if ( is_feed() ) {
 			$out = ''; 
 			// remove media file from RSS feed
 			if ( !empty($image) ) 
-				$out .= '<br /><img src="'.$image.'" alt="media" /><br />'."\n";
+				$out .= '<br /><img src="' . $image . '" alt="media" /><br />'."\n";
 			// returns custom message for RSS feeds
 			if ( $this->options['activaterss'] ) 
-				$out .= "[".$this->options['rssmessage']."]";
+				$out .= "[" . $this->options['rssmessage'] . "]";
 			return $out;
 		}
 		
 		// no ads in the admin section
 		//TODO: disable ads for the overview page
 		if ( is_single() || is_page() )
-			$this->enableAds = ( $this->options['activateAds'] && !is_admin() && ($media->disableads == 0) ) ? true : false ;
+			$this->enableAds = ( $this->options['activateAds'] && !is_admin() && ($this->media->disableads == 0) ) ? true : false ;
 		
 		if ( empty($url) )
-			$url = $media->file;
+			$url = $this->media->file;
 		
 		// Builds object
 		$this->swfobject = new swfobject( WORDTUBE_URLPATH . $this->player, 'WT'.$this->counter, $width, $height, '9.0.0', 'false');	
@@ -96,12 +98,14 @@ class wordTubeClass {
 		$this->ReturnLocation( $url );
 		$this->globalFlashVars();
 		$this->swfobject->add_flashvars( 'image', rawurlencode($image) );
-		$this->swfobject->add_flashvars( 'title', rawurlencode($media->name) );
+		$this->swfobject->add_flashvars( 'title', rawurlencode($this->media->name) );
 		$this->swfobject->add_flashvars( 'linktarget', '_self' );
 		$this->swfobject->add_flashvars( 'autostart', $autostart, 'false', 'bool');
-
+		$this->swfobject->add_attributes( 'id', 'WT'.$this->counter);
+		$this->swfobject->add_attributes( 'name', 'WT'.$this->counter);
+		
 		// Build the output
-        $out  = $this->ScriptHeader( $id, 'single', $media );
+    	$out  = $this->ScriptHeader( $id, 'single' );
 		$out .= $this->ScriptFooter( $id, 'single' );
 
 		return $out;
@@ -142,9 +146,11 @@ class wordTubeClass {
 		// apply the parameters
 		$this->globalFlashVars();
 		$this->PlaylistVariables();
+		$this->swfobject->add_attributes( 'id', 'WT'.$this->counter);
+		$this->swfobject->add_attributes( 'name', 'WT'.$this->counter);		
 		
 		// Build the output
-		$out  = $this->ScriptHeader($video_id, 'playlist');
+		$out  = $this->ScriptHeader( $id, 'playlist');
 		$out .= $this->ScriptFooter( $id, 'playlist' );
 
 		return $out;
@@ -158,16 +164,22 @@ class wordTubeClass {
 	 * @param mixed $id
 	 * @return string $filename
 	 */
-	function ReturnLocation($file) {
-		// in the case it's a streamer 
-		// we look for rtmp://streaming-server/?id=filename
+	function ReturnLocation( $file ) {
+		// in the case it's a streamer we look for rtmp://streaming-server/?id=filename
+		// for wowza we also need to look for : 
+		// rtmp://[server-ip-address]/simplevideostreaming/?id=mp4:myvideos/Extremists.m4v
 		if (substr($file, 0, 4) == 'rtmp') {
-			$p = pathinfo($file);
-			$id = substr( $p['basename'], strrpos( strtolower( $p['basename'] ) , '=') + 1);
-			$this->swfobject->add_flashvars( 'streamer', rawurlencode( $p['dirname'] ));
-			$this->swfobject->add_flashvars( 'file', rawurlencode( $id ) );
-		} else
+			preg_match('/^(.+)\?id=(.+)/', $file, $match);
+			if (!empty ($match)) {		
+				$this->swfobject->add_flashvars( 'streamer', rawurlencode( $match[1] ));
+				$this->swfobject->add_flashvars( 'file', rawurlencode( $match[2] ) );
+			} else
+				$this->swfobject->add_flashvars( 'file', rawurlencode( $file ) );
+		} else {
 			$this->swfobject->add_flashvars( 'file', rawurlencode( $file ) );
+			if ( $this->enableAds )
+				$this->swfobject->add_flashvars( '\'ltas.mediaid\'', rawurlencode( $file ) );
+		}
 
 		return;
 	}
@@ -187,7 +199,7 @@ class wordTubeClass {
 		$this->swfobject->classname = 'wordtube '. $playmode . $id;
 
 		// Get display div
-		$out  = $this->swfobject->output();
+		$out  = '<div class="wordtube">' . $this->swfobject->output() . '</div>';
 
 		// Add the Longtail Scritp to the footer and wrap a div around
 		if ( $this->enableAds && $playmode == 'single' && !is_admin() ) {
@@ -255,7 +267,6 @@ class wordTubeClass {
 	 */
 	function GlobalFlashVars() {
 		
-		$this->swfobject->add_flashvars( 'repeat', $this->options['repeat'], 'false', 'bool');
 		$this->swfobject->add_flashvars( 'volume', $this->options['volume'], 90);
 		$this->swfobject->add_flashvars( 'bufferlength', $this->options['bufferlength'], 1);
 
@@ -281,6 +292,8 @@ class wordTubeClass {
 		if ( $this->enableAds ) {
 			$this->swfobject->add_flashvars( 'channel', $this->options['LTchannelID'], '');
 			$this->swfobject->add_flashvars( 'plugins', 'ltas');
+			$this->swfobject->add_flashvars( 'title', rawurlencode($this->media->name));
+			$this->swfobject->add_flashvars( 'description', rawurlencode($this->media->description));
 		}	
 		
 		return;	
@@ -371,8 +384,6 @@ class wordTubeClass {
 	function integrate_js() {
 	
 			wp_enqueue_script('swfobject', WORDTUBE_URLPATH.'javascript/swfobject.js', false, '2.1');
-			// Currently not needed, statistic callback via JS come back later
-			// wp_enqueue_script('wordtube', WORDTUBE_URLPATH.'javascript/wordtube.js', array('swfobject'), '1.5');
 	
 	}
 

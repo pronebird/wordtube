@@ -1,4 +1,11 @@
-V2.00 / 27.09.2008
+v2.0.1 / 19.11.2008
+- Added JW Media Player 4.2
+- Added attribute name to the object
+- Added description flashvar (For LongTail)
+- Added title flashvar (For LongTail)
+- Bugfix for streaming server (like wowza)
+
+V2.0.0 / 27.09.2008
 - Added JW Media Player 4.1 support
 - Added WordPress Shortcode support. 
   Shortcodes changed from [MEDIA=X]/[MYPLAYLIST=X] to [media id=x]/[playlist id=x]
