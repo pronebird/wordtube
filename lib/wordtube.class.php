@@ -267,6 +267,7 @@ class wordTubeClass {
 	 */
 	function GlobalFlashVars() {
 		
+		$this->swfobject->add_flashvars( 'repeat', $this->options['repeat'], 'none');
 		$this->swfobject->add_flashvars( 'volume', $this->options['volume'], 90);
 		$this->swfobject->add_flashvars( 'bufferlength', $this->options['bufferlength'], 1);
 
@@ -384,7 +385,10 @@ class wordTubeClass {
 	function integrate_js() {
 	
 			wp_enqueue_script('swfobject', WORDTUBE_URLPATH.'javascript/swfobject.js', false, '2.1');
-	
+			wp_enqueue_script('wordtube_stats', WORDTUBE_URLPATH.'javascript/statistic.js', array('jquery'), '0.1');			
+			wp_localize_script('wordtube_stats', 'wordtube', array(
+						'ajaxurl' => __( WORDTUBE_URLPATH . 'lib/statistic.php')			
+			) );
 	}
 
 } // end wordTube class

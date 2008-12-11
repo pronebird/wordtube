@@ -112,7 +112,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 						</td>
 					</tr>
 				</table>
-			<div class="submit"><input type="submit" name="updateoption" value="<?php _e('Update') ;?> &raquo;"/></div>
+			<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Update') ;?>"/></div>
 			</form>	
 		</div>	
 		
@@ -128,8 +128,14 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 				<table class="form-table">
 					<tr>
 						<th><?php _e('Repeat','wpTube') ?></th>
-						<td><input name="repeat" type="checkbox" value="1" <?php checked(true , $wt_options['repeat']); ?> />
-						    <?php _e('Automatically repeat playing when a file is completed.','wpTube') ?></td>
+						<td>
+						<select size="1" name="repeat">
+							<option value="none" <?php selected("none" , $wt_options['repeat']); ?> ><?php _e('none', 'wpTube') ;?></option>
+							<option value="list" <?php selected("list" , $wt_options['repeat']); ?> ><?php _e('list', 'wpTube') ;?></option>
+							<option value="always" <?php selected("always" , $wt_options['repeat']); ?> ><?php _e('always', 'wpTube') ;?></option>
+						</select>
+						<br />
+						<?php _e('Controls repeating. Can be none (always one item at a time), list (continuous play through a playlist, but no repetition), or always (infinitely repeats all media and playlists).','wpTube') ?></td>
 					</tr>
 					<tr>
 						<th><?php _e('Resize images','wpTube') ?></th>
@@ -189,7 +195,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 						<?php _e('If checked, first media in a single post will automatically start.','wpTube') ?></td>
 					</tr>
 				</table>
-			<div class="submit"><input type="submit" name="updateoption" value="<?php _e('Update') ;?> &raquo;"/></div>
+			<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Update') ;?>"/></div>
 			</form>	
 		</div>
 		
@@ -237,7 +243,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 					</tr>
 					</table>
 
-			<div class="submit"><input type="submit" name="updateoption" value="<?php _e('Update') ;?> &raquo;"/></div>
+			<div class="submit"><input type="submit" class="button-primary" name="updateoption" value="<?php _e('Update') ;?>"/></div>
 			</form>	
 		</div>
 
@@ -298,7 +304,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 						</tr>
 					</table>
 
-			<div class="submit"><input type="submit" name="updateoption" value="<?php _e('Update') ;?> &raquo;"/></div>
+			<div class="submit"><input type="submit" class="button-primary" name="updateoption" value="<?php _e('Update') ;?>"/></div>
 			
 			</form>	
 		</div>
@@ -329,7 +335,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 						</td>
 					</tr>
 				</table>
-			<div class="submit"><input type="submit" name="updateoption" value="<?php _e('Update') ;?> &raquo;"/></div>
+			<div class="submit"><input type="submit" class="button-primary" name="updateoption" value="<?php _e('Update') ;?>"/></div>
 			</form>	
 		</div>
 		
@@ -340,7 +346,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 		<?php wp_nonce_field('wt_settings') ?>
 			<h2><?php _e('Setup','wpTube'); ?></h2>
 			<p><?php _e('You can reset all options/settings to the default installation.', 'wpTube') ;?></p>
-			<div align="center"><input type="submit" class="button" name="resetdefault" value="<?php _e('Reset settings', 'wpTube') ;?>" onclick="javascript:check=confirm('<?php _e('Reset all options to default settings ?\n\nChoose [Cancel] to Stop, [OK] to proceed.\n','wpTube'); ?>');if(check==false) return false;" /></div>
+			<div align="center"><input type="submit" class="button-secondary" name="resetdefault" value="<?php _e('Reset settings', 'wpTube') ;?>" onclick="javascript:check=confirm('<?php _e('Reset all options to default settings ?\n\nChoose [Cancel] to Stop, [OK] to proceed.\n','wpTube'); ?>');if(check==false) return false;" /></div>
 			<div>
 				<p><?php _e('You don\'t like wordTube ?', 'wpTube') ;?></p>
 				<p><?php _e('No problem, before you deactivate this plugin press the Uninstall Button, because deactivating wordTube does not remove any data that may have been created. ', 'wpTube') ;?>
@@ -348,7 +354,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 			<p><font color="red"><strong><?php _e('WARNING:', 'wpTube') ;?></strong><br />
 			<?php _e('Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to backup all the tables first.', 'wpTube') ;?></font></p>
 			<div align="center">
-				<input type="submit" name="uninstall" class="button delete" value="<?php _e('Uninstall plugin', 'wpTube') ?>" onclick="javascript:check=confirm('<?php _e('You are about to Uninstall this plugin from WordPress.\nThis action is not reversible.\n\nChoose [Cancel] to Stop, [OK] to Uninstall.\n','wpTube'); ?>');if(check==false) return false;"/>
+				<input type="submit" name="uninstall" class="button-secondary delete" value="<?php _e('Uninstall plugin', 'wpTube') ?>" onclick="javascript:check=confirm('<?php _e('You are about to Uninstall this plugin from WordPress.\nThis action is not reversible.\n\nChoose [Cancel] to Stop, [OK] to Uninstall.\n','wpTube'); ?>');if(check==false) return false;"/>
 			</div>
 		</form>
 		</div>

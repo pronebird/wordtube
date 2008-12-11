@@ -2,9 +2,9 @@
 /*
 Plugin Name: wordTube
 Plugin URI: http://alexrabe.boelinger.com/?page_id=20
-Description: This plugin manages the JW FLV MEDIA PLAYER 4.1 and makes it easy for you to put music, videos or flash movies onto your WordPress posts and pages. Various skins for the JW PLAYER are available via www.jeroenwijering.com
+Description: This plugin manages the JW FLV MEDIA PLAYER 4.2 and makes it easy for you to put music, videos or flash movies onto your WordPress posts and pages. Various skins for the JW PLAYER are available via www.jeroenwijering.com
 Author: Alex Rabe & Alakhnor
-Version: 2.0.1
+Version: 2.1.0
 Author URI: http://alexrabe.boelinger.com/
 
 Copyright 2006-2008 Alex Rabe , Alakhnor
@@ -30,21 +30,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 global $wp_version;
 
 // The current version
-define('WORDTUBE_VERSION', '2.0.1');
+define('WORDTUBE_VERSION', '2.1.0');
 
-// Check for WP2.6 installation
-if (!defined ('IS_WP26'))
-	define('IS_WP26', version_compare($wp_version, '2.6', '>=') );
+// Check for WP2.7 installation
+if (!defined ('IS_WP27'))
+	define('IS_WP27', version_compare($wp_version, '2.7-Beta', '>=') );
 
-//This works only in WP2.6 or higher
-if ( IS_WP26 == FALSE) {
-	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, wordTube works only under WordPress 2.6 or higher',"wpTube") . '</strong></p></div>\';'));
+//This works only in WP2.7 or higher
+if ( IS_WP27 == FALSE) {
+	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, wordTube works only under WordPress 2.7 or higher',"wpTube") . '</strong></p></div>\';'));
 	return;
 }
 
 // define URL
-define('WORDTUBE_ABSPATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-define('WORDTUBE_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
+define('WORDTUBE_ABSPATH', WP_PLUGIN_DIR . '/' . plugin_basename( dirname(__FILE__) ).'/' );
+define('WORDTUBE_URLPATH', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ).'/' );
 define('WORDTUBE_TAXONOMY', 'wt_tag');
 
 // make no sense if the player didn't exist

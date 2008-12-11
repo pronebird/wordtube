@@ -107,7 +107,7 @@ class swfobject {
 		// count up if we have more than one swfobject
 		$swfCounter++;
 		
-		$out  = "\n" . '<div class="'. $this->classname .'" id="'. $this->id  .'" style="width:'.$this->width .'px; height:'. $this->height .'px;">';
+		$out  = "\n" . '<div class="'. $this->classname .'" id="'. $this->id  .'" name="'. $this->id .'" style="width:'.$this->width .'px; height:'. $this->height .'px;">';
 		$out .= "\n" . $this->message;
 		$out .= "\n" . '</div>';
 		
@@ -172,7 +172,7 @@ class swfobject {
 		// do not add the variable if we hit the default setting 	
 		if ( $value == $default )	
 			return;
-			
+		
 		$this->attributes[$key] = $prefix . $value;
 		return;
 	}
@@ -192,4 +192,6 @@ class swfobject {
 	
 }
 endif;
+
+
 ?>

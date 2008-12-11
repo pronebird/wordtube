@@ -145,7 +145,7 @@ class wordTubeManage extends wordTubeAdmin  {
 
 		// check for page navigation
 		$page     = ( isset($_REQUEST['apage']))    ? (int) $_REQUEST['apage'] : 1;
-		$sort     = ( isset($_REQUEST['sort']))     ? $_REQUEST['sort'] :'ASC';
+		$sort     = ( isset($_REQUEST['sort']))     ? $_REQUEST['sort'] :'DESC';
 		$search   = ( isset($_REQUEST['search']))   ? $_REQUEST['search'] : '';
 		$filter   = ( isset($_REQUEST['filter']))   ? $_REQUEST['filter'] : 'any';
 		$plfilter = ( isset($_REQUEST['plfilter'])) ? $_REQUEST['plfilter'] :'0';
@@ -202,36 +202,35 @@ class wordTubeManage extends wordTubeAdmin  {
 	<div class="wrap">
 		<form name="filterType" method="post" id="posts-filter">
 			<h2><?php _e('Manage Media files','wpTube'); ?></h2>
-			<p id="post-search">
-				<input type="text" name="search" value="<?php echo $search; ?>" size="10" />
-				<input type="submit" class="button" value="<?php _e('Search Media','wpTube'); ?>" />
+			<ul class="subsubsub">
+				<li>&nbsp;</li>
+			</ul>
+			<p class="search-box">
+				<input type="text" class="search-input" name="search" value="<?php echo $search; ?>" size="10" />
+				<input type="submit" class="button-primary" value="<?php _e('Search Media','wpTube'); ?>" />
+				<input type="hidden" name="cancel" value="2"/>
 			</p>
-			<input type="hidden" name="cancel" value="2"/>
 			<div class="tablenav">
 				<?php $this->navigation($this->PerPage, $page, $total, $search, $sort, $filter, $plfilter); ?>
-				<div class="alignleft">
+				<div class="alignleft actions">
 					<?php $this->sort_filter($sort); ?>
 					<?php $this->type_filter($filter); ?>
 					<?php $this->playlist_filter($plfilter); ?>
 					<input class="button-secondary" id="post-query-submit" type="submit" name="startfilter"  value="<?php _e('Filter','wpTube'); ?> &raquo;" class="button" />
 				</div>
-				<br class="clear"/>
 			</div>
-			<br class="clear"/>
-		
 			<!-- Table -->
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th scope="col"><?php _e('ID','wpTube'); ?></th>
-						<th scope="col"><?php _e('Title','wpTube'); ?></th>
-						<th scope="col"><?php _e('Creator','wpTube'); ?></th>					
-						<th scope="col"><?php _e('Path','wpTube'); ?></th>
-						<th scope="col"><?php _e('Views','wpTube'); ?></th>
+						<th id="id" class="manage-column column-id" scope="col"><?php _e('ID','wpTube'); ?></th>
+						<th id="title" class="manage-column column-title" scope="col"><?php _e('Title','wpTube'); ?></th>
+						<th id="author" class="manage-column column-author" scope="col"><?php _e('Creator','wpTube'); ?></th>					
+						<th id="path" class="manage-column column-path"  scope="col"><?php _e('Path','wpTube'); ?></th>
+						<th id="counter" class="manage-column column-counter"  scope="col"><?php _e('Views','wpTube'); ?></th>
 						<?php if ($pledit) { ?>
-							<th scope="col"><?php _e('Order','wpTube'); ?></th>
+							<th id="order" class="manage-column column-order"  scope="col"><?php _e('Order','wpTube'); ?></th>
 						<?php } ?>
-						<th scope="col" colspan="2"><?php _e('Action'); ?></th>
 					</tr>
 				</thead>
 				<tbody id="the-list" class="list:post">
@@ -242,14 +241,19 @@ class wordTubeManage extends wordTubeAdmin  {
 						$class = ( $class == 'class="alternate"' ) ? '' : 'class="alternate"';
 						echo "<tr $class>\n";
 						echo "<th scope=\"row\">$table->vid</th>\n";
-						echo "<td>".stripslashes($table->name)."</td>\n";
+						echo "<td class='post-title column-title''><strong><a title='" . __('Edit this media','wpTube') . "' href='$this->base_page&amp;mode=edit&amp;id=$table->vid'>" . stripslashes($table->name) . "</a></strong>\n";
+						echo "<span class='edit'>
+								<a title='" . __('Edit this media','wpTube') . "' href='$this->base_page&amp;mode=edit&amp;id=$table->vid'>" . __('Edit') . "</a>
+							  </span> | ";
+						echo "<span class='delete'>
+								<a title='" . __('Delete this media','wpTube') . "' href='$this->base_page&amp;mode=delete&amp;id=$table->vid' onclick=\"javascript:check=confirm( '".__("Delete this file ?",'wpTube')."');if(check==false) return false;\">" . __('Delete') . "</a>
+							  </span>";
+						echo "</td>\n";
 						echo "<td>".stripslashes($table->creator)."</td>\n";
 						echo "<td>".htmlspecialchars(stripslashes($table->file), ENT_QUOTES)."</td>\n";
 						echo "<td style='text-align: center'>$table->counter</td>\n";
 						if ($pledit)
 							echo "<td><div class='wtedit' id='p_".$plfilter.'_'.$table->vid."'>".$table->porder."</div></td>\n";
-						echo "<td><a href=\"$this->base_page&amp;mode=edit&amp;id=$table->vid\" class=\"edit\">".__('Edit')."</a></td>\n";
-						echo "<td><a href=\"$this->base_page&amp;mode=delete&amp;id=$table->vid\" class=\"delete\" onclick=\"javascript:check=confirm( '".__("Delete this file ?",'wpTube')."');if(check==false) return false;\">".__('Delete')."</a></td>\n";
 						echo '</tr>';
 						$i++;
 					}
@@ -261,13 +265,11 @@ class wordTubeManage extends wordTubeAdmin  {
 			</table>
 		<div class="tablenav">
 			<?php $this->navigation($this->PerPage, $page, $total, $search, $sort, $filter, $plfilter); ?>
-			<br class="clear"/>
+			<div class="alignleft actions">
+				<input class="button-secondary" type="submit" value="<?php _e('Insert new media file','wpTube') ?> &raquo;" name="show_add"/>
+			</div>
+			<br class="clear"/>			
 		</div>
-		<br class="clear"/>
-		<p class="submit">
-			<input class="button" type="submit" value="<?php _e('Insert new media file','wpTube') ?> &raquo;" name="show_add"/>
-		</p>
-		<br class="clear"/>
 		</form>
 	</div>
 
@@ -298,7 +300,7 @@ class wordTubeManage extends wordTubeAdmin  {
 				}
 				?>
 			</select>
-			<input type="submit" value="<?php _e('OK','wpTube'); ?>"  />
+			<input type="submit" class="button-secondary" value="<?php _e('OK','wpTube'); ?>"  />
 		</form>
 		<div style="text-align: center;">
 			<?php echo wt_GetPlaylist($show_playlist, $this->options['width'], $this->options['height']); ?>
@@ -333,70 +335,91 @@ class wordTubeManage extends wordTubeAdmin  {
 			<h2><?php _e('Edit media file', 'wpTube') ?></h2>
 			<form name="table_options" method="post" id="video_options">
 			<div id="poststuff">
-				<div class="submitbox">
-					<div class="side-info">
-						<p><?php _e('Here you can edit the selected file. See global settings for the Flash Player under', 'wpTube') ?> <a href="options-general.php?page=wordtube-options"><?php _e('Options->wordTube', 'wpTube')?></a><br /><br />
-						<?php _e('If you want to show this media file in your page, enter the tag :', 'wpTube') ?><br /><strong>[media id=<?php echo $this->act_vid; ?>]</strong></p>
-						<h5><?php _e('Select Playlist','wpTube') ?></h5>
-						<p id="jaxcat"></p>
-						<div id="playlistchecklist"><?php get_playlist_for_dbx($this->act_vid); ?></div>
-						<h5><?php _e('Edit view counter','wpTube') ?></h5>
-						<input type="text" size="5" maxlength="5" name="act_counter" value="<?php echo $act_counter ?>" />
-						<h5><?php _e('Settings','wpTube') ?></h5>
-						<label class="selectit"><input name="autostart" type="checkbox" value="1"  <?php echo $autostart ?> /> <?php _e('Start file automatic ','wpTube') ?></label>
-						<br class="clear"/>
-						<label class="selectit"><input name="disableAds" type="checkbox" value="1"  <?php echo $disableAds ?> /> <?php _e('Disable Ads for this Media','wpTube') ?></label>
-						<br class="clear"/>
-						<p class="submit">
-							<input type="submit" name="edit_update" value="<?php _e('Update'); ?> &raquo;" class="button button-highlighted" />
-							<input type="submit" name="cancel" value="<?php _e('Cancel'); ?>" class="button" />
-						</p>
+				<div class="inner-sidebar">
+					<div id="submitdiv" class="postbox">
+						<h3 class="hndle"><span><?php _e('Settings','wpTube') ?></span></h3>
+						<div class="inside">
+							<div id="submitpost" class="submitbox">
+								<div class="misc-pub-section">
+									<p><?php _e('Here you can edit the selected file. See global settings for the Flash Player under', 'wpTube') ?> <a href="options-general.php?page=wordtube-options"><?php _e('Options->wordTube', 'wpTube')?></a><br /><br />
+									<?php _e('If you want to show this media file in your page, enter the tag :', 'wpTube') ?><br /><strong>[media id=<?php echo $this->act_vid; ?>]</strong></p>
+								</div>
+								<div class="misc-pub-section">
+									<h4><?php _e('Select Playlist','wpTube') ?></h4>
+									<p id="jaxcat"></p>
+									<div id="playlistchecklist"><?php get_playlist_for_dbx($this->act_vid); ?></div>
+								</div>
+								<div class="misc-pub-section">
+									<input class="form-input-tip" type="text" size="5" maxlength="5" name="act_counter" value="<?php echo $act_counter ?>" />
+									<?php _e('Edit view counter','wpTube') ?>
+								</div>
+								<div id="sticky-checkbox" class="misc-pub-section">
+									<label class="selectit"><input name="autostart" type="checkbox" value="1"  <?php echo $autostart ?> /> <?php _e('Start file automatic ','wpTube') ?></label>
+									<br class="clear"/>
+									<label class="selectit"><input name="disableAds" type="checkbox" value="1"  <?php echo $disableAds ?> /> <?php _e('Disable Ads for this Media','wpTube') ?></label>
+								</div>	
+								<div id="major-publishing-actions">
+									<input type="submit" class="button-primary" name="edit_update" value="<?php _e('Update'); ?>" class="button button-highlighted" />
+									<input type="submit" class="button-secondary" name="cancel" value="<?php _e('Cancel'); ?>" class="button" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="postbox">
+						<h3 class="hndle"><span><?php _e('Preview','wpTube') ?></span></h3>
+						<div class="inside">
+						<?php echo wt_GetVideo($this->act_vid, 265, $act_height); ?>
+						</div>
 					</div>
 				</div>
-				<div id="post-body">
-					<table class="form-table">
-						<tr valign="top">
-							<th scope="row"><?php _e('Media title','wpTube') ?></th>
-							<td><input type="text" size="50"  name="act_name" value="<?php echo $act_name ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
-							<td><input type="text" size="50"  name="act_creator" value="<?php echo $act_creator ?>" /></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><?php _e('Description','wpTube') ?></th>
-							<td><textarea name="act_desc" id="act_desc" rows="5" cols="50" style="width: 97%;"><?php echo $act_desc ?></textarea></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><?php _e('Media URL','wpTube') ?></th>
-							<td><input type="text" size="80"  name="act_filepath" value="<?php echo $act_filepath ?>" />
-							<br /><?php _e('Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)','wpTube') ?>
-							<br /><?php echo _e('It also accept Youtube links. Example: http://youtube.com/watch?v=O_MP_6ldeB4','wpTube') ?>
-							<br /><?php echo _e('RTMP streams must be look like : rtmp://streaming-server/path/?id=filename','wpTube') ?></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><?php _e('Thumbnail URL','wpTube') ?></th>
-							<td><input type="text" size="80"  name="act_image" value="<?php echo $act_image ?>" />
-							<br /><?php _e('Enter the URL to show a preview of the media file','wpTube') ?></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><?php _e('Link URL','wpTube') ?></th>
-							<td><input type="text" size="80" name="act_link" value="<?php echo $act_link ?>" />
-							<br /><?php _e('Enter the URL to the page/file, if you click on the player','wpTube') ?></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><?php _e('Tags','wpTube') ?></th>
-							<td><input type="text" size="80" name="act_tags" value="<?php echo $act_tags ?>" />
-							<br /><?php _e('Enter media tags','wpTube') ?></td>
-						</tr>
-					</table>
+				<div id="post-body" class="has-sidebar">
+					<div id="post-body-content" class="has-sidebar-content">
+						<table class="form-table">
+							<tr valign="top">
+								<th scope="row"><?php _e('Media title','wpTube') ?></th>
+								<td><input type="text" size="50"  name="act_name" value="<?php echo $act_name ?>" /></td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
+								<td><input type="text" size="50"  name="act_creator" value="<?php echo $act_creator ?>" /></td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e('Description','wpTube') ?></th>
+								<td><textarea name="act_desc" id="act_desc" rows="5" cols="50" style="width: 97%;"><?php echo $act_desc ?></textarea></td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e('Media URL','wpTube') ?></th>
+								<td><input type="text" size="80"  name="act_filepath" value="<?php echo $act_filepath ?>" />
+								<br /><?php _e('Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)','wpTube') ?>
+								<br /><?php echo _e('It also accept Youtube links. Example: http://youtube.com/watch?v=O_MP_6ldeB4','wpTube') ?>
+								<br /><?php echo _e('RTMP streams must be look like : rtmp://streaming-server/path/?id=filename','wpTube') ?></td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e('Thumbnail URL','wpTube') ?></th>
+								<td><input type="text" size="80"  name="act_image" value="<?php echo $act_image ?>" />
+								<br /><?php _e('Enter the URL to show a preview of the media file','wpTube') ?></td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e('Link URL','wpTube') ?></th>
+								<td><input type="text" size="80" name="act_link" value="<?php echo $act_link ?>" />
+								<br /><?php _e('Enter the URL to the page/file, if you click on the player','wpTube') ?></td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e('Tags','wpTube') ?></th>
+								<td><input type="text" size="80" name="act_tags" value="<?php echo $act_tags ?>" />
+								<br /><?php _e('Enter media tags','wpTube') ?></td>
+							</tr>
+						</table>
+					</div>
+					<p>
+						<input type="submit" class="button-primary" name="edit_update" value="<?php _e('Update'); ?>" class="button button-highlighted" />
+						<input type="submit" class="button-secondary" name="cancel" value="<?php _e('Cancel'); ?>" class="button" />
+					</p>
 				</div>
-			</form>
 			</div><!--END Poststuff -->
-			<h2><?php _e('Preview', 'wpTube') ?></h2>
-			<div style="text-align: center;">
-				<?php echo wt_GetVideo($this->act_vid, $act_width, $act_height); ?>
-			</div>
+
+			</form>
+
 		</div><!--END wrap -->
 		<?php
 	}
@@ -406,74 +429,105 @@ class wordTubeManage extends wordTubeAdmin  {
 		<!-- Add A Video -->
 		<div class="wrap">
 			<h2><?php _e('Add a new media file','wpTube'); ?></h2>
-			<form id="video_options" enctype="multipart/form-data" method="post" >
+			<form name="table_options" enctype="multipart/form-data" method="post" id="video_options">
 			<div id="poststuff">
-				<div class="submitbox">
-					<div class="side-info">
-						<h5><?php _e('Select Playlist','wpTube') ?></h5>
-						<p id="jaxcat"></p>
-						<div id="playlistchecklist"><?php get_playlist_for_dbx($this->act_vid); ?></div>
-						<h5><?php _e('Edit view counter','wpTube') ?></h5>
-						<input type="text" size="5" maxlength="5" name="act_counter" value="<?php echo $act_counter ?>" />
-						<h5><?php _e('Settings','wpTube') ?></h5>
-						<label class="selectit"><input name="autostart" type="checkbox" value="1"  <?php echo $autostart ?> /> <?php _e('Start file automatic ','wpTube') ?></label>
-						<br class="clear"/>
-						<label class="selectit"><input name="disableAds" type="checkbox" value="1"  <?php echo $disableAds ?> /> <?php _e('Disable Ads for this Media','wpTube') ?></label>
-						<br class="clear"/>
+				<div class="inner-sidebar">
+					<div id="submitdiv" class="postbox">
+						<h3 class="hndle"><span><?php _e('Settings','wpTube') ?></span></h3>
+						<div class="inside">
+							<div id="submitpost" class="submitbox">
+								<div class="misc-pub-section">
+									<p>
+										<?php _e('Here you can edit the selected file. See global settings for the Flash Player under', 'wpTube') ?> <a href="options-general.php?page=wordtube-options"><?php _e('Options->wordTube', 'wpTube')?></a>
+									</p>
+								</div>
+								<div class="misc-pub-section">
+									<h4><?php _e('Select Playlist','wpTube') ?></h4>
+									<p id="jaxcat"></p>
+									<div id="playlistchecklist"><?php get_playlist_for_dbx($this->act_vid); ?></div>
+								</div>
+								<div class="misc-pub-section">
+									<input class="form-input-tip" type="text" size="5" maxlength="5" name="act_counter" value="0" />
+									<?php _e('Edit view counter','wpTube') ?>
+								</div>
+								<div id="sticky-checkbox" class="misc-pub-section">
+									<label class="selectit"><input name="autostart" type="checkbox" value="1"  /> <?php _e('Start file automatic ','wpTube') ?></label>
+									<br class="clear"/>
+									<label class="selectit"><input name="disableAds" type="checkbox" value="1"  /> <?php _e('Disable Ads for this Media','wpTube') ?></label>
+								</div>	
+							</div>
+						</div>
 					</div>
 				</div>
-				<div id="post-body">
-					<table class="form-table">
-					<tr>
-						<th scope="row"><?php _e('Title / Name','wpTube') ?></th>
-						<td><input type="text" size="50" maxlength="200" name="name" /></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
-						<td><input type="text" size="50" maxlength="200" name="creator" /></td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><?php _e('Description','wpTube') ?></th>
-						<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"></textarea></td>
-					</tr>
-					</table>
-
-					<h3><?php __('Upload file','wpTube'); ?></h3>
-
-					<table class="optiontable form-table">
-					<tr>
-						<th scope="row"><?php _e('Select media file','wpTube') ?></th>
-						<td><input type="file" size="50" name="video_file" />
+				<div id="post-body" class="has-sidebar">
+					<div id="post-body-content" class="has-sidebar-content">
+						<div class="stuffbox">
+							<h3 class="hndle"><span><?php _e('Enter Title / Name','wpTube'); ?></span></h3>
+							<div class="inside" style="margin:15px;">
+								<table class="form-table">
+								<tr>
+									<th scope="row"><?php _e('Title / Name','wpTube') ?></th>
+									<td><input type="text" size="50" maxlength="200" name="name" /></td>
+								</tr>
+								<tr>
+									<th scope="row"><?php _e('Creator / Author','wpTube') ?></th>
+									<td><input type="text" size="50" maxlength="200" name="creator" /></td>
+								</tr>
+								<tr valign="top">
+									<th scope="row"><?php _e('Description','wpTube') ?></th>
+									<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"></textarea></td>
+								</tr>
+								</table>
+							</div>
+						</div>
+												
+						<div class="stuffbox">
+							<h3 class="hndle"><span><?php _e('Upload a file','wpTube'); ?></span></h3>
+							<div class="inside" style="margin:15px;">
+								<table class="form-table">
+								<tr>
+									<th scope="row"><?php _e('Select media file','wpTube') ?></th>
+									<td><input type="file" size="50" name="video_file" />
+									
+									<br /><?php _e('Note : The upload limit on your server is ','wpTube') . "<strong>" . min(ini_get('upload_max_filesize'), ini_get('post_max_size')) . "Byte</strong>\n"; ?>
+									<br /><?php _e('The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF','wpTube') ?>
+								</tr>
+								<tr>
+									<th scope="row"><?php _e('Select thumbnail','wpTube') ?></th>
+									<td><input type="file" size="50" name="image_file" />
+									<br /><?php _e('Upload a image to show a preview of the media file (optional)','wpTube') ?></td>
+								</tr>
+								</table>
+							</div>
+						</div>
 						
-						<br /><?php _e('Note : The upload limit on your server is ','wpTube') . "<strong>" . min(ini_get('upload_max_filesize'), ini_get('post_max_size')) . "Byte</strong>\n"; ?>
-						<br /><?php _e('The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF','wpTube') ?>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('Select thumbnail','wpTube') ?></th>
-						<td><input type="file" size="50" name="image_file" />
-						<br /><?php _e('Upload a image to show a preview of the media file (optional)','wpTube') ?></td>
-					</tr>
-					</table>
-
-					<h3><?php __('Enter URL to file','wpTube'); ?></h3>
-
-					<table class="optiontable form-table">
-					<tr>
-						<th scope="row"><?php _e('URL to media file','wpTube') ?></th>
-						<td><input type="text" size="50" name="filepath" />
-						<br /><?php _e('Here you need to enter the absolute URL to the media file','wpTube') ?>
-						<br /><?php _e('It accept also a Youtube link: http://youtube.com/watch?v=O_MP_6ldeB4','wpTube') ?></td>
-					</tr>
-					<tr>
-						<th scope="row"><?php _e('URL to thumbnail file','wpTube') ?></th>
-						<td><input type="text" size="50" name="urlimage" />
-						<br /><?php _e('Enter the URL to show a preview of the media file (optional)','wpTube') ?></td>
-					</tr>					
-					</table>
-					<p class="submit"><input type="submit" name="add_media" value="<?php _e('Add media file','wpTube'); ?> &raquo;" class="button" /></p>
+						<div class="stuffbox">
+							<h3 class="hndle"><span><?php _e('or enter URL to file','wpTube'); ?></span></h3>
+							<div class="inside" style="margin:15px;">
+								<table class="form-table">
+								<tr>
+									<th scope="row"><?php _e('URL to media file','wpTube') ?></th>
+									<td><input type="text" size="50" name="filepath" />
+									<br /><?php _e('Here you need to enter the absolute URL to the media file','wpTube') ?>
+									<br /><?php _e('It accept also a Youtube link: http://youtube.com/watch?v=O_MP_6ldeB4','wpTube') ?></td>
+								</tr>
+								<tr>
+									<th scope="row"><?php _e('URL to thumbnail file','wpTube') ?></th>
+									<td><input type="text" size="50" name="urlimage" />
+									<br /><?php _e('Enter the URL to show a preview of the media file (optional)','wpTube') ?></td>
+								</tr>					
+								</table>
+							</div>
+						</div>
+						
+					</div>
+					<p><input type="submit" name="add_media" class="button-primary" value="<?php _e('Add media file','wpTube'); ?>" class="button" /></p>
 				</div>
+			</div><!--END Poststuff -->
+
 			</form>
-		</div>
+
+		</div><!--END wrap -->
 	<?php
 	}
 	
@@ -537,28 +591,34 @@ class wordTubeManage extends wordTubeAdmin  {
 					}
 					?>
 				</table>
-				<br class="clear"/>		
-				<div class="submit"><input type="submit" name="cancel" value="<?php _e('Cancel','wpTube'); ?>" class="button" /></div>
-				<br class="clear"/>
 			</form>
 		</div>
 
 		<div class="wrap">
-			<h2><?php
-			if ($this->mode == 'playlist') echo _e('Add Playlist','wpTube');
-			if ($this->mode == 'plyedit') echo _e('Update Playlist','wpTube');
-			?></h2>
-			<form id="addplist" action="<?php echo $this->base_page; ?>" method="post">
-				<input type="hidden" value="<?php echo $this->act_pid ?>" name="p_id"/>
-				<p><?php _e('Name:','wpTube'); ?><br/><input type="text" value="<?php echo $update->playlist_name ?>" name="p_name"/></p>
-				<p><?php _e('Description: (optional)','wpTube'); ?><br/><textarea name="p_description" rows="3" cols="50" style="width: 97%;"><?php echo $update->playlist_desc ?></textarea></p>
-				<p><?php _e('Media ID sorting order:','wpTube'); ?> <input name="sortorder" type="radio" value="ASC"  <?php if ($update->playlist_order == 'ASC') echo 'checked="checked"'; ?> /> <?php _e('ascending','wpTube'); ?> 
-				<input name="sortorder" type="radio" value="DESC"  <?php if ($update->playlist_order == 'DESC') echo 'checked="checked"'; ?> /> <?php _e('descending','wpTube'); ?></p>	
-				<div class="submit"><?php
-					if ($this->mode == 'playlist') echo '<input type="submit" name="add_playlist" value="'.__('Add Playlist','wpTube').' &raquo;" class="button" />';
-					if ($this->mode == 'plyedit') echo '<input type="submit" name="update_playlist" value="'.__('Update Playlist','wpTube').' &raquo;" class="button" />';
-				?></div>
-			</form>
+			<div id="poststuff" class="metabox-holder">
+				<div id="playlist_edit" class="stuffbox">
+					<h3><?php
+					if ($this->mode == 'playlist') echo _e('Add Playlist','wpTube');
+					if ($this->mode == 'plyedit') echo _e('Update Playlist','wpTube');
+					?></h3>
+					<div class="inside">
+						<form id="addplist" action="<?php echo $this->base_page; ?>" method="post">
+							<input type="hidden" value="<?php echo $this->act_pid ?>" name="p_id" />
+							<p><?php _e('Name:','wpTube'); ?><br/><input type="text" value="<?php echo $update->playlist_name ?>" name="p_name"/></p>
+							<p><?php _e('Description: (optional)','wpTube'); ?><br/><textarea name="p_description" rows="3" cols="50" style="width: 97%;"><?php echo $update->playlist_desc ?></textarea></p>
+							<p><?php _e('Media ID sorting order:','wpTube'); ?> <input name="sortorder" type="radio" value="ASC"  <?php if ($update->playlist_order == 'ASC') echo 'checked="checked"'; ?> /> <?php _e('ascending','wpTube'); ?> 
+							<input name="sortorder" type="radio" value="DESC"  <?php if ($update->playlist_order == 'DESC') echo 'checked="checked"'; ?> /> <?php _e('descending','wpTube'); ?></p>	
+							<div class="submit">
+								<?php
+									if ($this->mode == 'playlist') echo '<input type="submit" name="add_playlist" value="' . __('Add Playlist','wpTube') . '" class="button-primary" />';
+									if ($this->mode == 'plyedit') echo '<input type="submit" name="update_playlist" value="' . __('Update Playlist','wpTube') . '" class="button-primary" />';
+								?>
+								<input type="submit" name="cancel" value="<?php _e('Cancel','wpTube'); ?>" class="button-secondary" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 		<?php 
 	}

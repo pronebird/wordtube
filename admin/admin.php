@@ -75,8 +75,7 @@ class wordTubeAdmin extends wordTubeClass {
 
 	// integrate the menu	
 	function add_menu()  {
-	
-	    $mediacenter = add_management_page(  __('wordTube','wpTube'), __('wordTube','wpTube'), 'edit_posts' , 'wordTube', array (&$this, 'show_menu') );
+		$mediacenter = add_media_page  ( __('wordTube','wpTube'), __('wordTube','wpTube'), 'edit_posts' , 'wordTube', array (&$this, 'show_menu') );
 	    $options 	 = add_options_page( __('wordTube','wpTube'), __('wordTube','wpTube'), 'manage_options', 'wordtube-options', array (&$this, 'show_menu') );
 		
 		add_action( "admin_print_scripts-$mediacenter", array (&$this, 'add_admin_js') );

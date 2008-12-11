@@ -1,9 +1,16 @@
+V2.1.0 / 11.12.2008
+- Admin UI updates for Wordpress 2.7
+- Added better excerpt feature (THX to Skwerl)
+- Added new repeat option (THX to Skwerl)
+- Added Counter statistic (THX to Frederic de Ranter)
+
 v2.0.1 / 19.11.2008
 - Added JW Media Player 4.2
 - Added attribute name to the object
 - Added description flashvar (For LongTail)
 - Added title flashvar (For LongTail)
 - Bugfix for streaming server (like wowza)
+- Bugfix : Div Wrapper around the flash object
 
 V2.0.0 / 27.09.2008
 - Added JW Media Player 4.1 support
@@ -15,7 +22,7 @@ V2.0.0 / 27.09.2008
 - Remove all pre 4.0 Flash vars and conditions
 - Remove all pre WP 2.6 dependencies
 - Remove media player content in the_excerp()
-- Remove MP3 layout, statistic, color settings. This will be return in 4.1 as new plugin later on. Stay tuned.
+- Remove MP3 layout, statistic, color settings. This will be return after 4.1 as new plugin later on. Stay tuned.
 
 V1.61 (will not released) 
 Additions by Alakhnor:

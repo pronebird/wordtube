@@ -150,8 +150,8 @@ function wt_get_DefaultOption() {
 	if ($options['usewpupload']=='')		$options['usewpupload'] = 1;
 	if ($options['uploadurl']=='') 			$options['uploadurl'] = get_option('upload_path');
 	if ($options['autostart']=='') 			$options['autostart'] = 0;
-	if ($options['repeat']=='')				$options['repeat'] = 0;
-	if ($options['overstretch']=='')		$options['overstretch'] = "true";
+	if ($options['repeat']=='')				$options['repeat'] = 'none';
+	if ($options['overstretch']=='')		$options['overstretch'] = 'true';
 	if ($options['showfsbutton']=='') 		$options['showfsbutton'] = 0;
 	if ($options['volume']=='')				$options['volume'] = 80;
 	if ($options['bufferlength']=='') 		$options['bufferlength'] = 5;

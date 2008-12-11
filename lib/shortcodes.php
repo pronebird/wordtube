@@ -14,20 +14,22 @@ class wordTube_shortcodes {
 	// register the new shortcodes
 	function wordTube_shortcodes() {
 	
-	
 		// convert the old shortcode
 		add_filter('the_content', array(&$this, 'convert_shortcode'));
 		
 		// original version must be disabled, no filter function available
 		remove_filter('get_the_excerpt', 'wp_trim_excerpt');
 		add_filter('get_the_excerpt', array(&$this, 'wp_trim_excerpt'));
-		
+
 		// Action calls for RSS feed
 		add_action('rss2_item', array(&$this, 'add_media_to_rss2'));
 		add_action('the_content_rss', array(&$this, 'add_media_to_rss2'));
 		
-		add_shortcode( 'media', array(&$this, 'show_media') );
-		add_shortcode( 'playlist', array(&$this, 'show_playlist' ) );
+		add_shortcode('media', array(&$this, 'show_media') );
+		add_shortcode('playlist', array(&$this, 'show_playlist' ) );
+		
+		// replace excerpt shortcodes with media
+		add_filter('the_excerpt', array(&$this, 'excerpt_shortcodes'));
 		
 	}
 	 /**
@@ -108,9 +110,8 @@ class wordTube_shortcodes {
 		if ( stristr( $content, '[media' )) {
 			$search = "@(?:<p>)*\s*\[MEDIA\s*=\s*(\w+|^\+)\]\s*(?:</p>)*@i"; 
 			if (preg_match_all($search, $content, $matches, PREG_SET_ORDER)) {
-
 				foreach ($matches as $match) {
-					$replace = "[media id= {$match[1]}]";
+					$replace = "[media id={$match[1]}]";
 					$content = str_replace ($match[0], $replace, $content);
 				}
 			}
@@ -119,9 +120,8 @@ class wordTube_shortcodes {
 		if ( stristr( $content, '[media' )) {
 			$search = "@(?:<p>)*\s*\[VIDEO\s*=\s*(\w+|^\+)\]\s*(?:</p>)*@i"; 
 			if (preg_match_all($search, $content, $matches, PREG_SET_ORDER)) {
-
 				foreach ($matches as $match) {
-					$replace = "[media id= {$match[1]}]";
+					$replace = "[media id={$match[1]}]";
 					$content = str_replace ($match[0], $replace, $content);
 				}
 			}
@@ -130,9 +130,8 @@ class wordTube_shortcodes {
 		if ( stristr( $content, '[myplaylist' )) {
 			$search = "@(?:<p>)*\s*\[MYPLAYLIST\s*=\s*(\w+|^\+)\]\s*(?:</p>)*@i"; 
 			if (preg_match_all($search, $content, $matches, PREG_SET_ORDER)) {
-
 				foreach ($matches as $match) {
-					$replace = "[playlist id= {$match[1]}]";
+					$replace = "[playlist id={$match[1]}]";
 					$content = str_replace ($match[0], $replace, $content);
 				}
 			}
@@ -196,6 +195,50 @@ class wordTube_shortcodes {
 		
 		return $out;
 	}	
+
+	function excerpt_shortcodes($text) {
+		
+		global $wordTube, $wpdb;
+		$text = $this->convert_shortcode($text);
+		
+		// search for videos
+		$search = "/\[media id=(\d+)(?: width=)?(\d+)?(?: height=)?(\d+)?\]/";
+		if (preg_match_all($search, $text, $matches, PREG_SET_ORDER)) {
+			foreach ($matches as $match) {
+				$media = $wordTube->GetVidByID($match[1]);
+				$width = $match[2]; if (empty($width)) { $width = $media->width; }
+				$height = $match[3]; if (empty($height)) { $height = $media->height; }
+				if ($media) {
+					$out = $wordTube->ReturnMedia($media->vid, $media->file, $media->image, $width, $height, $media->autostart, $media);
+				} else {
+					$out = __('[MEDIA not found]','wpTube');
+				}				
+				$text = str_replace($match[0], $out, $text);
+			}
+		}
+		
+		// search for playlists
+		$dbresult = false;
+		$search = "/\[playlist id=(\d+)\]/";			
+		if (preg_match_all($search, $text, $matches, PREG_SET_ORDER)) {
+			foreach ($matches as $match) {
+				$id = $match[1];
+				if (!in_array($id, $wordTube->PLTags) && is_numeric($id)) {
+					$dbresult = $wpdb->get_row('SELECT * FROM '.$wpdb->wordtube_playlist.' WHERE pid = '.$id);
+				}
+				if (($dbresult) || in_array($id, $wordTube->PLTags)) {
+					$out = $wordTube->ReturnPlaylist($id, $width, $height);
+				} else {
+					$out = __('[PLAYLIST not found]','wpTube');
+				}
+				$text = str_replace($match[0], $out, $text);
+			}
+		}
+
+		return $text;
+
+	}
+
 }
 
 // let's use it

@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wordtube\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-16 13:27+0100\n"
-"PO-Revision-Date: 2008-09-16 13:27+0100\n"
-"Last-Translator: Alex Rabe <alter.ego@boelinger.com>\n"
+"POT-Creation-Date: 2008-11-22 18:30+0100\n"
+"PO-Revision-Date: 2008-11-22 18:31+0100\n"
+"Last-Translator: Alex Rabe\n"
 "Language-Team: Alex Rabe\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,19 +15,19 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../wordtube.php:41
-msgid "Sorry, wordTube works only under WordPress 2.6 or higher"
+msgid "Sorry, wordTube works only under WordPress 2.7 or higher"
 msgstr ""
 
 #: ../wordtube.php:52
 msgid "The player.swf is not in the wordTube folder, the player will not work."
 msgstr ""
 
-#: ../admin/admin.php:82
-#: ../admin/admin.php:83
+#: ../admin/admin.php:78
+#: ../admin/admin.php:79
 msgid "wordTube"
 msgstr "wordTube"
 
-#: ../admin/admin.php:109
+#: ../admin/admin.php:105
 msgid "Insert wordTube media"
 msgstr "Insérer un media wordTube"
 
@@ -103,16 +103,16 @@ msgstr "Impossible de créer le répertoire %s. Le serveur a-t-il les droits pou
 msgid "Manage Media files"
 msgstr "Gérer les médias"
 
-#: ../admin/manage.php:207
+#: ../admin/manage.php:210
 msgid "Search Media"
 msgstr "Recherche media"
 
-#: ../admin/manage.php:216
+#: ../admin/manage.php:219
 msgid "Filter"
 msgstr "Filtre"
 
 #: ../admin/manage.php:226
-#: ../admin/manage.php:512
+#: ../admin/manage.php:566
 msgid "ID"
 msgstr "ID"
 
@@ -136,347 +136,368 @@ msgstr "Vues"
 msgid "Order"
 msgstr "Ordre"
 
-#: ../admin/manage.php:234
-#: ../admin/manage.php:515
-msgid "Action"
-msgstr "Action"
+#: ../admin/manage.php:244
+#: ../admin/manage.php:246
+#, fuzzy
+msgid "Edit this media"
+msgstr "Modifier un fichier Media"
 
-#: ../admin/manage.php:251
-#: ../admin/manage.php:276
-#: ../admin/manage.php:530
+#: ../admin/manage.php:246
+#: ../admin/manage.php:278
+#: ../admin/manage.php:584
 msgid "Edit"
 msgstr "Modifier"
 
-#: ../admin/manage.php:252
-#: ../admin/manage.php:531
+#: ../admin/manage.php:249
+#, fuzzy
+msgid "Delete this media"
+msgstr "Supprimer ce fichier ?"
+
+#: ../admin/manage.php:249
+#: ../admin/manage.php:585
 msgid "Delete this file ?"
 msgstr "Supprimer ce fichier ?"
 
-#: ../admin/manage.php:252
-#: ../admin/manage.php:531
+#: ../admin/manage.php:249
+#: ../admin/manage.php:585
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../admin/manage.php:257
-#: ../admin/manage.php:536
+#: ../admin/manage.php:261
+#: ../admin/manage.php:590
 msgid "No entries found"
 msgstr "Aucune donnée n'a été trouvée"
 
-#: ../admin/manage.php:268
+#: ../admin/manage.php:269
 msgid "Insert new media file"
 msgstr "Ajouter un nouveau media"
 
-#: ../admin/manage.php:276
+#: ../admin/manage.php:278
 msgid "Playlist Preview"
 msgstr "Prévisualisation de la liste de lecture"
 
-#: ../admin/manage.php:277
+#: ../admin/manage.php:279
 msgid "You can show all videos/media files in a playlist. Show this playlist with the tag"
 msgstr "Vous pouvez montrer vos videos/medias dans une liste de lecture. Pour insérer cette liste de lecture insérer ce tag : "
 
-#: ../admin/manage.php:284
+#: ../admin/manage.php:286
 msgid "Select Playlist :"
 msgstr "Sélectionner la liste de lecture"
 
-#: ../admin/manage.php:287
+#: ../admin/manage.php:289
 #: ../tinymce/window.php:142
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: ../admin/manage.php:288
+#: ../admin/manage.php:290
 msgid "All mp3"
 msgstr "Tous les mp3"
 
-#: ../admin/manage.php:289
+#: ../admin/manage.php:291
 msgid "All videos"
 msgstr "Toutes les vidéos"
 
-#: ../admin/manage.php:301
+#: ../admin/manage.php:303
 msgid "OK"
 msgstr "OK"
 
-#: ../admin/manage.php:333
+#: ../admin/manage.php:335
 msgid "Edit media file"
 msgstr "Modifier un fichier Media"
 
-#: ../admin/manage.php:338
-msgid "Here you can edit the selected file. See global settings for the Flash Player under"
-msgstr "Ici vous pouvez modifier le fichier seléctionné. Pour les réglages du lecteur Flash  aller dans "
-
-#: ../admin/manage.php:338
-msgid "Options->wordTube"
-msgstr "Options->wordTube"
-
-#: ../admin/manage.php:339
-msgid "If you want to show this media file in your page, enter the tag :"
-msgstr "Si vous voulez afficher ce fichier dans votre page, entrez ce tag :"
-
 #: ../admin/manage.php:340
-#: ../admin/manage.php:413
-msgid "Select Playlist"
-msgstr "Sélection playlist"
-
-#: ../admin/manage.php:343
-#: ../admin/manage.php:416
-msgid "Edit view counter"
-msgstr "Modifier le compteur"
-
-#: ../admin/manage.php:345
-#: ../admin/manage.php:418
+#: ../admin/manage.php:436
 #, fuzzy
 msgid "Settings"
 msgstr "Paramétrage des listes de lecture"
 
-#: ../admin/manage.php:346
-#: ../admin/manage.php:419
+#: ../admin/manage.php:344
+#: ../admin/manage.php:441
+msgid "Here you can edit the selected file. See global settings for the Flash Player under"
+msgstr "Ici vous pouvez modifier le fichier seléctionné. Pour les réglages du lecteur Flash  aller dans "
+
+#: ../admin/manage.php:344
+#: ../admin/manage.php:441
+msgid "Options->wordTube"
+msgstr "Options->wordTube"
+
+#: ../admin/manage.php:345
+msgid "If you want to show this media file in your page, enter the tag :"
+msgstr "Si vous voulez afficher ce fichier dans votre page, entrez ce tag :"
+
+#: ../admin/manage.php:348
+#: ../admin/manage.php:445
+msgid "Select Playlist"
+msgstr "Sélection playlist"
+
+#: ../admin/manage.php:354
+#: ../admin/manage.php:451
+msgid "Edit view counter"
+msgstr "Modifier le compteur"
+
+#: ../admin/manage.php:357
+#: ../admin/manage.php:454
 msgid "Start file automatic "
 msgstr "Lancer automatiquement"
 
-#: ../admin/manage.php:348
-#: ../admin/manage.php:421
+#: ../admin/manage.php:359
+#: ../admin/manage.php:456
 msgid "Disable Ads for this Media"
 msgstr ""
 
-#: ../admin/manage.php:351
+#: ../admin/manage.php:362
+#: ../admin/manage.php:415
 #: ../admin/settings.php:115
-#: ../admin/settings.php:192
-#: ../admin/settings.php:240
-#: ../admin/settings.php:301
-#: ../admin/settings.php:332
+#: ../admin/settings.php:198
+#: ../admin/settings.php:246
+#: ../admin/settings.php:307
+#: ../admin/settings.php:338
 msgid "Update"
 msgstr "Actualiser"
 
-#: ../admin/manage.php:352
-#: ../admin/manage.php:541
+#: ../admin/manage.php:363
+#: ../admin/manage.php:416
+#: ../admin/manage.php:616
 #: ../tinymce/window.php:164
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../admin/manage.php:359
+#: ../admin/manage.php:369
+msgid "Preview"
+msgstr "Prévisualiser"
+
+#: ../admin/manage.php:379
 msgid "Media title"
 msgstr "Titre"
 
-#: ../admin/manage.php:363
-#: ../admin/manage.php:432
+#: ../admin/manage.php:383
+#: ../admin/manage.php:473
 msgid "Creator / Author"
 msgstr "Auteur / Réalisateur"
 
-#: ../admin/manage.php:367
-#: ../admin/manage.php:436
-#: ../admin/manage.php:514
+#: ../admin/manage.php:387
+#: ../admin/manage.php:477
+#: ../admin/manage.php:568
 msgid "Description"
 msgstr "Description"
 
-#: ../admin/manage.php:371
+#: ../admin/manage.php:391
 msgid "Media URL"
 msgstr "URL du Media"
 
-#: ../admin/manage.php:373
+#: ../admin/manage.php:393
 msgid "Here you need to enter the absolute URL to the file (MP3,FLV,SWF,JPG,PNG or GIF)"
 msgstr "Entrer ici l'URL absolue du fichier  (MP3,FLV,SWF,JPG,PNG our GIF)"
 
-#: ../admin/manage.php:374
+#: ../admin/manage.php:394
 #, fuzzy
 msgid "It also accept Youtube links. Example: http://youtube.com/watch?v=O_MP_6ldeB4"
 msgstr "Depuis la version 3.16, il peut également accepter les liens Youtube : http://youtube.com/watch?v=O_MP_6ldeB4"
 
-#: ../admin/manage.php:375
+#: ../admin/manage.php:395
 msgid "RTMP streams must be look like : rtmp://streaming-server/path/?id=filename"
 msgstr ""
 
-#: ../admin/manage.php:378
+#: ../admin/manage.php:398
 msgid "Thumbnail URL"
 msgstr "URL de l'aperçu"
 
-#: ../admin/manage.php:380
+#: ../admin/manage.php:400
 msgid "Enter the URL to show a preview of the media file"
 msgstr "Entrer l'adresse (URL) de l'aperçu"
 
-#: ../admin/manage.php:383
+#: ../admin/manage.php:403
 msgid "Link URL"
 msgstr "URL du lien"
 
-#: ../admin/manage.php:385
+#: ../admin/manage.php:405
 msgid "Enter the URL to the page/file, if you click on the player"
 msgstr "Entrer l'adresse de la page ou du fichier à afficher lorsque l'on clique dans le lecteur"
 
-#: ../admin/manage.php:388
+#: ../admin/manage.php:408
 msgid "Tags"
 msgstr "Tags"
 
-#: ../admin/manage.php:390
+#: ../admin/manage.php:410
 msgid "Enter media tags"
 msgstr "Saisir les tags du media"
 
-#: ../admin/manage.php:396
-msgid "Preview"
-msgstr "Prévisualiser"
-
-#: ../admin/manage.php:408
+#: ../admin/manage.php:431
 msgid "Add a new media file"
 msgstr "Ajouter un nouveau media"
 
-#: ../admin/manage.php:428
+#: ../admin/manage.php:465
+#, fuzzy
+msgid "Enter Title / Name"
+msgstr "Titre / Nom"
+
+#: ../admin/manage.php:469
 msgid "Title / Name"
 msgstr "Titre / Nom"
 
-#: ../admin/manage.php:441
-msgid "Upload file"
+#: ../admin/manage.php:485
+#, fuzzy
+msgid "Upload a file"
 msgstr "Télécharger le fichier"
 
-#: ../admin/manage.php:445
+#: ../admin/manage.php:489
 #: ../tinymce/window.php:110
 msgid "Select media file"
 msgstr "Sélectionner le media"
 
-#: ../admin/manage.php:448
+#: ../admin/manage.php:492
 msgid "Note : The upload limit on your server is "
 msgstr "Note : La taille limite de téléchargement de votre serveur est de "
 
-#: ../admin/manage.php:449
+#: ../admin/manage.php:493
 msgid "The Flash Media Player handle : MP3,FLV,SWF,JPG,PNG or GIF"
 msgstr "Le lecteur Flash accepte : MP3,FLV,SWF,JPG,PNG et GIF"
 
-#: ../admin/manage.php:452
+#: ../admin/manage.php:496
 msgid "Select thumbnail"
 msgstr "Sélectionner l'aperçu"
 
-#: ../admin/manage.php:454
+#: ../admin/manage.php:498
 msgid "Upload a image to show a preview of the media file (optional)"
 msgstr "Télécharger une image de prévisualisation du media (optionnel)"
 
-#: ../admin/manage.php:458
-msgid "Enter URL to file"
+#: ../admin/manage.php:505
+#, fuzzy
+msgid "or enter URL to file"
 msgstr "Entrer l'URL du fichier"
 
-#: ../admin/manage.php:462
+#: ../admin/manage.php:509
 msgid "URL to media file"
 msgstr "URL du media"
 
-#: ../admin/manage.php:464
+#: ../admin/manage.php:511
 msgid "Here you need to enter the absolute URL to the media file"
 msgstr "Entrer ici l'URL absolue du media"
 
-#: ../admin/manage.php:465
+#: ../admin/manage.php:512
 #, fuzzy
 msgid "It accept also a Youtube link: http://youtube.com/watch?v=O_MP_6ldeB4"
 msgstr "Depuis la version 3.16, il peut également accepter les liens Youtube : http://youtube.com/watch?v=O_MP_6ldeB4"
 
-#: ../admin/manage.php:468
+#: ../admin/manage.php:515
 msgid "URL to thumbnail file"
 msgstr "URL de l'aperçu"
 
-#: ../admin/manage.php:470
+#: ../admin/manage.php:517
 msgid "Enter the URL to show a preview of the media file (optional)"
 msgstr "URL de l'image de prévisualisation (optionnel)"
 
-#: ../admin/manage.php:473
+#: ../admin/manage.php:524
 msgid "Add media file"
 msgstr "Ajouter un media"
 
-#: ../admin/manage.php:506
+#: ../admin/manage.php:560
 msgid "Manage Playlist"
 msgstr "Gérer la liste de lecture"
 
-#: ../admin/manage.php:513
+#: ../admin/manage.php:567
 msgid "Name"
 msgstr "Nom"
 
-#: ../admin/manage.php:548
-#: ../admin/manage.php:558
+#: ../admin/manage.php:569
+msgid "Action"
+msgstr "Action"
+
+#: ../admin/manage.php:601
+#: ../admin/manage.php:613
 msgid "Add Playlist"
 msgstr "Ajouter une liste de lecture"
 
-#: ../admin/manage.php:549
-#: ../admin/manage.php:559
+#: ../admin/manage.php:602
+#: ../admin/manage.php:614
 msgid "Update Playlist"
 msgstr "Mettre à jour la liste de lecture"
 
-#: ../admin/manage.php:553
+#: ../admin/manage.php:607
 msgid "Name:"
 msgstr "Nom:"
 
-#: ../admin/manage.php:554
+#: ../admin/manage.php:608
 msgid "Description: (optional)"
 msgstr "Description: (optionnel)"
 
-#: ../admin/manage.php:555
+#: ../admin/manage.php:609
 msgid "Media ID sorting order:"
 msgstr "Tri des medias par ID : "
 
-#: ../admin/manage.php:555
+#: ../admin/manage.php:609
 msgid "ascending"
 msgstr "ascendant"
 
-#: ../admin/manage.php:556
+#: ../admin/manage.php:610
 msgid "descending"
 msgstr "descendant"
 
-#: ../admin/manage.php:570
+#: ../admin/manage.php:630
 msgid "Sort Ascending"
 msgstr "Tri Croissant"
 
-#: ../admin/manage.php:571
+#: ../admin/manage.php:631
 msgid "Sort Descending"
 msgstr "Tri Décroissant"
 
-#: ../admin/manage.php:580
+#: ../admin/manage.php:640
 msgid "Any file type"
 msgstr "Tous types de fichiers"
 
-#: ../admin/manage.php:581
+#: ../admin/manage.php:641
 msgid "mp3 only"
 msgstr "mp3 seulement"
 
-#: ../admin/manage.php:582
+#: ../admin/manage.php:642
 msgid "flv only"
 msgstr "flv seulement"
 
-#: ../admin/manage.php:583
+#: ../admin/manage.php:643
 msgid "swf only"
 msgstr "swf seulement"
 
-#: ../admin/manage.php:584
+#: ../admin/manage.php:644
 msgid "images only"
 msgstr "images seulement"
 
-#: ../admin/manage.php:594
+#: ../admin/manage.php:654
 msgid "All playlists"
 msgstr "Toutes les playlists"
 
-#: ../admin/manage.php:595
+#: ../admin/manage.php:655
 msgid "No playlist"
 msgstr "Pas de playlist"
 
-#: ../admin/manage.php:625
+#: ../admin/manage.php:685
 msgid "Previous Page"
 msgstr "Page Précédente"
 
-#: ../admin/manage.php:656
+#: ../admin/manage.php:716
 msgid "Next Page"
 msgstr "Page Suivante"
 
-#: ../admin/manage.php:676
+#: ../admin/manage.php:736
 msgid "The JW Players are licensed under <a href=\"http://creativecommons.org/licenses/by-nc-sa/3.0/\">Creative Commons</a> license. It allows you to use, modify and redistribute the script for noncommercial purposes. For all other use, buy a <a href=\"/?page=license\">commercial license</a>."
 msgstr ""
 
-#: ../admin/manage.php:677
+#: ../admin/manage.php:737
 msgid "You must buy a commercial license if:"
 msgstr ""
 
-#: ../admin/manage.php:679
+#: ../admin/manage.php:739
 msgid "Your site has any ads (AdSense, display banners, etc.)"
 msgstr ""
 
-#: ../admin/manage.php:680
+#: ../admin/manage.php:740
 msgid "You want to remove the players' attribution (eliminate the right-click link)"
 msgstr ""
 
-#: ../admin/manage.php:681
+#: ../admin/manage.php:741
 msgid "You are a corporation (governmental or nonprofit use is free)"
 msgstr ""
 
-#: ../admin/manage.php:685
+#: ../admin/manage.php:745
 msgid "I agree to the license"
 msgstr ""
 
@@ -504,12 +525,12 @@ msgid "Layout"
 msgstr ""
 
 #: ../admin/settings.php:78
-#: ../admin/settings.php:309
+#: ../admin/settings.php:315
 msgid "LongTail Adsolution"
 msgstr ""
 
 #: ../admin/settings.php:79
-#: ../admin/settings.php:341
+#: ../admin/settings.php:347
 msgid "Setup"
 msgstr ""
 
@@ -552,7 +573,7 @@ msgid "These settings are valid for all your flash video. The settings are used 
 msgstr "Ces réglages sont valables pour toutes vos vidéos flash. Les réglages sont utilisés dans le lecteur Flash"
 
 #: ../admin/settings.php:127
-#: ../admin/settings.php:314
+#: ../admin/settings.php:320
 msgid "See more information on the web page"
 msgstr "Plus d'informations sur le site"
 
@@ -560,311 +581,321 @@ msgstr "Plus d'informations sur le site"
 msgid "Repeat"
 msgstr "Relire"
 
-#: ../admin/settings.php:132
-msgid "Automatically repeat playing when a file is completed."
-msgstr "Relire automatiquement en fin de lecture"
-
-#: ../admin/settings.php:135
-msgid "Resize images"
-msgstr ""
-
-#: ../admin/settings.php:138
-msgid "exact fit"
-msgstr ""
-
-#: ../admin/settings.php:139
-msgid "fill"
-msgstr ""
-
-#: ../admin/settings.php:140
-msgid "uniform"
-msgstr ""
-
-#: ../admin/settings.php:141
-#: ../admin/settings.php:153
-#: ../admin/settings.php:233
-#: ../admin/settings.php:259
+#: ../admin/settings.php:133
+#: ../admin/settings.php:147
+#: ../admin/settings.php:159
+#: ../admin/settings.php:239
+#: ../admin/settings.php:265
 msgid "none"
 msgstr "inactif"
 
-#: ../admin/settings.php:144
-msgid "Defines how to resize images in the display. Can be none (no stretching), exactfit (disproportionate), uniform (stretch with black borders) or fill (uniform, but completely fill the display)."
+#: ../admin/settings.php:134
+#, fuzzy
+msgid "list"
+msgstr "Liste de lecture"
+
+#: ../admin/settings.php:135
+msgid "always"
 msgstr ""
 
-#: ../admin/settings.php:147
-msgid "Click option"
+#: ../admin/settings.php:138
+msgid "Controls repeating. Can be none (always one item at a time), list (continuous play through a playlist, but no repetition), or always (infinitely repeats all media and playlists)."
+msgstr ""
+
+#: ../admin/settings.php:141
+msgid "Resize images"
+msgstr ""
+
+#: ../admin/settings.php:144
+msgid "exact fit"
+msgstr ""
+
+#: ../admin/settings.php:145
+msgid "fill"
+msgstr ""
+
+#: ../admin/settings.php:146
+msgid "uniform"
 msgstr ""
 
 #: ../admin/settings.php:150
+msgid "Defines how to resize images in the display. Can be none (no stretching), exactfit (disproportionate), uniform (stretch with black borders) or fill (uniform, but completely fill the display)."
+msgstr ""
+
+#: ../admin/settings.php:153
+msgid "Click option"
+msgstr ""
+
+#: ../admin/settings.php:156
 msgid "play"
 msgstr ""
 
-#: ../admin/settings.php:151
+#: ../admin/settings.php:157
 msgid "link"
 msgstr ""
 
-#: ../admin/settings.php:152
+#: ../admin/settings.php:158
 #, fuzzy
 msgid "fullscreen"
 msgstr "Plein écran"
 
-#: ../admin/settings.php:154
+#: ../admin/settings.php:160
 msgid "mute"
 msgstr ""
 
-#: ../admin/settings.php:155
+#: ../admin/settings.php:161
 #, fuzzy
 msgid "next"
 msgstr "Insérer"
 
-#: ../admin/settings.php:158
+#: ../admin/settings.php:164
 msgid "Select what to do when one clicks the display. Can be play, link, fullscreen, none, mute, next."
 msgstr ""
 
-#: ../admin/settings.php:161
+#: ../admin/settings.php:167
 msgid "High quality video"
 msgstr ""
 
-#: ../admin/settings.php:163
+#: ../admin/settings.php:169
 msgid "Enables high-quality playback. This sets the smoothing of videos on/off, the deblocking of videos on/off and the dimensions of the camera small/large."
 msgstr ""
 
-#: ../admin/settings.php:166
+#: ../admin/settings.php:172
 msgid "Enable Fullscreen"
 msgstr "Plein écran"
 
-#: ../admin/settings.php:168
+#: ../admin/settings.php:174
 msgid "Show the fullscreen button."
 msgstr ""
 
-#: ../admin/settings.php:171
+#: ../admin/settings.php:177
 msgid "Volume"
 msgstr "Volume"
 
-#: ../admin/settings.php:173
+#: ../admin/settings.php:179
 msgid "Startup volume of the Flash player (default 80)."
 msgstr "Volume de départ du lecteur(par défaut 80)"
 
-#: ../admin/settings.php:176
+#: ../admin/settings.php:182
 msgid "Buffer length"
 msgstr "Taille du tampon"
 
-#: ../admin/settings.php:178
+#: ../admin/settings.php:184
 msgid "Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5)."
 msgstr "en secondes. Temps de mise en mémoire tampon avant le début de la lecture. Réglage bas pour des connexions rapides ou des vidéos courtes. Réglage haut pour des connexions lentes. (par défaut 5)"
 
-#: ../admin/settings.php:181
-#: ../admin/settings.php:216
+#: ../admin/settings.php:187
+#: ../admin/settings.php:222
 #, fuzzy
 msgid "Default size (W x H)"
 msgstr "Taille de l'écran (L x H)"
 
-#: ../admin/settings.php:184
+#: ../admin/settings.php:190
 msgid "Define width and height of the media player screen."
 msgstr "Définir la taille de l'écran du lecteur"
 
-#: ../admin/settings.php:187
+#: ../admin/settings.php:193
 msgid "Autostart first single media"
 msgstr "Démarrage auto premier media"
 
-#: ../admin/settings.php:189
+#: ../admin/settings.php:195
 #, fuzzy
 msgid "If checked, first media in a single post will automatically start."
 msgstr "Si coché, le premier media démarrera automatiquement lors de l'affichage d'un article seul."
 
-#: ../admin/settings.php:199
+#: ../admin/settings.php:205
 msgid "Playlist Settings"
 msgstr "Paramétrage des listes de lecture"
 
-#: ../admin/settings.php:203
+#: ../admin/settings.php:209
 msgid "You can show all videos/media files in a playlist. Show the media player with the tag"
 msgstr "Vous pouvez afficher toutes videos/medias dans une liste de lecture. Pour afficher la liste de lecture avec le lecteur, insérez ce tag :"
 
-#: ../admin/settings.php:206
+#: ../admin/settings.php:212
 msgid "Autostart"
 msgstr "Lecture automatique"
 
-#: ../admin/settings.php:208
+#: ../admin/settings.php:214
 msgid "Automatically start playing the media files."
 msgstr "Démarrer automatiquement la lecture des medias"
 
-#: ../admin/settings.php:211
+#: ../admin/settings.php:217
 msgid "Shuffle mode"
 msgstr "Shuffle mode"
 
-#: ../admin/settings.php:213
+#: ../admin/settings.php:219
 msgid "Activate the shuffle mode in the playlist"
 msgstr "Activer le mode shuffle dans la liste de lecture"
 
-#: ../admin/settings.php:219
+#: ../admin/settings.php:225
 #, fuzzy
 msgid "Define width and height of the Media Player when a playlist is shown"
 msgstr "Définir la taille de l'écran du lecteur"
 
-#: ../admin/settings.php:222
+#: ../admin/settings.php:228
 msgid "Playlist size"
 msgstr "Taille de la liste de lecture"
 
-#: ../admin/settings.php:224
+#: ../admin/settings.php:230
 msgid "Size of the playlist. When below or above, this refers to the height, when right, this refers to the width of the playlist"
 msgstr ""
 
-#: ../admin/settings.php:227
+#: ../admin/settings.php:233
 #, fuzzy
 msgid "Playlist position"
 msgstr "Taille de la liste de lecture"
 
-#: ../admin/settings.php:230
-#: ../admin/settings.php:257
+#: ../admin/settings.php:236
+#: ../admin/settings.php:263
 msgid "bottom"
 msgstr ""
 
-#: ../admin/settings.php:231
-#: ../admin/settings.php:258
+#: ../admin/settings.php:237
+#: ../admin/settings.php:264
 msgid "over"
 msgstr ""
 
-#: ../admin/settings.php:232
+#: ../admin/settings.php:238
 msgid "right"
 msgstr ""
 
-#: ../admin/settings.php:236
+#: ../admin/settings.php:242
 msgid "Position of the playlist. Can be set to bottom, over, right or none."
 msgstr ""
 
-#: ../admin/settings.php:247
+#: ../admin/settings.php:253
 msgid "Layout  / Skin"
 msgstr ""
 
-#: ../admin/settings.php:251
+#: ../admin/settings.php:257
 msgid "Here you can change the colors and skin of your player and playlist"
 msgstr ""
 
-#: ../admin/settings.php:254
+#: ../admin/settings.php:260
 msgid "Controls position"
 msgstr ""
 
-#: ../admin/settings.php:262
+#: ../admin/settings.php:268
 msgid "Position of the controlbar. Can be set to bottom, over and none."
 msgstr ""
 
-#: ../admin/settings.php:265
+#: ../admin/settings.php:271
 #, fuzzy
 msgid "Skin file"
 msgstr "Fichier Media"
 
-#: ../admin/settings.php:267
+#: ../admin/settings.php:273
 msgid "URL of a SWF skin file with the player graphics"
 msgstr ""
 
-#: ../admin/settings.php:270
+#: ../admin/settings.php:276
 msgid "Show logo"
 msgstr "Afficher le logo"
 
-#: ../admin/settings.php:273
+#: ../admin/settings.php:279
 msgid "URL to your watermark (PNG, JPG): "
 msgstr "URL de votre filigrane (PNG, JPG)"
 
-#: ../admin/settings.php:276
+#: ../admin/settings.php:282
 msgid "Background Color"
 msgstr "Couleur de fond"
 
-#: ../admin/settings.php:279
+#: ../admin/settings.php:285
 #, fuzzy
 msgid "Background color of the controlbar and playlist"
 msgstr "Couleur de fond du lecteur (par défaut FFFFFF)"
 
-#: ../admin/settings.php:282
+#: ../admin/settings.php:288
 #, fuzzy
 msgid "Texts / Buttons Color"
 msgstr "Couleur des boutons"
 
-#: ../admin/settings.php:285
-msgid "Color of all icons and texts in the controlbar and playlist"
-msgstr ""
-
-#: ../admin/settings.php:288
-#, fuzzy
-msgid "Rollover / Active Color"
-msgstr "Couleur active"
-
 #: ../admin/settings.php:291
-msgid "Color of an icon or text when you rollover it with the mouse"
+msgid "Color of all icons and texts in the controlbar and playlist"
 msgstr ""
 
 #: ../admin/settings.php:294
 #, fuzzy
-msgid "Screen Color"
+msgid "Rollover / Active Color"
 msgstr "Couleur active"
 
 #: ../admin/settings.php:297
+msgid "Color of an icon or text when you rollover it with the mouse"
+msgstr ""
+
+#: ../admin/settings.php:300
+#, fuzzy
+msgid "Screen Color"
+msgstr "Couleur active"
+
+#: ../admin/settings.php:303
 #, fuzzy
 msgid "Background color of the display"
 msgstr "Couleur de fond du lecteur (par défaut FFFFFF)"
 
-#: ../admin/settings.php:313
+#: ../admin/settings.php:319
 msgid "With LongTail Adsolution you can embed any ad tag into your media player, allowing them to run pre-, overlay mid- and post-roll advertisements."
 msgstr ""
 
-#: ../admin/settings.php:317
+#: ../admin/settings.php:323
 #, fuzzy
 msgid "Activate Ads"
 msgstr "Statistiques"
 
-#: ../admin/settings.php:321
+#: ../admin/settings.php:327
 msgid "API Script"
 msgstr ""
 
-#: ../admin/settings.php:323
+#: ../admin/settings.php:329
 msgid "Look for the script code at your"
 msgstr ""
 
-#: ../admin/settings.php:323
+#: ../admin/settings.php:329
 msgid "LongTail dashboard"
 msgstr ""
 
-#: ../admin/settings.php:327
+#: ../admin/settings.php:333
 #, fuzzy
 msgid "Channel ID"
 msgstr "Annuler"
 
-#: ../admin/settings.php:342
+#: ../admin/settings.php:348
 msgid "You can reset all options/settings to the default installation."
 msgstr ""
 
-#: ../admin/settings.php:343
+#: ../admin/settings.php:349
 #, fuzzy
 msgid "Reset settings"
 msgstr "Paramétrage des listes de lecture"
 
-#: ../admin/settings.php:343
+#: ../admin/settings.php:349
 msgid ""
 "Reset all options to default settings ?\\n"
 "\\n"
 "Choose [Cancel] to Stop, [OK] to proceed.\\n"
 msgstr ""
 
-#: ../admin/settings.php:345
+#: ../admin/settings.php:351
 msgid "You don't like wordTube ?"
 msgstr ""
 
-#: ../admin/settings.php:346
+#: ../admin/settings.php:352
 msgid "No problem, before you deactivate this plugin press the Uninstall Button, because deactivating wordTube does not remove any data that may have been created. "
 msgstr ""
 
-#: ../admin/settings.php:348
+#: ../admin/settings.php:354
 msgid "WARNING:"
 msgstr ""
 
-#: ../admin/settings.php:349
+#: ../admin/settings.php:355
 msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to backup all the tables first."
 msgstr ""
 
-#: ../admin/settings.php:351
+#: ../admin/settings.php:357
 msgid "Uninstall plugin"
 msgstr ""
 
-#: ../admin/settings.php:351
+#: ../admin/settings.php:357
 msgid ""
 "You are about to Uninstall this plugin from WordPress.\\n"
 "This action is not reversible.\\n"
@@ -872,11 +903,13 @@ msgid ""
 "Choose [Cancel] to Stop, [OK] to Uninstall.\\n"
 msgstr ""
 
-#: ../lib/shortcodes.php:171
+#: ../lib/shortcodes.php:170
+#: ../lib/shortcodes.php:214
 msgid "[MEDIA not found]"
 msgstr ""
 
-#: ../lib/shortcodes.php:195
+#: ../lib/shortcodes.php:194
+#: ../lib/shortcodes.php:232
 msgid "[PLAYLIST not found]"
 msgstr ""
 
@@ -935,6 +968,8 @@ msgstr "Sélection liste de lecture"
 msgid "Insert"
 msgstr "Insérer"
 
+#~ msgid "Automatically repeat playing when a file is completed."
+#~ msgstr "Relire automatiquement en fin de lecture"
 #~ msgid "Click to edit..."
 #~ msgstr "Cliquer pour modifier..."
 #~ msgid "Media Center"
