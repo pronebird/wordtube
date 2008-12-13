@@ -9,9 +9,9 @@ wordTube is your Media Center plugin for WordPress.
 
 == Description ==
 
-This plugin manages the JW FLV MEDIA PLAYER 4.1 and makes it easy for 
+This plugin manages the JW FLV MEDIA PLAYER 4.2 and makes it easy for 
 you to put music, videos or flash movies onto your WordPress posts and pages. 
-Various skins for the JW PLAYER are available via www.jeroenwijering.com 
+Various skins for the JW PLAYER are available via www.longtailvideo.com 
 
 wordTube supports the streaming video format (Format .flv or .swf), 
 sound files as MP3 and JPG, GIF or PNG grafic files. 
@@ -20,7 +20,7 @@ tag [media id="media id"] or as playlist [playlist id="playlist id"].
 
 Since Version 2.0 it supports LongTail's AdSolution which allows you 
 to run pre-roll, overlay mid-roll, and post-roll advertisements in your media player.
-Have a look at http://www.longtailvideo.com/adsolution.html
+[Click here to sign up for LongTail](http://www.longtailvideo.com/referral.aspx?page=landingpage&ref=grwihxmxxldugmq "LongTail Adsolution")
 
 You don't need to change the WYSIWYG mode or special HTML knowledge 
 to insert such a tag. You can show a simple media file (i.e. a flv Format) 
@@ -51,8 +51,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 1. 	Upload the files to wp-content/plugins/wordtube
 
-2.  Go to the web page http://www.jeroenwijering.com/?item=JW_FLV_Media_Player
-	and download the JW FLV Media Player 4.1 and unpack the conent
+2.  Go to the web page http://www.longtailvideo.com
+	and download the JW FLV Media Player 4.2 or higher and unpack the conent
 
 3.	Upload the file player.swf and yt.swf to the wordtube folder
 
