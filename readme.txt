@@ -1,6 +1,6 @@
 === wordTube ===
 Contributors: Alex Rabe, Alakhnor
-Donate link: http://alexrabe.boelinger.com/?page_id=20
+Donate link: http://alexrabe.boelinger.com/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.7
 Tested up to: 2.7
