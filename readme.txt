@@ -3,13 +3,12 @@ Contributors: Alex Rabe, Alakhnor
 Donate link: http://alexrabe.boelinger.com/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.7
-Tested up to: 2.7
 
 wordTube is your Media Center plugin for WordPress.
 
 == Description ==
 
-This plugin manages the JW FLV MEDIA PLAYER 4.2 and makes it easy for 
+This plugin manages the JW FLV MEDIA PLAYER 4.3 and makes it easy for 
 you to put music, videos or flash movies onto your WordPress posts and pages. 
 Various skins for the JW PLAYER are available via www.longtailvideo.com 
 
@@ -28,7 +27,7 @@ or a playlist of all your media files..
 
 == Credits ==
 
-Copyright 2006-2008 Alex Rabe & Alakhnor
+Copyright 2006-2009 Alex Rabe & Alakhnor
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -52,7 +51,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 1. 	Upload the files to wp-content/plugins/wordtube
 
 2.  Go to the web page http://www.longtailvideo.com
-	and download the JW FLV Media Player 4.2 or higher and unpack the conent
+	and download the JW FLV Media Player 4.3 or higher and unpack the conent
 
 3.	Upload the file player.swf and yt.swf to the wordtube folder
 

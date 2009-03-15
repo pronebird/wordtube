@@ -9,13 +9,14 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 	$wt_options = get_option('wordtube_options');
 
 	// same as $_SERVER['REQUEST_URI'], but should work under IIS 6.0
-	$filepath    = admin_url() . 'admin.php?page='.$_GET['page'];
+	$filepath    = admin_url() . 'admin.php?page=' . $_GET['page'];
 
 	if ( isset($_POST['updateoption']) ) {	
 		check_admin_referer('wt_settings');
 		// get the hidden option fields, taken from WP core
 		if ( $_POST['page_options'] )	
 			$options = explode(',', stripslashes($_POST['page_options']));
+			
 		if ($options) {
 			foreach ($options as $option) {
 				$option = trim($option);
@@ -23,7 +24,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 				$wt_options[$option] = $value;
 			}
 		}
-
+		
 		// Save options
 		update_option('wordtube_options', $wt_options);
 	 	wordTubeAdmin::render_message(__('Update Successfully','wpTube'));
@@ -40,14 +41,14 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 		$wt_options['version'] = WORDTUBE_VERSION;
 		
 		update_option('wordtube_options', $wt_options);
-		
-		wordTubeAdmin::render_message(__('Reset all settings to default parameter','wpTube'));
+    		
+		wordTubeAdmin::render_message(__('Reset all settings to default parameter', 'wpTube'));
 	}
 
 	if ( isset($_POST['uninstall']) ) {
 		check_admin_referer('wt_settings');
 
-		require_once (dirname (__FILE__). '/install.php');
+		require_once (dirname (__FILE__) . '/install.php');
 		
 		delete_option( "wordtube_options" );
 				
@@ -55,7 +56,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 		$wpdb->query("DROP TABLE $wpdb->wordtube_playlist");
 		$wpdb->query("DROP TABLE $wpdb->wordtube_med2play");
 		
-		wordTubeAdmin::render_message(__('Tables and settings deleted, deactivate the plugin now','wpTube'));
+		wordTubeAdmin::render_message(__('Tables and settings deleted, deactivate the plugin now', 'wpTube'));
 	}
 	
 	?>
@@ -122,9 +123,9 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 			<h2><?php _e('Media Player','wpTube'); ?></h2>
 			<form name="playersettings" method="POST" action="<?php echo $filepath.'#player'; ?>" >
 			<?php wp_nonce_field('wt_settings') ?>
-			<input type="hidden" name="page_options" value="repeat,stretching,displayclick,quality,showfsbutton,volume,bufferlength,media_width,media_height,startsingle" />
-				<p> <?php _e('These settings are valid for all your flash video. The settings are used in the JW Flash Media Player Version 4.1', 'wpTube') ?> <br />
-					<?php _e('See more information on the web page', 'wpTube') ?> <a href="http://www.jeroenwijering.com/?item=JW_FLV_Media_Player" target="_blank">Flash Media Player from Jeroen Wijering</a></p>
+			<input type="hidden" name="page_options" value="repeat,stretching,displayclick,quality,showfsbutton,volume,bufferlength,media_width,media_height,startsingle,plugins,custom_vars" />
+				<p> <?php _e('These settings are valid for all your flash video. The settings are used in the JW FLV Media Player Version 4.3', 'wpTube') ?> <br />
+					<?php _e('See more information on the web page', 'wpTube') ?> <a href="http://www.longtailvideo.com/players/jw-flv-player/" target="_blank">JW FLV Media Player from Jeroen Wijering</a></p>
 				<table class="form-table">
 					<tr>
 						<th><?php _e('Repeat','wpTube') ?></th>
@@ -193,6 +194,18 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 						<th><?php _e('Autostart first single media','wpTube') ?></th>
 						<td><input name="startsingle" type="checkbox" value="1" <?php checked(true , $wt_options['startsingle']); ?> />
 						<?php _e('If checked, first media in a single post will automatically start.','wpTube') ?></td>
+					</tr>
+					<tr>
+						<th><?php _e('Plugins','wpTube') ?></th>
+						<td><input type="text" size="70" name="plugins" value="<?php echo $wt_options['plugins']; ?>" /><br />
+							<?php _e('This is a comma-separated list of swf plugins to load (e.g. yousearch,viral). Each plugin has a unique ID and resides at plugins.longtailvideo.com', 'wpTube') ?>
+						</td>
+					</tr>	
+					<tr>
+						<th><?php _e('Custom variables','wpTube') ?></th>
+						<td><textarea name="custom_vars" cols="80" rows="5"><?php echo $wt_options['custom_vars']; ?></textarea><br />
+							<?php _e('This is a comma-separated list of plugin variables or custom parameters (e.g. variable1=this, variable2=that).', 'wpTube') ?>
+						</td>
 					</tr>
 				</table>
 			<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Update') ;?>"/></div>

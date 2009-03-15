@@ -14,7 +14,7 @@ function wordtube_install() {
 	global $wpdb;
 
 		// set tablename
-		$table_name 		= $wpdb->prefix . "wordtube"; 		
+		$table_name 		= $wpdb->prefix . 'wordtube'; 		
 		$table_playlist		= $wpdb->prefix . 'wordtube_playlist';
 		$table_med2play		= $wpdb->prefix . 'wordtube_med2play';
 
@@ -184,6 +184,9 @@ function wt_get_DefaultOption() {
 	if ($options['frontcolor']=='') 		$options['frontcolor'] = '000000';
 	if ($options['lightcolor']=='') 		$options['lightcolor'] = '000000';
 	if ($options['screencolor']=='') 		$options['screencolor'] = '000000';
+	// new since 2.2.0
+	if ($options['plugins']=='') 			$options['plugins'] = '';
+	if ($options['custom_vars']=='') 		$options['custom_vars'] = '';
 	
 	return $options;
 }

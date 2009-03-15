@@ -220,7 +220,7 @@ class wordTubeManage extends wordTubeAdmin  {
 				</div>
 			</div>
 			<!-- Table -->
-			<table class="widefat">
+			<table class="widefat" cellspacing="0">
 				<thead>
 					<tr>
 						<th id="id" class="manage-column column-id" scope="col"><?php _e('ID','wpTube'); ?></th>
@@ -560,7 +560,7 @@ class wordTubeManage extends wordTubeAdmin  {
 			<h2><?php _e('Manage Playlist','wpTube'); ?></h2>
 			<br class="clear"/>
 			<form id="editplist" action="<?php echo $this->base_page; ?>" method="post">
-				<table id="the-list-x" width="100%" cellspacing="3" cellpadding="3" class="widefat">
+				<table class="widefat" cellspacing="0">
 					<thead>
 						<tr>
 							<th scope="col"><?php _e('ID','wpTube'); ?></th>

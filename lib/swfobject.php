@@ -4,8 +4,7 @@ if ( !class_exists('swfobject') ) :
  * swfobject - PHP class for creating dynamic content of SWFObject V2.1
  * 
  * @author Alex Rabe
- * @package NextGEN Gallery
- * @copyrigh V0.2
+ * @version 0.3
  * @access public
  * @example http://code.google.com/p/swfobject/
  */
@@ -182,8 +181,11 @@ class swfobject {
 		if ( is_array($params) ) {
 			foreach ($params as $key => $value) {
 				if  ( !empty($list) )
-					$list .= ",";	
-				$list .= "\n\t\t" . $key . ' : ' . '"' . $value .'"';
+					$list .= ",";
+				if (false === strrpos($key, '.') )		
+					$list .= "\n\t\t" . $key . ' : ' . '"' . $value .'"';
+				else
+					$list .= "\n\t\t'" . $key . '\' : ' . '"' . $value .'"';	
 			}
 		}
 		$js = "\t" . $name . ' : {' . $list . '}';		
@@ -192,6 +194,5 @@ class swfobject {
 	
 }
 endif;
-
 
 ?>

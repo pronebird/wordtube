@@ -2,7 +2,7 @@
 
 /**
  * @author Alex Rabe
- * @copyright 2008
+ * @copyright 2008-2009
  * @description Use WordPress Shortcode API for more features
  * @Docs http://codex.wordpress.org/Shortcode_API
  */
@@ -147,7 +147,8 @@ class wordTube_shortcodes {
 		extract(shortcode_atts(array(
 			'id' 		=> false,
 			'width' 	=> '',
-			'height' 	=> ''
+			'height' 	=> '',
+			'plugins'	=> ''
 		), $atts ));
 		
 		// if the page is a single page we look for the autostart option
@@ -164,7 +165,7 @@ class wordTube_shortcodes {
 			
 		if ($media) {
 			$autostart = ($this->count == 1 && $auto) ? true : $media->autostart;
-			$out = $wordTube->ReturnMedia( $media->vid, $media->file, $media->image, $width, $height, $autostart, $media );
+			$out = $wordTube->ReturnMedia( $media->vid, $media->file, $media->image, $width, $height, $autostart, $media , $plugins );
 			$this->count++;
 		} else 
 			$out = __('[MEDIA not found]','wpTube');
@@ -179,7 +180,8 @@ class wordTube_shortcodes {
 		extract(shortcode_atts(array(
 			'id' 		=> 0,
 			'width' 	=> 0,
-			'height' 	=> 0
+			'height' 	=> 0,
+			'plugins'	=> ''
 		), $atts ));
 		
 		$dbresult = false;
@@ -188,9 +190,9 @@ class wordTube_shortcodes {
 			$dbresult = $wpdb->get_row('SELECT * FROM '.$wpdb->wordtube_playlist.' WHERE pid = '.$id);
 		
 		// check for tags	
-		if ( ($dbresult) || in_array( $id, $wordTube->PLTags) ) {
-			$out = $wordTube->ReturnPlaylist( $id , $width, $height);
-		} else 
+		if ( ($dbresult) || in_array( $id, $wordTube->PLTags) )
+			$out = $wordTube->ReturnPlaylist( $id , $width, $height, $plugins);
+		else 
 			$out = __('[PLAYLIST not found]','wpTube');
 		
 		return $out;
@@ -206,13 +208,20 @@ class wordTube_shortcodes {
 		if (preg_match_all($search, $text, $matches, PREG_SET_ORDER)) {
 			foreach ($matches as $match) {
 				$media = $wordTube->GetVidByID($match[1]);
-				$width = $match[2]; if (empty($width)) { $width = $media->width; }
-				$height = $match[3]; if (empty($height)) { $height = $media->height; }
-				if ($media) {
+				$width = $match[2]; 
+				$height = $match[3]; 
+								
+				if (empty($width))
+					$width = $media->width;
+								
+				if (empty($height))
+					$height = $media->height;
+						
+				if ($media)
 					$out = $wordTube->ReturnMedia($media->vid, $media->file, $media->image, $width, $height, $media->autostart, $media);
-				} else {
+				else
 					$out = __('[MEDIA not found]','wpTube');
-				}				
+				
 				$text = str_replace($match[0], $out, $text);
 			}
 		}
@@ -223,14 +232,15 @@ class wordTube_shortcodes {
 		if (preg_match_all($search, $text, $matches, PREG_SET_ORDER)) {
 			foreach ($matches as $match) {
 				$id = $match[1];
-				if (!in_array($id, $wordTube->PLTags) && is_numeric($id)) {
+				
+				if (!in_array($id, $wordTube->PLTags) && is_numeric($id))
 					$dbresult = $wpdb->get_row('SELECT * FROM '.$wpdb->wordtube_playlist.' WHERE pid = '.$id);
-				}
-				if (($dbresult) || in_array($id, $wordTube->PLTags)) {
+	
+				if (($dbresult) || in_array($id, $wordTube->PLTags))
 					$out = $wordTube->ReturnPlaylist($id, $width, $height);
-				} else {
+				else
 					$out = __('[PLAYLIST not found]','wpTube');
-				}
+
 				$text = str_replace($match[0], $out, $text);
 			}
 		}

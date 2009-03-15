@@ -5,7 +5,7 @@
  * 
  * @package wordTube
  * @author Alex Rabe, Alakhnor
- * @copyright 2008
+ * @copyright 2008 - 2009
  * @access public
  */
 class wordTubeClass {
@@ -38,9 +38,6 @@ class wordTubeClass {
 		$wpdb->wordtube				= $wpdb->prefix . 'wordtube';
 		$wpdb->wordtube_playlist	= $wpdb->prefix . 'wordtube_playlist';
 		$wpdb->wordtube_med2play	= $wpdb->prefix . 'wordtube_med2play';
-		
-		// get the options
-		$this->options = get_option('wordtube_options');
 
 		// Action activate script in header, but not in the admin section
 		if ( !is_admin() )
@@ -58,10 +55,20 @@ class wordTubeClass {
 	 * @param integer $height
 	 * @param bool $autostart
 	 * @param object $media database content of this media file
+	 * @param string $plugins a comma separated list of addon plugins
 	 * @return string $out content of the media code
 	 */
-	function ReturnMedia($id, $url = '', $image = '', $width = 0, $height = 0, $autostart = false, $media = '') {
+	function ReturnMedia($id, $url = '', $image = '', $width = 0, $height = 0, $autostart = false, $media = '', $plugins = '') {
 
+		// get the options & custom fields
+		$this->options = $this->get_option('wordtube_options');
+		
+		// join the plugin list
+		if ( empty($this->options['plugins']) )
+			$this->options['plugins'] = $plugins;
+		elseif ( !empty($plugins) ) 	
+			$this->options['plugins'] .= ',' . $plugins;
+			
 		// get some default values
 		$width  = ( $width  == 0 ) ? $this->options['media_width'] : $width;
 		$height = ( $height == 0 ) ? $this->options['media_height'] : $height;
@@ -78,7 +85,7 @@ class wordTubeClass {
 				$out .= '<br /><img src="' . $image . '" alt="media" /><br />'."\n";
 			// returns custom message for RSS feeds
 			if ( $this->options['activaterss'] ) 
-				$out .= "[" . $this->options['rssmessage'] . "]";
+				$out .= '[' . $this->options['rssmessage'] . ']';
 			return $out;
 		}
 		
@@ -118,9 +125,19 @@ class wordTubeClass {
 	 * @param integer $id
 	 * @param integer $width
 	 * @param integer $height
+	 * @param string $plugins a comma separated list of addon plugins
 	 * @return string $out
 	 */
-	function ReturnPlaylist($id = 0, $width = 0, $height = 0) {
+	function ReturnPlaylist($id = 0, $width = 0, $height = 0,  $plugins = '') {
+		
+		// get the options & custom fields
+		$this->options = $this->get_option('wordtube_options');
+		
+		// join the plugin list
+		if ( empty($this->options['plugins']) )
+			$this->options['plugins'] = $plugins;
+		elseif ( !empty($plugins) ) 	
+			$this->options['plugins'] .= ',' . $plugins;
 		
 		// get the global option settings if not defined
 		$width  = ( $width  == 0 ) ? $this->options['width']  : $width;
@@ -129,9 +146,9 @@ class wordTubeClass {
 		// returns custom message for RSS feeds
 		if (is_feed()) {
 			// remove media file from RSS feed
-			$out = "";
+			$out = '';
 			// add rss message if option checked
-			if ($this->options['activaterss']) $out .= "[".$this->options['rssmessage']."]";
+			if ($this->options['activaterss']) $out .= '[' . $this->options['rssmessage'] . ']';
 			return $out;
 		}
 
@@ -178,7 +195,7 @@ class wordTubeClass {
 		} else {
 			$this->swfobject->add_flashvars( 'file', rawurlencode( $file ) );
 			if ( $this->enableAds )
-				$this->swfobject->add_flashvars( '\'ltas.mediaid\'', rawurlencode( $file ) );
+				$this->swfobject->add_flashvars( 'ltas.mediaid', rawurlencode( $file ) );
 		}
 
 		return;
@@ -292,11 +309,29 @@ class wordTubeClass {
 		//Add longtail settings
 		if ( $this->enableAds ) {
 			$this->swfobject->add_flashvars( 'channel', $this->options['LTchannelID'], '');
-			$this->swfobject->add_flashvars( 'plugins', 'ltas');
+			if ( empty ($this->options['plugins']) )
+				$this->options['plugins']  = 'ltas';
+			else
+				$this->options['plugins'] .= ',ltas';
 			$this->swfobject->add_flashvars( 'title', rawurlencode($this->media->name));
 			$this->swfobject->add_flashvars( 'description', rawurlencode($this->media->description));
-		}	
+		}
+			
+		//Add plugins if needed
+		if ( !empty ($this->options['plugins']) )
+			$this->swfobject->add_flashvars( 'plugins', $this->options['plugins'], '');
 		
+		//Add custom flash variables
+		if ( !empty ($this->options['custom_vars']) ) {
+			$list  = explode(',', $this->options['custom_vars']);
+			if ($list) {
+				foreach ($list as $element) {
+					list($variable, $value) = split('=', trim($element), 2);
+					$this->swfobject->add_flashvars( $variable, $value);
+				}
+			}
+		}
+			
 		return;	
 	}
 	
@@ -310,6 +345,7 @@ class wordTubeClass {
 
 		$this->swfobject->add_params('wmode', 'opaque');
 		$this->swfobject->add_params('allowscriptaccess', 'always');
+		$this->swfobject->add_params('allownetworking', 'all');
 		$this->swfobject->add_params('allowfullscreen', $this->options['showfsbutton'], 'false', 'bool');
 		
 		return;
@@ -387,8 +423,86 @@ class wordTubeClass {
 			wp_enqueue_script('swfobject', WORDTUBE_URLPATH.'javascript/swfobject.js', false, '2.1');
 			wp_enqueue_script('wordtube_stats', WORDTUBE_URLPATH.'javascript/statistic.js', array('jquery'), '0.1');			
 			wp_localize_script('wordtube_stats', 'wordtube', array(
-						'ajaxurl' => __( WORDTUBE_URLPATH . 'lib/statistic.php')			
+						'ajaxurl' => WORDTUBE_URLPATH . 'lib/statistic.php'			
 			) );
+	}
+
+	/**
+	* get_option() - get the options and overwrite them with custom meta settings
+	*
+	* @param string $key
+	* @since version 2.2.0
+	* @return array $options
+	*/
+	function get_option($key) {
+		// get first the options from the database 
+		$options = get_option($key);
+		
+		// Get all key/value data for the current post. 
+		$meta_array = get_post_custom();
+		//var_dump($meta_array);
+		// Ensure that this is a array
+		if ( !is_array($meta_array) )
+			$meta_array = array($meta_array);
+		
+		// assign meta key to db setting key
+		$meta_tags = array(
+			'string' => array(
+				'wt_usewatermark' 			=> 'galShowOrder',
+				'wt_controlbar' 			=> 'controlbar',
+				'wt_skinurl' 				=> 'skinurl',
+				'wt_playlist'				=> 'playlist',
+				'wt_backcolor'				=> 'backcolor',
+				'wt_frontcolor'				=> 'frontcolor',
+				'wt_lightcolor' 			=> 'lightcolor',
+				'wt_screencolor' 			=> 'screencolor',
+				'wt_displayclick'			=> 'displayclick',
+				'wt_stretching'				=> 'stretching',
+				'wt_plugins' 				=> 'plugins',
+				'wt_custom_vars'			=> 'custom_vars'
+			),
+
+			'int' => array(
+				'wt_showfsbutton' 			=> 'showfsbutton',
+				'wt_volume' 				=> 'volume',
+				'wt_bufferlength'			=> 'bufferlength',
+				'wt_width'					=> 'width',
+				'wt_height' 				=> 'height',	
+				'wt_media_width'			=> 'media_width',
+				'wt_media_height'			=> 'media_height',
+				'wt_playlistsize' 			=> 'playlistsize',
+				'wt_LTchannelID'			=> 'LTchannelID'
+			),
+
+			'bool' => array(
+				'wt_shuffle'				=> 'shuffle',
+				'wt_autostart'				=> 'autostart',
+				'wt_overstretch' 			=> 'overstretch',
+				'wt_quality' 				=> 'quality',
+				'wt_activateAds' 			=> 'activateAds'
+			)
+		);
+		
+		foreach ($meta_tags as $typ => $meta_keys){
+			foreach ($meta_keys as $key => $db_value){
+				// if the key exist overwrite it with the custom field
+				if (array_key_exists($key, $meta_array)){
+					switch ($typ) {
+					case 'string':
+						$options[$db_value] = (string) attribute_escape($meta_array[$key][0]);
+						break;
+					case 'int':
+						$options[$db_value] = (int) $meta_array[$key][0];
+						break;
+					case 'bool':
+						$options[$db_value] = (bool) $meta_array[$key][0];
+						break;	
+					}
+				}
+			}
+		}
+		
+		return $options;
 	}
 
 } // end wordTube class
