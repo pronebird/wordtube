@@ -4,7 +4,7 @@ if ( !class_exists('swfobject') ) :
  * swfobject - PHP class for creating dynamic content of SWFObject V2.1
  * 
  * @author Alex Rabe
- * @version 0.3
+ * @version 0.4
  * @access public
  * @example http://code.google.com/p/swfobject/
  */
@@ -106,7 +106,7 @@ class swfobject {
 		// count up if we have more than one swfobject
 		$swfCounter++;
 		
-		$out  = "\n" . '<div class="'. $this->classname .'" id="'. $this->id  .'" name="'. $this->id .'" style="width:'.$this->width .'px; height:'. $this->height .'px;">';
+		$out  = "\n" . '<div class="'. $this->classname .'" id="'. $this->id  .'" style="width:'.$this->width .'px; height:'. $this->height .'px;">';
 		$out .= "\n" . $this->message;
 		$out .= "\n" . '</div>';
 		

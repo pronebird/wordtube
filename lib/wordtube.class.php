@@ -221,7 +221,7 @@ class wordTubeClass {
 		// Add the Longtail Scritp to the footer and wrap a div around
 		if ( $this->enableAds && $playmode == 'single' && !is_admin() ) {
 			add_action('wp_footer', array(&$this, 'addLongtailFooter' ));
-			$out  = "\n".'<div name="mediaspace" id="mediaspace">'. $out . "\n".'</div>';
+			$out  = "\n".'<div id="mediaspace">'. $out . "\n".'</div>';
 		}
 			
 		// Set js open tag

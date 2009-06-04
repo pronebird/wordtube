@@ -1,5 +1,5 @@
 === wordTube ===
-Contributors: Alex Rabe, Alakhnor
+Contributors: Alex Rabe
 Donate link: http://alexrabe.boelinger.com/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.7
@@ -51,7 +51,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 1. 	Upload the files to wp-content/plugins/wordtube
 
 2.  Go to the web page http://www.longtailvideo.com
-	and download the JW FLV Media Player 4.3 or higher and unpack the conent
+	and download the JW FLV Media Player 4.4 or higher and unpack the conent
 
 3.	Upload the file player.swf and yt.swf to the wordtube folder
 

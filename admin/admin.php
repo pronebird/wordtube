@@ -34,9 +34,10 @@ class wordTubeAdmin extends wordTubeClass {
 	function render_error ($message)
 	{
 		?>
+		<div class="wrap"><h2>&nbsp;</h2>
 		<div class="error" id="error">
 		 <p><strong><?php echo $message ?></strong></p>
-		</div>
+		</div></div>
 		<?php
 	}
 	
@@ -53,9 +54,10 @@ class wordTubeAdmin extends wordTubeClass {
 	function render_message ($message, $timeout = 0)
 	{
 		?>
+		<div class="wrap"><h2>&nbsp;</h2>
 		<div class="fade updated" id="message" onclick="this.parentNode.removeChild (this)">
 		 <p><strong><?php echo $message ?></strong></p>
-		</div>
+		</div></div>
 		<?php	
 	}	
 	

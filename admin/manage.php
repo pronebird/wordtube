@@ -334,7 +334,7 @@ class wordTubeManage extends wordTubeAdmin  {
 		<div class="wrap">
 			<h2><?php _e('Edit media file', 'wpTube') ?></h2>
 			<form name="table_options" method="post" id="video_options">
-			<div id="poststuff">
+			<div id="poststuff" class="has-right-sidebar">
 				<div class="inner-sidebar">
 					<div id="submitdiv" class="postbox">
 						<h3 class="hndle"><span><?php _e('Settings','wpTube') ?></span></h3>
@@ -430,7 +430,7 @@ class wordTubeManage extends wordTubeAdmin  {
 		<div class="wrap">
 			<h2><?php _e('Add a new media file','wpTube'); ?></h2>
 			<form name="table_options" enctype="multipart/form-data" method="post" id="video_options">
-			<div id="poststuff">
+			<div id="poststuff" class="has-right-sidebar">
 				<div class="inner-sidebar">
 					<div id="submitdiv" class="postbox">
 						<h3 class="hndle"><span><?php _e('Settings','wpTube') ?></span></h3>

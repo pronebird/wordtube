@@ -4,7 +4,7 @@ Plugin Name: wordTube
 Plugin URI: http://alexrabe.boelinger.com/?page_id=20
 Description: This plugin manages the JW FLV MEDIA PLAYER 4.2 and makes it easy for you to put music, videos or flash movies onto your WordPress posts and pages. Various skins for the JW PLAYER are available via www.jeroenwijering.com
 Author: Alex Rabe & Alakhnor
-Version: 2.2.0
+Version: 2.2.1
 Author URI: http://alexrabe.boelinger.com/
 
 Copyright 2006-2009 Alex Rabe , Alakhnor
@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 global $wp_version;
 
 // The current version
-define('WORDTUBE_VERSION', '2.2.0');
+define('WORDTUBE_VERSION', '2.2.1');
 
 // Check for WP2.7 installation
 if (!defined ('IS_WP27'))
