@@ -53,7 +53,8 @@ function wordtube_install() {
 	      			width SMALLINT(5) NOT NULL,
 	      			height SMALLINT(5) NOT NULL,
 	      			autostart TINYINT(1) NULL DEFAULT '0',
-					disableads TINYINT(1) NULL DEFAULT '0'
+					disableads TINYINT(1) NULL DEFAULT '0',
+					counter MEDIUMINT(10) NULL DEFAULT '0'
 	     			) $charset_collate;";
 	     
 			$res = $wpdb->get_results($sql);
@@ -176,7 +177,7 @@ function wt_get_DefaultOption() {
 	if ($options['skinurl']=='') 			$options['skinurl'] = '';
 	if ($options['playlist']=='') 			$options['playlist'] = 'bottom';
 	if ($options['activateAds']=='') 		$options['activateAds'] = false;
-	if ($options['LTpublisherID']=='') 		$options['LTapiScript'] = addslashes('<script language="JavaScript" src="http://www.ltassrv.com/serve/api5.4.asp?d=XXXX&s=XXXX&c=XXXX&v=1"></script>');
+	if ($options['LTapiScript']=='') 		$options['LTapiScript'] = addslashes('<script language="JavaScript" src="http://www.ltassrv.com/serve/api5.4.asp?d=XXXX&s=XXXX&c=XXXX&v=1"></script>');
 	if ($options['LTchannelID']=='') 		$options['LTchannelID'] = '';
 	if ($options['media_width']=='') 		$options['media_width'] = 320;
 	if ($options['media_height']=='') 		$options['media_height'] = 240;
