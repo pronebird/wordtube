@@ -137,7 +137,6 @@ That's it ... Have fun
 * Remove MP3 layout, statistic, color settings. This will be return after 4.1 as new plugin later on. Stay tuned.
 
 = V1.61 (not released) =
-Additions by Alakhnor:
 * This version has two major enhancements: tag management and youtube support. 
 * Tags can be added to each media. They use the standard WP term table. 
 * A tag list edit screen is available to ease input. 
@@ -152,7 +151,6 @@ Additions by Alakhnor:
 * Add wordtube.jpg (default image) to prevent some hidden 404 message (didn't have any other impact). 
 
 = V1.60 / 16.03.2008 =
-Additions by Alakhnor:
 * complete rewrite into a class
 * playlist on right side
 * start icon off/on
@@ -164,7 +162,6 @@ Additions by Alakhnor:
 * WP formatted filters on manage screen (media list screen)
 * Media selection can be 'last' or 'random' ex: [MEDIA=last]
 * Note: new texts will require translation update
-Additions by Alex Rabe:
 * Remove count complete
 * Added button for WP2.5
 
@@ -210,14 +207,14 @@ Additions by Alex Rabe:
 * Updated to Media Player Version 3.5
 * Attach media file in RSS feed (start of Podcast integration)
 * Show thumbnail in RSS feed
-* Change database types for URL’s (larger than 200 chars now possible)
-* Disable “wmode=transparent” for fullscreen mode
-* Change from block level <P> to <DIV> tag
+* Change database types for URL's (larger than 200 chars now possible)
+* Disable "wmode=transparent" for fullscreen mode
+* Change from block level &lt;P&gt; to &lt;DIV&gt; tag
 
 = V1.35 / 01.02.2007 =
 * Add XHTML option
 * Add RSS Feed message
-* Add CSS class=”wordtube”
+* Add CSS class="wordtube"
 * Bugfix for different sql_mode settings
 * Fixed width in Button popup
 
@@ -265,7 +262,7 @@ Additions by Alex Rabe:
 * Added Author field
 * Added Playlist support
 * Button support for Wordpress 2.1
-* Changed form names from “Video” to “Media”
+* Changed form names from "Video" to "Media"
 * Fix bug in wordtube-Button.php when files are deleted
 
 = V1.03 / 29.12.2006 =
