@@ -1,3 +1,15 @@
+= V2.3.0 / 04.04.2010=
+* Added JW Media Player 5.1
+* Updated settings for V5.0
+* Move player file outside the plugin folder
+* Updated Longtail Ads Implementation
+* Remove direct callback for playlist and statistic
+* Added new filter
+* Minor UI updates
+* Rework Widget for new WP2.8 class structure
+* Bugfix for register_taxonomy under WP3.0
+* Remove various PHP notices messages
+
 = V2.2.2 / 19.07.2009 =
 * Bugfix : Counter not added to database (THX to Karsten)
 * Bugfix : AdsCode not overwritten during upgrade

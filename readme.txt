@@ -2,14 +2,14 @@
 Contributors: Alex Rabe
 Donate link: http://alexrabe.de/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
-Requires at least: 2.7
+Requires at least: 2.8
 Tested up to: 2.9.2
 
 wordTube is your Media Center plugin for WordPress.
 
 == Description ==
 
-This plugin manages the JW FLV MEDIA PLAYER 4.6 and makes it easy for 
+This plugin manages the JW FLV MEDIA PLAYER 5.1 and makes it easy for 
 you to put music, videos or flash movies onto your WordPress posts and pages. 
 Various skins for the JW PLAYER are available via www.longtailvideo.com 
 
@@ -28,7 +28,7 @@ or a playlist of all your media files..
 
 == Credits ==
 
-Copyright 2006-2009 Alex Rabe & Alakhnor
+Copyright 2006-2010 Alex Rabe & Alakhnor
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -51,15 +51,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 1. 	Upload the files to wp-content/plugins/wordtube
 
-2.  Go to the web page http://www.longtailvideo.com
-	and download the JW FLV Media Player 4.6 or higher and unpack the content
+2.  Go to the web page http://www.longtailvideo.com and download the JW FLV Media Player 5.0 or higher and unpack the content
 
-3.	Upload the file player.swf and yt.swf to the wordtube folder
+3.	Upload the file player.swf and yt.swf to the WordPress upload folder
 
 4. 	Activate the plugin
 
-5.	Upload a .flv video file or an mp3 sound file to the wordpress upload folder or use the Upload form
-	at Manage -> wordTube
+5.	Upload a .flv video file or an mp3 sound file to the WordPress upload folder or use the Upload form	at Manage -> wordTube
 
 6.	Optional you can upload a image to show a preview of the video/mp3 file
 
@@ -92,6 +90,18 @@ That's it ... Have fun
 7. 	Playlist order: to gain control over playlist order, go to admin panel -> Manage -> Media Center. Select the playlist you want to order in the dropdown menu of the filter part of the screen. Click on order field for each media to choose order, enter to save.
 
 == Changelog == 
+
+= V2.3.0 / 04.04.2010=
+* Added JW Media Player 5.1
+* Updated settings for V5.0
+* Move player file outside the plugin folder
+* Updated Longtail Ads Implementation
+* Remove direct callback for playlist and statistic
+* Added new filter
+* Minor UI updates
+* Rework Widget for new WP2.8 class structure
+* Bugfix for register_taxonomy under WP3.0
+* Remove various PHP notices messages
 
 = V2.2.2 / 19.07.2009 =
 * Bugfix : Counter not added to database (THX to Karsten)

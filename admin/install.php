@@ -154,6 +154,7 @@ function wt_get_DefaultOption() {
 	if ($options['repeat']=='')				$options['repeat'] = 'none';
 	if ($options['overstretch']=='')		$options['overstretch'] = 'true';
 	if ($options['showfsbutton']=='') 		$options['showfsbutton'] = 0;
+	if ($options['smoothing']=='') 		    $options['smoothing'] = 1;
 	if ($options['volume']=='')				$options['volume'] = 80;
 	if ($options['bufferlength']=='') 		$options['bufferlength'] = 5;
 	// new since 1.10
@@ -171,13 +172,11 @@ function wt_get_DefaultOption() {
 	// new since 2.00
 	if ($options['agree_license']=='') 		$options['agree_license'] = false;
 	if ($options['stretching']=='') 		$options['stretching'] = 'uniform';
-	if ($options['displayclick']=='') 		$options['displayclick'] = 'play';
 	if ($options['quality']=='') 			$options['quality'] = false;
 	if ($options['controlbar']=='') 		$options['controlbar'] = 'bottom';
 	if ($options['skinurl']=='') 			$options['skinurl'] = '';
 	if ($options['playlist']=='') 			$options['playlist'] = 'bottom';
 	if ($options['activateAds']=='') 		$options['activateAds'] = false;
-	if ($options['LTapiScript']=='') 		$options['LTapiScript'] = addslashes('<script language="JavaScript" src="http://www.ltassrv.com/serve/api5.4.asp?d=XXXX&s=XXXX&c=XXXX&v=1"></script>');
 	if ($options['LTchannelID']=='') 		$options['LTchannelID'] = '';
 	if ($options['media_width']=='') 		$options['media_width'] = 320;
 	if ($options['media_height']=='') 		$options['media_height'] = 240;
@@ -188,6 +187,13 @@ function wt_get_DefaultOption() {
 	// new since 2.2.0
 	if ($options['plugins']=='') 			$options['plugins'] = '';
 	if ($options['custom_vars']=='') 		$options['custom_vars'] = '';
+    // new since 2.3.0 
+    if ($options['startsingle']=='') 		$options['startsingle'] = false;
+    if ($options['path']=='')               $options['path'] = 'wp-content/uploads/player.swf';
+    
+    // check for the player files
+    if ( $path = wordTubeAdmin::search_file( 'player.swf' ) )
+        $options['path'] = $path;        
 	
 	return $options;
 }

@@ -1,22 +1,20 @@
 <?php
 /*
 +----------------------------------------------------------------+
-+	wordtube-XML
++	wordtube-XSPF XML output for playlist
 +	by Alex Rabe reviewed by Alakhnor
 +	required for wordTube
 +----------------------------------------------------------------+
 */
 
 // look up for the path
-require_once( dirname(__FILE__) . '/wordtube-config.php');
+if ( !defined('ABSPATH') ) 
+    require_once( dirname(__FILE__) . '/wordtube-config.php');
+
+global $wpdb;
 
 // get the path url from querystring
 $playlist_id = $_GET['id'];
-
-function get_out_now() { exit; }
-add_action('shutdown', 'get_out_now', -1);
-
-global $wpdb;
 
 $title = 'WordTube Playlist';
 
@@ -62,31 +60,31 @@ if ($playlist_id == 'most') {
 header("content-type:text/xml;charset=utf-8");
 	
 echo "\n"."<playlist version='1' xmlns='http://xspf.org/ns/0/'>";
-echo "\n\t".'<title>'.htmlspecialchars($title).'</title>';
+echo "\n\t".'<title>' . esc_attr($title) . '</title>';
 echo "\n\t".'<trackList>';
 	
 if (is_array ($themediafiles)){
 
 	foreach ($themediafiles as $media) {
 		
-                $creator = htmlspecialchars(stripslashes($media->creator));
+                $creator = esc_attr(stripslashes($media->creator));
                 if ($creator == '') 
 					$creator = 'Unknown';
                 if ($media->image == '') 
-					$image = get_option('siteurl').'/wp-content/plugins/' . dirname( plugin_basename(__FILE__) ).'/images/wordtube.jpg';
+					$image = get_option('siteurl') . '/wp-content/plugins/' . dirname( plugin_basename(__FILE__) ) . '/images/wordtube.jpg';
 				else 
 					$image = $media->image;
   				$file = pathinfo($media->file);
 
 		echo "\n\t\t".'<track>';
-		echo "\n\t\t\t".'<title>'.htmlspecialchars(stripslashes($media->name)).'</title>';
-		echo "\n\t\t\t".'<creator>'.$creator.'</creator>';
-		echo "\n\t\t\t".'<location>'.htmlspecialchars($media->file).'</location>';
-		echo "\n\t\t\t".'<image>'.htmlspecialchars($image).'</image>';
-		echo "\n\t\t\t".'<annotation>'.htmlspecialchars(stripslashes($media->description)).'</annotation>';
-		echo "\n\t\t\t".'<id>'.$media->vid.'</id>';
-		echo "\n\t\t\t".'<counter>'.$media->counter.'</counter>';
-		echo "\n\t\t\t".'<info>'.htmlspecialchars($media->link).'</info>';
+		echo "\n\t\t\t".'<title>' . esc_attr( stripslashes($media->name) ) . '</title>';
+		echo "\n\t\t\t".'<creator>' . esc_attr($creator) . '</creator>';
+		echo "\n\t\t\t".'<location>' . esc_attr($media->file) . '</location>';
+		echo "\n\t\t\t".'<image>' . esc_attr($image) . '</image>';
+		echo "\n\t\t\t".'<annotation>' . esc_attr( stripslashes($media->description) ) .  '</annotation>';
+		echo "\n\t\t\t".'<id>' . $media->vid . '</id>';
+		echo "\n\t\t\t".'<counter>' . $media->counter . '</counter>';
+		echo "\n\t\t\t".'<info>' . esc_attr($media->link) . '</info>';
 		echo "\n\t\t".'</track>';
 	}
 }

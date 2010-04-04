@@ -63,7 +63,7 @@ function get_playlist_for_dbx($mediaid) {
 		echo '<label for="playlist-'.$playlist['playid']
 			.'" class="selectit"><input value="'.$playlist['playid']
 			.'" type="checkbox" name="playlist[]" id="playlist-'.$playlist['playid']
-			.'"'.($playlist['checked'] ? ' checked="checked"' : "").'/> '.wp_specialchars($playlist['name'])."</label>\n";		
+			.'"'.($playlist['checked'] ? ' checked="checked"' : "").'/> '. esc_html($playlist['name'])."</label>\n";		
 
 	}
 }
@@ -135,6 +135,10 @@ function wt_add_media($wptfile_abspath, $wp_urlpath) {
 	VALUES ( '$act_name', '$act_creator', '$act_desc', '$act_filepath', '$act_image', '$act_width', '$act_height', '$act_link', '$act_autostart', $disableAds, '$act_counter' )");
 	if ($insert_video != 0) {
  		$video_aid = $wpdb->insert_id;  // get index_id
+
+        //hook for other plugin to update the fields
+        do_action('wordtube_add_media', $video_aid, $_POST);
+        
 		$tags = explode(',',$act_tags);
 		wp_set_object_terms($video_aid, $tags, WORDTUBE_TAXONOMY);
 		
@@ -174,28 +178,24 @@ function wt_update_media( $media_id ) {
 	$act_link 		=	addslashes(trim($_POST['act_link']));
 	$act_counter 	=	(int) ($_POST['act_counter']);
 
-	$act_autostart 	= 	$_POST['autostart'];
-	$act_playlist 	= 	$_POST['playlist'];
-	$disableAds 	=	$_POST['disableAds'];
+	$act_autostart 	= 	isset( $_POST['autostart'] );
+	$act_playlist 	= 	isset( $_POST['playlist'] ) ? (array)$_POST['playlist'] : array() ;
+	$disableAds 	=	isset( $_POST['disableAds'] );
 
 	// Update tags
 	$act_tags 	= addslashes(trim($_POST['act_tags']));
 	$tags = explode(',',$act_tags);
 	wp_set_object_terms( $media_id, $tags, WORDTUBE_TAXONOMY);
-		
-	if (!$act_playlist) $act_playlist = array();
-	if (empty($act_autostart)) $act_autostart = 0; // need now for sql_mode, see http://bugs.mysql.com/bug.php?id=18551
+
+	if (empty($act_autostart)) 
+        $act_autostart = 0; // need now for sql_mode, see http://bugs.mysql.com/bug.php?id=18551
 							
 	// Read the old playlist status
 	$old_playlist = $wpdb->get_col(" SELECT playlist_id FROM $wpdb->wordtube_med2play WHERE media_id = $media_id");
-	if (!$old_playlist) {	
-	 	$old_playlist = array();
-	} else { 
-		$old_playlist = array_unique($old_playlist);
-	}
-	
+	$old_playlist = ($old_playlist == false) ? array() : array_unique($old_playlist);
+   
 	// Delete any ?
-	$delete_list = array_diff($old_playlist,$act_playlist);
+	$delete_list = array_diff($old_playlist, $act_playlist);
 
 	if ($delete_list) {
 		foreach ($delete_list as $del) {
@@ -215,6 +215,9 @@ function wt_update_media( $media_id ) {
 	if(!empty($act_filepath)) {
 		$result = $wpdb->query("UPDATE $wpdb->wordtube SET name = '$act_name', creator = '$act_creator', description = '$act_desc', file='$act_filepath' , image='$act_image' , link='$act_link' , autostart='$act_autostart' , counter='$act_counter', disableAds='$disableAds' WHERE vid = '$media_id' ");
 	}
+
+    //hook for other plugin to update the fields
+    do_action('wordtube_update_media', $media_id, $_POST);
 
 	// Finished
 	

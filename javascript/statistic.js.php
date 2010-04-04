@@ -1,7 +1,11 @@
+<?php
 /*
-wordtube_statistics 1.0
-author : Frederic de Ranter
+extended wordtube_statistics 2.0
+author : Frederic de Ranter, Alex Rabe
 */
+
+header("content-type:text/plain;charset=utf-8");
+?>
 
 var player = new Array();
 //var counter = 0;
@@ -26,7 +30,8 @@ function stateListener(obj) {
 	//possible states IDLE, BUFFERING, PLAYING, PAUSED, COMPLETED
 	currentState = obj.newstate; 
 	previousState = obj.oldstate;
-	
+	//console.log('current state : '+ currentState + ' previous state : '+ previousState );
+    
 	//find out what title is playing (or id of the file)
 	var cfg = player[obj.id].getConfig();
 	var plst = player[obj.id].getPlaylist();
@@ -39,11 +44,11 @@ function stateListener(obj) {
 	}
 	
 	if(decision) {
-		var ajaxString = "file=" + plst[cfg["item"]].file;
+		var ajaxString = "file=" + escape( plst[cfg["item"]].file );
 		jQuery.ajax({
 			type: "POST",
 			data: ajaxString,
-			url: wordtube.ajaxurl
+			url: "<?php echo get_option ('siteurl') . '/index.php?wt-stat=true'; ?>"
 		});	
 	}
 }

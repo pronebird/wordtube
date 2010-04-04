@@ -117,6 +117,48 @@ class wordTubeAdmin extends wordTubeClass {
 		require_once (dirname (__FILE__). '/install.php');
 		wordtube_install();
     }
+
+    /**
+     * Search for the flash file and return the relative path
+     * 
+     * @param string $filename
+     * @return string $path on sucess, false if failed
+     */
+    function search_file( $filename ) {
+    	global $wpdb;
+    
+    	$upload = wp_upload_dir();
+
+    	// look first at the old place and move it to wp-content/uploads
+    	if ( is_readable( trailingslashit( WORDTUBE_ABSPATH ) . $filename ) ) {
+    		@rename( trailingslashit( WORDTUBE_ABSPATH ) . $filename, trailingslashit($upload['basedir']) . $filename);
+    		@rename( trailingslashit( WORDTUBE_ABSPATH ) . 'yt.swf', trailingslashit($upload['basedir']) . 'yt.swf');
+    	}
+
+    	// this should be the best place 	
+    	if ( is_readable( trailingslashit($upload['basedir']) . $filename ) )
+    		return trailingslashit ( get_option( 'upload_path' ) ) . $filename;
+    
+    	// Find the path to the file via the media library
+    	if ( $ID = $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} WHERE guid LIKE '%$filename%'" ) ) {
+            if ( $path = get_post_meta( $ID, '_wp_attached_file', true ) )
+                return trailingslashit ( get_option( 'upload_path' ) ) . $path;
+    	}
+        
+    	// maybe it's located in wp-content
+    	if ( is_readable( trailingslashit(WP_CONTENT_DIR) . $filename ) )
+            return str_replace(ABSPATH, '', trailingslashit(WP_CONTENT_DIR) . $filename);	   
+    
+    	// or in the plugin folder
+    	if ( is_readable( trailingslashit(WP_PLUGIN_DIR) . $filename ) )
+            return str_replace(ABSPATH, '', trailingslashit(WP_PLUGIN_DIR) . $filename);	   
+            
+    	// this is deprecated and will be ereased during a automatic upgrade
+    	if ( is_readable( trailingslashit ( WORDTUBE_ABSPATH ) . $filename ) )
+            return str_replace(ABSPATH, '', trailingslashit( WORDTUBE_ABSPATH ) . $filename);	   
+                		
+    	return false;
+    }
 	
 } // end of admin class
 ?>

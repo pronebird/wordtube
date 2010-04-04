@@ -32,7 +32,7 @@ class wordTubeManage extends wordTubeAdmin  {
 		register_taxonomy( WORDTUBE_TAXONOMY, 'wordtube', array('update_count_callback' => '_update_media_term_count') );
 		
 		// check for player
-		if (!file_exists(WORDTUBE_ABSPATH . $wordTube->player) ) 
+		if (!file_exists(ABSPATH . $this->options['path'] ) )
 			$this->render_error( __('The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder.','wpTube') );
 
 		// Manage upload dir
@@ -88,10 +88,10 @@ class wordTubeManage extends wordTubeAdmin  {
 	function controller() {
 		global $wpdb;
 		
-		$this->mode = trim($_GET['mode']);
+		$this->mode = isset ($_GET['mode']) ? trim($_GET['mode']) : false;
 
-		$this->act_vid = (int) $_GET['id'];
-		$this->act_pid = (int) $_GET['pid'];
+		$this->act_vid = isset ($_GET['id']) ? (int) $_GET['id'] : 0;
+		$this->act_pid = isset ($_GET['pid']) ? (int) $_GET['pid'] : 0;
 		
 		//TODO:Include nonce !!!			
 		
@@ -141,7 +141,8 @@ class wordTubeManage extends wordTubeAdmin  {
 		// init variables
 		$pledit = true;
 		$where = '';
-		$join = '';			
+		$join = '';
+        $class = '';			
 
 		// check for page navigation
 		$page     = ( isset($_REQUEST['apage']))    ? (int) $_REQUEST['apage'] : 1;
@@ -157,6 +158,7 @@ class wordTubeManage extends wordTubeAdmin  {
 
 		if ($search != '') {
 			if ($where != '') $where .= " AND ";
+            $search = like_escape($search);
 			$where .= " ((name LIKE '%$search%') OR (creator LIKE '%$search%')) ";
 		}
 		
@@ -201,6 +203,7 @@ class wordTubeManage extends wordTubeAdmin  {
 	<!-- Manage Video-->
 	<div class="wrap">
 		<form name="filterType" method="post" id="posts-filter">
+			<?php screen_icon(); ?>
 			<h2><?php _e('Manage Media files','wpTube'); ?></h2>
 			<ul class="subsubsub">
 				<li>&nbsp;</li>
@@ -251,7 +254,7 @@ class wordTubeManage extends wordTubeAdmin  {
 						echo "</td>\n";
 						echo "<td>".stripslashes($table->creator)."</td>\n";
 						echo "<td>".htmlspecialchars(stripslashes($table->file), ENT_QUOTES)."</td>\n";
-						echo "<td style='text-align: center'>$table->counter</td>\n";
+						echo "<td>$table->counter</td>\n";
 						if ($pledit)
 							echo "<td><div class='wtedit' id='p_".$plfilter.'_'.$table->vid."'>".$table->porder."</div></td>\n";
 						echo '</tr>';
@@ -314,9 +317,9 @@ class wordTubeManage extends wordTubeAdmin  {
 		global $wpdb;
 
 		$media = $wpdb->get_row("SELECT * FROM $wpdb->wordtube WHERE vid = {$this->act_vid}");
-		$act_name = htmlspecialchars(stripslashes($media->name));
-		$act_creator = htmlspecialchars(stripslashes($media->creator));
-		$act_desc = htmlspecialchars(stripslashes($media->description));
+		$act_name = esc_attr(stripslashes($media->name));
+		$act_creator = esc_attr(stripslashes($media->creator));
+		$act_desc = esc_attr(stripslashes($media->description));
 		$act_filepath = stripslashes($media->file);
 		$act_image = stripslashes($media->image);
 		$act_link = stripslashes($media->link);
@@ -325,13 +328,14 @@ class wordTubeManage extends wordTubeAdmin  {
 		$act_width = stripslashes($media->width);
 		$act_height = stripslashes($media->height);
 		$act_counter = $media->counter;
-		if ($media->autostart)  $autostart='checked="checked"';
-		$ads_channel = $media->channel;
-		if ($media->disableads) $disableAds='checked="checked"';
+		$autostart = ($media->autostart) ?  'checked="checked"' : '';
+		$ads_channel = isset($media->channel) ? $media->channel : '';
+		$disableAds = ($media->disableads) ? 'checked="checked"' : '';
 	
 		?>
 		<!-- Edit Video -->
 		<div class="wrap">
+			<?php screen_icon(); ?>
 			<h2><?php _e('Edit media file', 'wpTube') ?></h2>
 			<form name="table_options" method="post" id="video_options">
 			<div id="poststuff" class="has-right-sidebar">
@@ -357,7 +361,7 @@ class wordTubeManage extends wordTubeAdmin  {
 									<label class="selectit"><input name="autostart" type="checkbox" value="1"  <?php echo $autostart ?> /> <?php _e('Start file automatic ','wpTube') ?></label>
 									<br class="clear"/>
 									<label class="selectit"><input name="disableAds" type="checkbox" value="1"  <?php echo $disableAds ?> /> <?php _e('Disable Ads for this Media','wpTube') ?></label>
-								</div>	
+								</div>
 								<div id="major-publishing-actions">
 									<input type="submit" class="button-primary" name="edit_update" value="<?php _e('Update'); ?>" class="button button-highlighted" />
 									<input type="submit" class="button-secondary" name="cancel" value="<?php _e('Cancel'); ?>" class="button" />
@@ -374,6 +378,9 @@ class wordTubeManage extends wordTubeAdmin  {
 				</div>
 				<div id="post-body" class="has-sidebar">
 					<div id="post-body-content" class="has-sidebar-content">
+                        <div class="stuffbox">
+                        <h3><?php _e('Media ID','wpTube') ?> <?php echo $this->act_vid; ?></h3>
+                        <div class="inside">
 						<table class="form-table">
 							<tr valign="top">
 								<th scope="row"><?php _e('Media title','wpTube') ?></th>
@@ -409,7 +416,10 @@ class wordTubeManage extends wordTubeAdmin  {
 								<td><input type="text" size="80" name="act_tags" value="<?php echo $act_tags ?>" />
 								<br /><?php _e('Enter media tags','wpTube') ?></td>
 							</tr>
+                            <?php do_action('wordtube_edit_media_meta', $media); ?>	
 						</table>
+                        </div>
+                        </div>                        
 					</div>
 					<p>
 						<input type="submit" class="button-primary" name="edit_update" value="<?php _e('Update'); ?>" class="button button-highlighted" />
@@ -428,6 +438,7 @@ class wordTubeManage extends wordTubeAdmin  {
 		?>
 		<!-- Add A Video -->
 		<div class="wrap">
+			<?php screen_icon(); ?>
 			<h2><?php _e('Add a new media file','wpTube'); ?></h2>
 			<form name="table_options" enctype="multipart/form-data" method="post" id="video_options">
 			<div id="poststuff" class="has-right-sidebar">
@@ -477,6 +488,7 @@ class wordTubeManage extends wordTubeAdmin  {
 									<th scope="row"><?php _e('Description','wpTube') ?></th>
 									<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"></textarea></td>
 								</tr>
+                                <?php do_action('wordtube_add_media_meta'); ?>
 								</table>
 							</div>
 						</div>
@@ -557,6 +569,7 @@ class wordTubeManage extends wordTubeAdmin  {
 
 		<!-- Edit Playlist -->
 		<div class="wrap">
+			<?php screen_icon(); ?>
 			<h2><?php _e('Manage Playlist','wpTube'); ?></h2>
 			<br class="clear"/>
 			<form id="editplist" action="<?php echo $this->base_page; ?>" method="post">
@@ -604,10 +617,10 @@ class wordTubeManage extends wordTubeAdmin  {
 					<div class="inside">
 						<form id="addplist" action="<?php echo $this->base_page; ?>" method="post">
 							<input type="hidden" value="<?php echo $this->act_pid ?>" name="p_id" />
-							<p><?php _e('Name:','wpTube'); ?><br/><input type="text" value="<?php echo $update->playlist_name ?>" name="p_name"/></p>
-							<p><?php _e('Description: (optional)','wpTube'); ?><br/><textarea name="p_description" rows="3" cols="50" style="width: 97%;"><?php echo $update->playlist_desc ?></textarea></p>
-							<p><?php _e('Media ID sorting order:','wpTube'); ?> <input name="sortorder" type="radio" value="ASC"  <?php if ($update->playlist_order == 'ASC') echo 'checked="checked"'; ?> /> <?php _e('ascending','wpTube'); ?> 
-							<input name="sortorder" type="radio" value="DESC"  <?php if ($update->playlist_order == 'DESC') echo 'checked="checked"'; ?> /> <?php _e('descending','wpTube'); ?></p>	
+							<p><?php _e('Name:','wpTube'); ?><br/><input type="text" value="<?php if ( isset($update) ) echo $update->playlist_name ?>" name="p_name"/></p>
+							<p><?php _e('Description: (optional)','wpTube'); ?><br/><textarea name="p_description" rows="3" cols="50" style="width: 97%;"><?php if ( isset($update) ) echo $update->playlist_desc ?></textarea></p>
+							<p><?php _e('Media ID sorting order:','wpTube'); ?> <input name="sortorder" type="radio" value="ASC"  <?php if ( isset($update) && $update->playlist_order == 'ASC') echo 'checked="checked"'; ?> /> <?php _e('ascending','wpTube'); ?> 
+							<input name="sortorder" type="radio" value="DESC"  <?php if ( isset($update) && $update->playlist_order == 'DESC') echo 'checked="checked"'; ?> /> <?php _e('descending','wpTube'); ?></p>	
 							<div class="submit">
 								<?php
 									if ($this->mode == 'playlist') echo '<input type="submit" name="add_playlist" value="' . __('Add Playlist','wpTube') . '" class="button-primary" />';

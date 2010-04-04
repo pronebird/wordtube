@@ -11,6 +11,8 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 	// same as $_SERVER['REQUEST_URI'], but should work under IIS 6.0
 	$filepath    = admin_url() . 'admin.php?page=' . $_GET['page'];
 
+    $border  = '';
+    
 	if ( isset($_POST['updateoption']) ) {	
 		check_admin_referer('wt_settings');
 		// get the hidden option fields, taken from WP core
@@ -20,7 +22,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 		if ($options) {
 			foreach ($options as $option) {
 				$option = trim($option);
-				$value = trim($_POST[$option]);
+				$value = isset($_POST[$option]) ? trim($_POST[$option]) : false;
 				$wt_options[$option] = $value;
 			}
 		}
@@ -58,7 +60,18 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 		
 		wordTubeAdmin::render_message(__('Tables and settings deleted, deactivate the plugin now', 'wpTube'));
 	}
-	
+
+    if ( !is_readable( ABSPATH . $wt_options['path'] ) || empty($wt_options['path']) ) {
+        if ( $path = wordTubeAdmin::search_file( 'player.swf' ) ) {
+            $wt_options['path'] = $path;
+            update_option('wordtube_options', $wt_options);
+        } else {
+            $border = 'style="border-color:red; border-width:2px; border-style:solid; padding:5px;"';
+            wordTubeAdmin::render_error( '<strong>' . __('Could not found player.swf, please verify the path or upload the file.', 'wpTube') . '</strong>' );            
+        }
+
+    }
+    
 	?>
 	<script type="text/javascript">
 		jQuery(function() {
@@ -86,8 +99,15 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 			<h2><?php _e('General Options','wpTube'); ?></h2>
 			<form name="generaloptions" method="post">
 			<?php wp_nonce_field('wt_settings') ?>
-			<input type="hidden" name="page_options" value="usewpupload,uploadurl,deletefile,xhtmlvalid,activaterss,rssmessage" />
+			<input type="hidden" name="page_options" value="path,usewpupload,uploadurl,deletefile,xhtmlvalid,activaterss,rssmessage" />
 				<table class="form-table">
+                    <tr valign="top" <?php echo $border; ?>>
+                        <th scope="row"><?php _e('Path to JW Media Player', 'wpTube'); ?></th>
+    					<td>
+                            <input type="text" size="60" name="path" value="<?php echo $wt_options['path']; ?>" />
+                            <span class="description"><?php _e('Upload the flash player to your blog. Default is', 'wpTube'); ?> <code>wp-content/uploads/player.swf</code></span> 
+                        </td>
+    				</tr>
 					<tr>
 						<th valign="top"><?php _e('Upload folder','wpTube') ?>:</th>
 						<td>
@@ -99,12 +119,12 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 					<tr valign="top">
 						<th><?php _e('Delete file with post','wpTube') ?></th>
 						<td><input type="checkbox" name="deletefile" value="1" <?php checked('1', $wt_options['deletefile']); ?> />
-						<?php _e('Should the media file be deleted, when pressing delete ? ','wpTube') ?></td>
+						<span class="description"><?php _e('Should the media file be deleted, when pressing delete ? ','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Try XHTML validation (with CDATA)','wpTube') ?>:</th>
 						<td><input name="xhtmlvalid" type="checkbox" value="1" <?php checked('1', $wt_options['xhtmlvalid']); ?> />
-						<?php _e('Insert CDATA and a comment code. Important : Recheck your webpage with all browser types.','wpTube') ?></td>
+						<span class="description"><?php _e('Insert CDATA and a comment code. Important : Recheck your webpage with all browser types.','wpTube') ?></span></td>
 					</tr>
 					<tr valign="top">
 						<th><?php _e('Activate RSS Feed message','wpTube') ?></th>
@@ -123,8 +143,8 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 			<h2><?php _e('Media Player','wpTube'); ?></h2>
 			<form name="playersettings" method="POST" action="<?php echo $filepath.'#player'; ?>" >
 			<?php wp_nonce_field('wt_settings') ?>
-			<input type="hidden" name="page_options" value="repeat,stretching,displayclick,quality,showfsbutton,volume,bufferlength,media_width,media_height,startsingle,plugins,custom_vars" />
-				<p> <?php _e('These settings are valid for all your flash video. The settings are used in the JW FLV Media Player Version 4.3', 'wpTube') ?> <br />
+			<input type="hidden" name="page_options" value="repeat,stretching,quality,smoothing,showfsbutton,volume,bufferlength,media_width,media_height,startsingle,plugins,custom_vars" />
+				<p> <?php _e('These settings are valid for all your flash video. The settings are used in the JW FLV Media Player Version 5.1 or higher', 'wpTube') ?> <br />
 					<?php _e('See more information on the web page', 'wpTube') ?> <a href="http://www.longtailvideo.com/players/jw-flv-player/" target="_blank">JW FLV Media Player from Jeroen Wijering</a></p>
 				<table class="form-table">
 					<tr>
@@ -134,9 +154,9 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 							<option value="none" <?php selected("none" , $wt_options['repeat']); ?> ><?php _e('none', 'wpTube') ;?></option>
 							<option value="list" <?php selected("list" , $wt_options['repeat']); ?> ><?php _e('list', 'wpTube') ;?></option>
 							<option value="always" <?php selected("always" , $wt_options['repeat']); ?> ><?php _e('always', 'wpTube') ;?></option>
+                            <option value="single" <?php selected("single" , $wt_options['repeat']); ?> ><?php _e('single', 'wpTube') ;?></option>
 						</select>
-						<br />
-						<?php _e('Controls repeating. Can be none (always one item at a time), list (continuous play through a playlist, but no repetition), or always (infinitely repeats all media and playlists).','wpTube') ?></td>
+						<span class="description"><?php _e('Set to "list" to play the entire playlist once, to "always" to continously play the song/video/playlist and to "single" to continue repeating the selected file in a playlist.','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Resize images','wpTube') ?></th>
@@ -147,64 +167,54 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 							<option value="uniform" <?php selected("uniform" , $wt_options['stretching']); ?> ><?php _e('uniform', 'wpTube') ;?></option>
 							<option value="none" <?php selected("none" , $wt_options['stretching']); ?> ><?php _e('none', 'wpTube') ;?></option>
 						</select>
-						<br />
-						<?php _e('Defines how to resize images in the display. Can be none (no stretching), exactfit (disproportionate), uniform (stretch with black borders) or fill (uniform, but completely fill the display).','wpTube') ?></td>
-					</tr>
-					<tr>
-						<th><?php _e('Click option','wpTube') ?></th>
-						<td>
-						<select size="1" name="displayclick">
-							<option value="play" <?php selected("play" , $wt_options['displayclick']); ?> ><?php _e('play', 'wpTube') ;?></option>
-							<option value="link" <?php selected("link" , $wt_options['displayclick']); ?> ><?php _e('link', 'wpTube') ;?></option>
-							<option value="fullscreen" <?php selected("fullscreen" , $wt_options['displayclick']); ?> ><?php _e('fullscreen', 'wpTube') ;?></option>
-							<option value="none" <?php selected("none" , $wt_options['displayclick']); ?> ><?php _e('none', 'wpTube') ;?></option>
-							<option value="mute" <?php selected("mute" , $wt_options['displayclick']); ?> ><?php _e('mute', 'wpTube') ;?></option>
-							<option value="next" <?php selected("next" , $wt_options['displayclick']); ?> ><?php _e('next', 'wpTube') ;?></option>
-						</select>
-						<br />
-						<?php _e('Select what to do when one clicks the display. Can be play, link, fullscreen, none, mute, next.','wpTube') ?></td>
+						<span class="description"><?php _e('Defines how to resize images in the display. Can be none (no stretching), exactfit (disproportionate), uniform (stretch with black borders) or fill (uniform, but completely fill the display).','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('High quality video','wpTube') ?></th>
 						<td><input name="quality" type="checkbox" value="1" <?php checked(true , $wt_options['quality']); ?> />
-						<?php _e('Enables high-quality playback. This sets the smoothing of videos on/off, the deblocking of videos on/off and the dimensions of the camera small/large.','wpTube') ?></td>
+						<span class="description"><?php _e('Enables high-quality playback. This sets the smoothing of videos on/off, the deblocking of videos on/off and the dimensions of the camera small/large.','wpTube') ?></span></td>
+					</tr>
+					<tr>
+						<th><?php _e('Enable Smoothing ','wpTube') ?></th>
+						<td><input name="showfsbutton" type="checkbox" value="1" <?php checked(true , $wt_options['smoothing']); ?> />
+						<span class="description"><?php _e('This sets the smoothing of videos, so you won\'t see blocks when a video is upscaled. Set this to false to get performance improvements with old computers / big files','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Enable Fullscreen','wpTube') ?></th>
 						<td><input name="showfsbutton" type="checkbox" value="1" <?php checked(true , $wt_options['showfsbutton']); ?> />
-						<?php _e('Show the fullscreen button.','wpTube') ?></td>
+						<span class="description"><?php _e('Show the fullscreen button.','wpTube') ?></span></td>
 					</tr>
 					<tr>					
 						<th><?php _e('Volume','wpTube') ?></th>
 						<td><input type="text" size="3" maxlength="3" name="volume" value="<?php echo $wt_options['volume'] ?>" />
-						<?php _e('Startup volume of the Flash player (default 80).','wpTube') ?></td>
+						<span class="description"><?php _e('Startup volume of the Flash player (default 80).','wpTube') ?></span></td>
 					</tr>
 					<tr>					
 						<th><?php _e('Buffer length','wpTube') ?></th>
 						<td><input type="text" size="3" maxlength="3" name="bufferlength" value="<?php echo $wt_options['bufferlength'] ?>" />
-						<?php _e('Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5).','wpTube') ?></td>
+						<span class="description"><?php _e('Number of seconds a media file should be buffered ahead before the player starts it. Set this smaller for fast connections or short videos. Set this bigger for slow connections (default 5).','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Default size (W x H)','wpTube') ?></th>
 						<td><input type="text" size="3" maxlength="4" name="media_width" value="<?php echo $wt_options['media_width'] ?>" /> x
 						<input type="text" size="3" maxlength="4" name="media_height" value="<?php echo $wt_options['media_height'] ?>" />
-						<?php _e('Define width and height of the media player screen.','wpTube') ?></td>
+						<span class="description"><?php _e('Define width and height of the media player screen.','wpTube') ?></span></td>
 					</tr>	
 					<tr>
 						<th><?php _e('Autostart first single media','wpTube') ?></th>
 						<td><input name="startsingle" type="checkbox" value="1" <?php checked(true , $wt_options['startsingle']); ?> />
-						<?php _e('If checked, first media in a single post will automatically start.','wpTube') ?></td>
+						<span class="description"><?php _e('If checked, first media in a single post will automatically start.','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Plugins','wpTube') ?></th>
 						<td><input type="text" size="70" name="plugins" value="<?php echo $wt_options['plugins']; ?>" /><br />
-							<?php _e('This is a comma-separated list of swf plugins to load (e.g. yousearch,viral). Each plugin has a unique ID and resides at plugins.longtailvideo.com', 'wpTube') ?>
+							<span class="description"><?php _e('This is a comma-separated list of swf plugins to load (e.g. yousearch,viral). Each plugin has a unique ID and resides at plugins.longtailvideo.com', 'wpTube') ?></span>
 						</td>
 					</tr>	
 					<tr>
 						<th><?php _e('Custom variables','wpTube') ?></th>
 						<td><textarea name="custom_vars" cols="80" rows="5"><?php echo $wt_options['custom_vars']; ?></textarea><br />
-							<?php _e('This is a comma-separated list of plugin variables or custom parameters (e.g. variable1=this, variable2=that).', 'wpTube') ?>
+							<span class="description"><?php _e('This is a comma-separated list of plugin variables or custom parameters (e.g. variable1=this, variable2=that).', 'wpTube') ?></span>
 						</td>
 					</tr>
 				</table>
@@ -224,23 +234,23 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 					<tr>
 						<th><?php _e('Autostart','wpTube') ?></th>
 						<td><input name="autostart" type="checkbox" value="1" <?php checked(true , $wt_options['autostart']); ?> />
-						<?php _e('Automatically start playing the media files.','wpTube') ?></td>
+						<span class="description"><?php _e('Automatically start playing the media files.','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Shuffle mode','wpTube') ?></th>
 						<td><input name="shuffle" type="checkbox" value="1" <?php checked(true , $wt_options['shuffle']); ?> />
-						<?php _e('Activate the shuffle mode in the playlist','wpTube') ?></td>
+						<span class="description"><?php _e('Activate the shuffle mode in the playlist','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Default size (W x H)','wpTube') ?></th>
 						<td><input type="text" size="3" maxlength="4" name="width" value="<?php echo $wt_options['width'] ?>" /> x
 						<input type="text" size="3" maxlength="4" name="height" value="<?php echo $wt_options['height'] ?>" />
-						<?php _e('Define width and height of the Media Player when a playlist is shown','wpTube') ?></td>
+						<span class="description"><?php _e('Define width and height of the Media Player when a playlist is shown','wpTube') ?></span></td>
 					</tr>
 					<tr>					
 						<th><?php _e('Playlist size','wpTube') ?></th>
-						<td><input type="text" size="3" maxlength="3" name="playlistsize" value="<?php echo $wt_options['playlistsize'] ?>" /><br />						
-						<?php _e('Size of the playlist. When below or above, this refers to the height, when right, this refers to the width of the playlist','wpTube') ?></td>
+						<td><input type="text" size="3" maxlength="3" name="playlistsize" value="<?php echo $wt_options['playlistsize'] ?>" />						
+						<span class="description"><?php _e('Size of the playlist. When below or above, this refers to the height, when right, this refers to the width of the playlist','wpTube') ?></span></td>
 					</tr>
 					<tr>
 						<th><?php _e('Playlist position','wpTube') ?></th>
@@ -251,8 +261,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 							<option value="right" <?php selected("right" , $wt_options['playlist']); ?> ><?php _e('right', 'wpTube') ;?></option>
 							<option value="none" <?php selected("none" , $wt_options['playlist']); ?> ><?php _e('none', 'wpTube') ;?></option>
 						</select>
-						<br />
-						<?php _e('Position of the playlist. Can be set to bottom, over, right or none.','wpTube') ?></td>
+						<span class="description"><?php _e('Position of the playlist. Can be set to bottom, over, right or none.','wpTube') ?></span></td>
 					</tr>
 					</table>
 
@@ -277,43 +286,42 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 								<option value="over" <?php selected("over" , $wt_options['controlbar']); ?> ><?php _e('over', 'wpTube') ;?></option>
 								<option value="none" <?php selected("none" , $wt_options['controlbar']); ?> ><?php _e('none', 'wpTube') ;?></option>
 							</select>
-							<br />
-							<?php _e('Position of the controlbar. Can be set to bottom, over and none.','wpTube') ?></td>
+							<span class="description"><?php _e('Position of the controlbar. Can be set to bottom, over and none.','wpTube') ?></span></td>
 						</tr>
 						<tr>
 							<th><?php _e('Skin file','wpTube') ?></th>
 							<td><input type="text" size="60" maxlength="200" name="skinurl" value="<?php echo $wt_options['skinurl'] ?>" />
-							<br /><?php _e('URL of a SWF skin file with the player graphics','wpTube') ?></td>
+							<span class="description"><?php _e('URL of a SWF skin file with the player graphics','wpTube') ?></span></td>
 						</tr>
 						<tr>
-							<th><?php _e('Show logo','wpTube') ?></th>
+							<th><?php _e('Show custom logo','wpTube') ?></th>
 							<td><input name="usewatermark" type="checkbox" value="1" <?php checked(true , $wt_options['usewatermark']); ?> />
 							<input type="text" size="60" maxlength="200" name="watermarkurl" value="<?php echo $wt_options['watermarkurl'] ?>" />
-							<br /><?php _e('URL to your watermark (PNG, JPG): ','wpTube') ?></td>
+							<span class="description"><?php _e('URL to your watermark (PNG, JPG)','wpTube') ?> <strong><?php _e('(Licensed players only)','wpTube') ?></strong></span></td>
 						</tr>						
 						<tr>
 							<th><?php _e('Background Color','wpTube') ?>:</th>
 							<td><input type="text" size="6" maxlength="6" id="backcolor" name="backcolor" onchange="setcolor('#previewBack', this.value)" value="<?php echo $wt_options['backcolor'] ?>" />
 							<input type="text" size="1" readonly="readonly" id="previewBack" style="background-color: #<?php echo $wt_options['backcolor'] ?>" />
-							<?php _e('Background color of the controlbar and playlist','wpTube') ?></td>
+							<span class="description"><?php _e('Background color of the controlbar and playlist','wpTube') ?></span></td>
 						</tr>
 						<tr>					
 							<th><?php _e('Texts / Buttons Color','wpTube') ?>:</th>
 							<td><input type="text" size="6" maxlength="6" id="frontcolor" name="frontcolor" onchange="setcolor('#previewFront', this.value)" value="<?php echo $wt_options['frontcolor'] ?>" />
 							<input type="text" size="1" readonly="readonly" id="previewFront" style="background-color: #<?php echo $wt_options['frontcolor'] ?>" />
-							<?php _e('Color of all icons and texts in the controlbar and playlist','wpTube') ?></td>
+							<span class="description"><?php _e('Color of all icons and texts in the controlbar and playlist','wpTube') ?></span></td>
 						</tr>
 						<tr>					
 							<th><?php _e('Rollover / Active Color','wpTube') ?>:</th>
 							<td><input type="text" size="6" maxlength="6" id="lightcolor" name="lightcolor" onchange="setcolor('#previewLight', this.value)" value="<?php echo $wt_options['lightcolor'] ?>" />
 							<input type="text" size="1" readonly="readonly" id="previewLight" style="background-color: #<?php echo $wt_options['lightcolor'] ?>" />
-							<?php _e('Color of an icon or text when you rollover it with the mouse','wpTube') ?></td>
+							<span class="description"><?php _e('Color of an icon or text when you rollover it with the mouse','wpTube') ?></span></td>
 						</tr>
 						<tr>					
 							<th><?php _e('Screen Color','wpTube') ?>:</th>
 							<td><input type="text" size="6" maxlength="6" id="screencolor" name="screencolor" onchange="setcolor('#previewScreen', this.value)" value="<?php echo $wt_options['screencolor'] ?>" />
 							<input type="text" size="1" readonly="readonly" id="previewScreen" style="background-color: #<?php echo $wt_options['screencolor'] ?>" />
-							<?php _e('Background color of the display','wpTube') ?></td>
+							<span class="description"><?php _e('Background color of the display','wpTube') ?></span></td>
 						</tr>
 					</table>
 
@@ -337,14 +345,9 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 						<td><input name="activateAds" type="checkbox" value="1" <?php checked('1', $wt_options['activateAds']); ?> /></td>
 					</tr>
 					<tr>
-						<th valign="top"><?php _e('API Script','wpTube') ?>:</th>
-						<td><textarea name="LTapiScript" cols="80" rows="3"><?php echo htmlspecialchars( stripslashes ($wt_options['LTapiScript']) ) ?></textarea>
-						<br /><?php _e('Look for the script code at your', 'wpTube') ?> <a href="http://dashboard.longtailvideo.com/default.aspx" target="_blank"><?php _e('LongTail dashboard', 'wpTube') ?></a> 
-						</td>
-					</tr>
-					<tr>
-						<th valign="top"><?php _e('Channel ID','wpTube') ?>:</th>
-						<td><input type="text" name="LTchannelID" value="<?php echo $wt_options['LTchannelID'] ?>" size="10" />
+						<th valign="top"><?php _e('Channel Code','wpTube') ?>:</th>
+						<td><input type="text" name="LTchannelID" value="<?php echo $wt_options['LTchannelID'] ?>" size="30" />
+						<span class="description">&nbsp;<?php _e('Look for the channel code at your', 'wpTube') ?> <a href="http://dashboard.longtailvideo.com/ChannelSetup.aspx" target="_blank"><?php _e('LongTail dashboard', 'wpTube') ?></a></span> 
 						</td>
 					</tr>
 				</table>

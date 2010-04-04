@@ -1,13 +1,13 @@
 <?php
 /*
 Plugin Name: wordTube
-Plugin URI: http://alexrabe.boelinger.com/?page_id=20
-Description: This plugin manages the JW FLV MEDIA PLAYER 4.2 and makes it easy for you to put music, videos or flash movies onto your WordPress posts and pages. Various skins for the JW PLAYER are available via www.jeroenwijering.com
+Plugin URI: http://alexrabe.de/?page_id=20
+Description: This plugin manages the JW FLV MEDIA PLAYER 5.0 and makes it easy for you to put music, videos or flash movies onto your WordPress posts and pages. Various skins for the JW PLAYER are available via www.jeroenwijering.com
 Author: Alex Rabe & Alakhnor
-Version: 2.2.2
-Author URI: http://alexrabe.boelinger.com/
+Version: 2.3.0
+Author URI: http://alexrabe.de/
 
-Copyright 2006-2009 Alex Rabe , Alakhnor
+Copyright 2006-2010 Alex Rabe , Alakhnor
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -30,15 +30,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 global $wp_version;
 
 // The current version
-define('WORDTUBE_VERSION', '2.2.2');
+define('WORDTUBE_VERSION', '2.3.0');
 
-// Check for WP2.7 installation
-if (!defined ('IS_WP27'))
-	define('IS_WP27', version_compare($wp_version, '2.7', '>=') );
-
-//This works only in WP2.7 or higher
-if ( IS_WP27 == FALSE) {
-	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, wordTube works only under WordPress 2.7 or higher',"wpTube") . '</strong></p></div>\';'));
+if ( version_compare($wp_version, '2.8', '<') ){
+	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, wordTube works only under WordPress 2.8 or higher',"wpTube") . '</strong></p></div>\';'));
 	return;
 }
 
@@ -46,12 +41,6 @@ if ( IS_WP27 == FALSE) {
 define('WORDTUBE_ABSPATH', WP_PLUGIN_DIR . '/' . plugin_basename( dirname(__FILE__) ).'/' );
 define('WORDTUBE_URLPATH', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ).'/' );
 define('WORDTUBE_TAXONOMY', 'wt_tag');
-
-// make no sense if the player didn't exist
-if (!file_exists(WORDTUBE_ABSPATH.'player.swf')) { 
-	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('The player.swf is not in the wordTube folder, the player will not work.','wpTube') . '</strong></p></div>\';'));
-	return;
-}	
 
 include (dirname (__FILE__) . '/lib/functions.php');
 include_once (dirname (__FILE__) . '/lib/widget.php');
@@ -86,14 +75,64 @@ function wt_install() {
 register_activation_hook( plugin_basename( dirname(__FILE__) ) . '/wordtube.php', 'wt_install' );
 
 /**
- * wt_lang_init() - Loads language file at init
+ * wt_main_init() - Loads language and taxonomy file at init
  * 
  * @return void
  */
-function wt_lang_init () {
+function wt_main_init () {
 	
 	load_plugin_textdomain('wpTube', false, dirname( plugin_basename(__FILE__) ) . '/languages');
+
+	register_taxonomy( WORDTUBE_TAXONOMY, 'wordtube', array('update_count_callback' => '_update_media_term_count') );
+
 }
 
-// init load language
-add_action('init', 'wt_lang_init');
+/**
+ * wt_add_queryvars() - adding a new query var
+ * 
+ * @param mixed $query_vars
+ * @return
+ */
+function wt_add_queryvars( $query_vars ){
+	
+    $query_vars[] = 'xspf';
+    $query_vars[] = 'wt-stat';
+    $query_vars[] = 'wt-stat-script';
+
+	return $query_vars;
+}
+
+/**
+ * check_request() - Callback and output the content XSPF playlist or statistic
+ * 
+ * @param mixed $wp
+ * @return
+ */
+function wt_check_request( $wp ) {
+    
+    if (array_key_exists('xspf', $wp->query_vars) && $wp->query_vars['xspf'] == 'true') {
+		// Create XML output
+		require_once (dirname (__FILE__) . '/myextractXML.php');
+        exit();
+    }
+    
+    if (array_key_exists('wordtube-js', $wp->query_vars) && $wp->query_vars['wordtube-js'] == 'true') {
+		// Create XML output
+		require_once (dirname (__FILE__) . '/javascript/statistic.js.php');
+        exit();
+    }
+
+    if (array_key_exists('wt-stat', $wp->query_vars) && $wp->query_vars['wt-stat'] == 'true') {
+		// Create XML output
+		require_once (dirname (__FILE__) . '/lib/statistic.php');
+        exit();
+    }
+    
+}
+
+// Parse the $_GET vars for callbacks
+add_filter('query_vars', 'wt_add_queryvars' );
+add_action('parse_request',  'wt_check_request' );  
+
+// init some functions
+add_action('init', 'wt_main_init');

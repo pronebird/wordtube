@@ -5,7 +5,7 @@
  * 
  * @package wordTube
  * @author Alex Rabe, Alakhnor
- * @copyright 2008 - 2009
+ * @copyright 2008 - 2010
  * @access public
  */
 class wordTubeClass {
@@ -30,10 +30,6 @@ class wordTubeClass {
 	function wordTubeClass() {
 		global $wpdb;
 	
-		// Create taxonomy
-		if (function_exists('register_taxonomy'))
-			register_taxonomy( WORDTUBE_TAXONOMY, 'wordtube', array('update_count_callback' => '_update_media_term_count') );
-
 		// database pointer
 		$wpdb->wordtube				= $wpdb->prefix . 'wordtube';
 		$wpdb->wordtube_playlist	= $wpdb->prefix . 'wordtube_playlist';
@@ -63,6 +59,9 @@ class wordTubeClass {
 		// get the options & custom fields
 		$this->options = $this->get_option('wordtube_options');
 		
+        // path to the player 
+        $this->player = trailingslashit (get_option ('siteurl')). $this->options['path'];
+
 		// join the plugin list
 		if ( empty($this->options['plugins']) )
 			$this->options['plugins'] = $plugins;
@@ -90,15 +89,13 @@ class wordTubeClass {
 		}
 		
 		// no ads in the admin section
-		//TODO: disable ads for the overview page
-		if ( is_single() || is_page() )
-			$this->enableAds = ( $this->options['activateAds'] && !is_admin() && ($this->media->disableads == 0) ) ? true : false ;
+		$this->enableAds = ( $this->options['activateAds'] && !is_admin() && ($this->media->disableads == 0) ) ? true : false ;
 		
 		if ( empty($url) )
 			$url = $this->media->file;
 		
 		// Builds object
-		$this->swfobject = new swfobject( WORDTUBE_URLPATH . $this->player, 'WT'.$this->counter, $width, $height, '9.0.0', 'false');	
+		$this->swfobject = new swfobject( $this->player , 'WT'.$this->counter, $width, $height, '9.0.0', 'false');	
 		
 		// add all params & vars
 		$this->addParameter();
@@ -132,6 +129,9 @@ class wordTubeClass {
 		
 		// get the options & custom fields
 		$this->options = $this->get_option('wordtube_options');
+
+        // path to the player 
+        $this->player = trailingslashit (get_option ('siteurl')). $this->options['path'];
 		
 		// join the plugin list
 		if ( empty($this->options['plugins']) )
@@ -156,10 +156,10 @@ class wordTubeClass {
 		$this->enableAds = false;
 
 		// Builds object
-		$this->swfobject = new swfobject( WORDTUBE_URLPATH . $this->player, 'WT'.$this->counter, $width, $height, '9.0.0', 'false');	
+		$this->swfobject = new swfobject( $this->player, 'WT'.$this->counter, $width, $height, '9.0.0', 'false');	
  
  		$this->addParameter();
-		$this->swfobject->add_flashvars( 'file', WORDTUBE_URLPATH . 'myextractXML.php?id=' . $id );
+        $this->swfobject->add_flashvars( 'file', urlencode (get_option ('siteurl') . '/' . 'index.php?xspf=true&id=' . $id ) );
 		// apply the parameters
 		$this->globalFlashVars();
 		$this->PlaylistVariables();
@@ -195,7 +195,7 @@ class wordTubeClass {
 		} else {
 			$this->swfobject->add_flashvars( 'file', rawurlencode( $file ) );
 			if ( $this->enableAds )
-				$this->swfobject->add_flashvars( 'ltas.mediaid', rawurlencode( $file ) );
+				$this->swfobject->add_flashvars( 'ltas.mediaid', $this->counter );
 		}
 
 		return;
@@ -218,12 +218,6 @@ class wordTubeClass {
 		// Get display div
 		$out  = '<div class="wordtube">' . $this->swfobject->output() . '</div>';
 
-		// Add the Longtail Scritp to the footer and wrap a div around
-		if ( $this->enableAds && $playmode == 'single' && !is_admin() ) {
-			add_action('wp_footer', array(&$this, 'addLongtailFooter' ));
-			$out  = "\n".'<div id="mediaspace">'. $out . "\n".'</div>';
-		}
-			
 		// Set js open tag
 		$out .= "\n\t".'<script type="text/javascript" defer="defer">';
 		if ($this->options['xhtmlvalid']) {
@@ -278,7 +272,7 @@ class wordTubeClass {
 
 	/**
 	 * wordTubeClass::GlobalFlashVars()
-	 * Global parameters for palyler and playlist
+	 * Global parameters for player and playlist
 	 * 
 	 * @return string
 	 */
@@ -290,7 +284,6 @@ class wordTubeClass {
 
 		// Media Player V4.00 new settings
 		$this->swfobject->add_flashvars( 'stretching', $this->options['stretching'], 'uniform');	
-		$this->swfobject->add_flashvars( 'displayclick', $this->options['displayclick'], 'play');
 		$this->swfobject->add_flashvars( 'quality', $this->options['quality'], 'true', 'bool');
 		$this->swfobject->add_flashvars( 'controlbar', $this->options['controlbar'], 'bottom');	
 				
@@ -298,17 +291,23 @@ class wordTubeClass {
 		$this->swfobject->add_flashvars( 'backcolor', $this->options['backcolor'], 'FFFFFF');	
 		$this->swfobject->add_flashvars( 'frontcolor', $this->options['frontcolor'], '000000');
 		$this->swfobject->add_flashvars( 'lightcolor', $this->options['lightcolor'], '000000');
-		$this->swfobject->add_flashvars( 'screencolor', $this->options['screencolor'], '000000');				
+		$this->swfobject->add_flashvars( 'screencolor', $this->options['screencolor'], '000000');
+        				
+        // Media Player V4.40 new settings
+		$this->swfobject->add_flashvars( 'smoothing', $this->options['smoothing'], 'true', 'bool');	
 
-		if ($this->options['usewatermark'])	
-			$this->swfobject->add_flashvars( 'logo', rawurlencode($this->options['watermarkurl']));
+		if ($this->options['usewatermark'])	{
+			$this->swfobject->add_flashvars( 'logo.file', rawurlencode($this->options['watermarkurl']));
+        } else {
+            $this->swfobject->add_flashvars( 'logo.hide', $this->options['usewatermark'], 'true', 'bool');
+        }
 
 		if (!empty ($this->options['skinurl']) )	
 			$this->swfobject->add_flashvars( 'skin', rawurlencode($this->options['skinurl']));
 		
 		//Add longtail settings
 		if ( $this->enableAds ) {
-			$this->swfobject->add_flashvars( 'channel', $this->options['LTchannelID'], '');
+			$this->swfobject->add_flashvars( 'ltas.cc', $this->options['LTchannelID'], '');
 			if ( empty ($this->options['plugins']) )
 				$this->options['plugins']  = 'ltas';
 			else
@@ -349,21 +348,6 @@ class wordTubeClass {
 		$this->swfobject->add_params('allowfullscreen', $this->options['showfsbutton'], 'false', 'bool');
 		
 		return;
-	}
-	
-	/**
-	 * wordTubeClass::addLongtailFooter()
-	 * Adding LongTials Ads to the footer
-	 * 
-	 * @return string
-	 */
-	function addLongtailFooter() {
-		
-		// ensure that it's loaded only one time
-		if (!$this->addLongTail && !is_admin())
-			echo "\n\t" . stripslashes( $this->options['LTapiScript'] ) ."\n";
-		
-		$this->addLongTail = true;
 	}
 	
 	/**
@@ -420,11 +404,8 @@ class wordTubeClass {
 	 */
 	function integrate_js() {
 	
-			wp_enqueue_script('swfobject', WORDTUBE_URLPATH.'javascript/swfobject.js', false, '2.1');
-			wp_enqueue_script('wordtube_stats', WORDTUBE_URLPATH.'javascript/statistic.js', array('jquery'), '0.1');			
-			wp_localize_script('wordtube_stats', 'wordtube', array(
-						'ajaxurl' => WORDTUBE_URLPATH . 'lib/statistic.php'			
-			) );
+			wp_enqueue_script('swfobject', WORDTUBE_URLPATH . 'javascript/swfobject.js', false, '2.1');
+            wp_enqueue_script('wordtube_stats', get_option ('siteurl') . '/index.php?wordtube-js=true', array('jquery'), '2.0');			
 	}
 
 	/**
@@ -489,7 +470,7 @@ class wordTubeClass {
 				if (array_key_exists($key, $meta_array)){
 					switch ($typ) {
 					case 'string':
-						$options[$db_value] = (string) attribute_escape($meta_array[$key][0]);
+						$options[$db_value] = (string) esc_attr($meta_array[$key][0]);
 						break;
 					case 'int':
 						$options[$db_value] = (int) $meta_array[$key][0];
