@@ -91,7 +91,7 @@ That's it ... Have fun
 
 == Changelog == 
 
-= V2.3.0 / 04.04.2010=
+= V2.3.0 / 04.04.2010 =
 * Added JW Media Player 5.1
 * Updated settings for V5.0
 * Move player file outside the plugin folder
