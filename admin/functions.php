@@ -137,7 +137,7 @@ function wt_add_media($wptfile_abspath, $wp_urlpath) {
  		$video_aid = $wpdb->insert_id;  // get index_id
 
         //hook for other plugin to update the fields
-        do_action('wordtube_add_media', $video_aid, $_POST);
+        do_action('wordtube_update_media_meta', $video_aid, $_POST);
         
 		$tags = explode(',',$act_tags);
 		wp_set_object_terms($video_aid, $tags, WORDTUBE_TAXONOMY);
@@ -217,7 +217,7 @@ function wt_update_media( $media_id ) {
 	}
 
     //hook for other plugin to update the fields
-    do_action('wordtube_update_media', $media_id, $_POST);
+    do_action('wordtube_update_media_meta', $media_id, $_POST);
 
 	// Finished
 	
