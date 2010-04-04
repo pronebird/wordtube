@@ -97,7 +97,7 @@ function wt_add_queryvars( $query_vars ){
 	
     $query_vars[] = 'xspf';
     $query_vars[] = 'wt-stat';
-    $query_vars[] = 'wt-stat-script';
+    $query_vars[] = 'wordtube-js';
 
 	return $query_vars;
 }
