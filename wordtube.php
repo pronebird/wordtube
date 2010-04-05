@@ -97,7 +97,7 @@ function wt_add_queryvars( $query_vars ){
 	
     $query_vars[] = 'xspf';
     $query_vars[] = 'wt-stat';
-    $query_vars[] = 'wt-stat-script';
+    $query_vars[] = 'wordtube-js';
 
 	return $query_vars;
 }
@@ -132,7 +132,7 @@ function wt_check_request( $wp ) {
 
 // Parse the $_GET vars for callbacks
 add_filter('query_vars', 'wt_add_queryvars' );
-add_action('parse_request',  'wt_check_request' );  
+add_action('parse_request',  'wt_check_request', 9 );  
 
 // init some functions
 add_action('init', 'wt_main_init');
