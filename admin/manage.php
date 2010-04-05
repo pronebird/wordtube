@@ -33,7 +33,7 @@ class wordTubeManage extends wordTubeAdmin  {
 		
 		// check for player
 		if (!file_exists(ABSPATH . $this->options['path'] ) )
-			$this->render_error( __('The Flash player is not detected. Please recheck if you uploaded it to the wordTube folder.','wpTube') );
+			$this->render_error( __('The Flash player is not detected. Please recheck if you uploaded it and verify the path in the wordTube settings.','wpTube') );
 
 		// Manage upload dir
 		add_filter('upload_dir', array(&$this, 'upload_dir'));
