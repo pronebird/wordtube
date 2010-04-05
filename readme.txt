@@ -91,6 +91,11 @@ That's it ... Have fun
 
 == Changelog == 
 
+= V2.3.1 / 05.04.2010 =
+* Bugfix for settings , smoothing not saved
+* Correct error message when player not found
+* Adding correct excerpt filters
+
 = V2.3.0 / 04.04.2010 =
 * Added JW Media Player 5.1
 * Updated settings for V5.0

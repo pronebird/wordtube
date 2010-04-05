@@ -176,7 +176,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 					</tr>
 					<tr>
 						<th><?php _e('Enable Smoothing ','wpTube') ?></th>
-						<td><input name="showfsbutton" type="checkbox" value="1" <?php checked(true , $wt_options['smoothing']); ?> />
+						<td><input name="smoothing" type="checkbox" value="1" <?php checked(true , $wt_options['smoothing']); ?> />
 						<span class="description"><?php _e('This sets the smoothing of videos, so you won\'t see blocks when a video is upscaled. Set this to false to get performance improvements with old computers / big files','wpTube') ?></span></td>
 					</tr>
 					<tr>

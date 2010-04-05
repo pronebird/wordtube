@@ -2,7 +2,7 @@
 
 /**
  * @author Alex Rabe
- * @copyright 2008-2009
+ * @copyright 2008-2010
  * @description Use WordPress Shortcode API for more features
  * @Docs http://codex.wordpress.org/Shortcode_API
  */
@@ -50,11 +50,12 @@ class wordTube_shortcodes {
 			$text = apply_filters('the_content', $text);
 			$text = str_replace(']]>', ']]&gt;', $text);
 			$text = strip_tags($text);
-			$excerpt_length = 55;
+			$excerpt_length = apply_filters ( 'excerpt_length', 55);
+            $excerpt_more = apply_filters ( 'excerpt_more', '[...]');
 			$words = explode(' ', $text, $excerpt_length + 1);
 			if (count($words) > $excerpt_length) {
 				array_pop($words);
-				array_push($words, '[...]');
+				array_push ($words, $excerpt_more);
 				$text = implode(' ', $words);
 			}
 		}
