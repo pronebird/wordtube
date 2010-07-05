@@ -3,7 +3,7 @@ Contributors: Alex Rabe
 Donate link: http://alexrabe.de/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.8
-Tested up to: 2.9.2
+Tested up to: 3.0
 
 wordTube is your Media Center plugin for WordPress.
 
