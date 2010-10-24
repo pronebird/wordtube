@@ -1,5 +1,5 @@
 === wordTube ===
-Contributors: Alex Rabe
+Contributors: alexrabe
 Donate link: http://alexrabe.de/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.8
