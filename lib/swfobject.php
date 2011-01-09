@@ -4,7 +4,9 @@ if ( !class_exists('swfobject') ) :
  * swfobject - PHP class for creating dynamic content of SWFObject V2.1
  * 
  * @author Alex Rabe
- * @version 0.4
+ * @package wordTube
+ * @version 0.6
+ * @copyright GNU General Public License Version 2
  * @access public
  * @example http://code.google.com/p/swfobject/
  */
@@ -131,10 +133,9 @@ class swfobject {
 	function add_flashvars ( $key, $value, $default = '', $type = '', $prefix = '' ) {
 
 		if ( is_bool( $value ) )
-			$value = ( $value ) ? "true" : "false";
-		
-		if ( $type == "bool" )
-			$value = ( $value == "1" ) ? "true" : "false";
+			$value = ( $value ) ? 'true' : 'false';
+		elseif ( $type == 'bool' )
+			$value = ( $value == '1' ) ? 'true' : 'false';
 		
 		// do not add the variable if we hit the default setting 	
 		if ( $value == $default )	
@@ -147,10 +148,9 @@ class swfobject {
 	function add_params ( $key, $value, $default = '', $type = '', $prefix = '' ) {
 
 		if ( is_bool( $value ) )
-			$value = ( $value ) ? "true" : "false";
-		
-		if ( $type == "bool" )
-			$value = ( $value == "1" ) ? "true" : "false";
+			$value = ( $value ) ? 'true' : 'false';
+		elseif ( $type == 'bool' )
+			$value = ( $value == '1' ) ? 'true' : 'false';
 		
 		// do not add the variable if we hit the default setting 	
 		if ( $value == $default )	
@@ -163,10 +163,9 @@ class swfobject {
 	function add_attributes ( $key, $value, $default = '', $type = '', $prefix = '' ) {
 
 		if ( is_bool( $value ) )
-			$value = ( $value ) ? "true" : "false";
-		
-		if ( $type == "bool" )
-			$value = ( $value == "1" ) ? "true" : "false";
+			$value = ( $value ) ? 'true' : 'false';
+		elseif ( $type == 'bool' )
+			$value = ( $value == '1' ) ? 'true' : 'false';
 		
 		// do not add the variable if we hit the default setting 	
 		if ( $value == $default )	

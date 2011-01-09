@@ -3,10 +3,8 @@
 extended wordtube_statistics 2.0
 author : Frederic de Ranter, Alex Rabe
 */
-
-header("content-type:text/plain;charset=utf-8");
+header('Content-Type: text/javascript; charset=utf-8', true);
 ?>
-
 var player = new Array();
 //var counter = 0;
 function playerReady(obj) {

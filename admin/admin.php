@@ -66,7 +66,10 @@ class wordTubeAdmin extends wordTubeClass {
 		switch ($_GET['page']) {
 			case "wordTube" :
 				wp_enqueue_script('postbox');
+                wp_enqueue_script('jquery');
 				wp_enqueue_script('swfobject', WORDTUBE_URLPATH.'javascript/swfobject.js', false, '2.1');
+                echo '<link rel="stylesheet" href="'.WORDTUBE_URLPATH.'admin/css/jquery-ui.css" type="text/css" media="print, projection, screen" />'."\n";
+                echo '<link rel="stylesheet" href="'.WORDTUBE_URLPATH.'admin/css/ui.theme.css" type="text/css" media="print, projection, screen" />'."\n";
 			break;
 			case "wordtube-options" :
 				wp_enqueue_script('jquery-ui-tabs');

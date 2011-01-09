@@ -1,3 +1,7 @@
+= V2.4.0 / 09.01.2011 = 
+* Added sort ordering of playlist media items (THX to Lance Mitchell)
+* Adding wpdb->prepare (THX to Peter Lowe)
+
 = V2.3.1 / 05.04.2010 =
 * Bugfix for settings , smoothing not saved
 * Correct error message when player not found

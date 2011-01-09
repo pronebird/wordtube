@@ -1,9 +1,9 @@
 === wordTube ===
-Contributors: alexrabe
+Contributors: Alex Rabe
 Donate link: http://alexrabe.de/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.8
-Tested up to: 3.0
+Tested up to: 3.1
 
 wordTube is your Media Center plugin for WordPress.
 
@@ -28,7 +28,7 @@ or a playlist of all your media files..
 
 == Credits ==
 
-Copyright 2006-2010 Alex Rabe & Alakhnor
+Copyright 2006-2011 Alex Rabe & Alakhnor
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -90,6 +90,10 @@ That's it ... Have fun
 7. 	Playlist order: to gain control over playlist order, go to admin panel -> Manage -> Media Center. Select the playlist you want to order in the dropdown menu of the filter part of the screen. Click on order field for each media to choose order, enter to save.
 
 == Changelog == 
+
+= V2.4.0 / 09.01.2011 = 
+* Added sort ordering of playlist media items (THX to Lance Mitchell)
+* Adding wpdb->prepare (THX to Peter Lowe)
 
 = V2.3.1 / 05.04.2010 =
 * Bugfix for settings , smoothing not saved
