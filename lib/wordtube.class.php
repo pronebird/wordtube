@@ -99,6 +99,8 @@ class wordTubeClass {
 
 		$this->swfobject->add_flashvars( 'width', $width );
 		$this->swfobject->add_flashvars( 'height', $height );
+		$this->swfobject->add_flashvars( 'flashplayer', WORDTUBE_URLPATH.'javascript/jwplayer.flash.swf' );
+		$this->swfobject->add_flashvars( 'html5player', WORDTUBE_URLPATH.'javascript/jwplayer.html5.js' );
 		
 		// add all params & vars
 		$this->ReturnLocation( $url );
@@ -160,6 +162,8 @@ class wordTubeClass {
 
 		$this->swfobject->add_flashvars( 'width', $width );
 		$this->swfobject->add_flashvars( 'height', $height );
+		$this->swfobject->add_flashvars( 'flashplayer', WORDTUBE_URLPATH.'javascript/jwplayer.flash.swf' );
+		$this->swfobject->add_flashvars( 'html5player', WORDTUBE_URLPATH.'javascript/jwplayer.html5.js' );
  
         $this->swfobject->add_flashvars( 'playlist', get_option ('siteurl') . '/' . 'index.php?wt-rss=true&id=' . $id );
 		// apply the parameters
