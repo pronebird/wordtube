@@ -1,3 +1,8 @@
+= V2.5.0 / 24.10.2013 =
+* Add JWPlayer 6
+* Fix thumbnail lookup bug
+* Drop xspf in favor of media rss
+
 = V2.4.0 / 09.01.2011 = 
 * Added sort ordering of playlist media items (THX to Lance Mitchell)
 * Adding wpdb->prepare (THX to Peter Lowe)

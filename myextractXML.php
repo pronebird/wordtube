@@ -3,6 +3,7 @@
 +----------------------------------------------------------------+
 +	wordtube media RSS output for playlist
 +	by Alex Rabe reviewed by Alakhnor
++	Media RSS support by Andrej Mihajlov
 +	required for wordTube
 +----------------------------------------------------------------+
 */

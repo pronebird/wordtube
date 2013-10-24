@@ -4,10 +4,11 @@ Plugin Name: wordTube
 Plugin URI: http://alexrabe.de/?page_id=20
 Description: This plugin manages the JW FLV MEDIA PLAYER 5.0 and makes it easy for you to put music, videos or flash movies onto your WordPress posts and pages. Various skins for the JW PLAYER are available via www.jeroenwijering.com
 Author: Alex Rabe & Alakhnor
-Version: 2.4.0
+Version: 2.5.0
 Author URI: http://alexrabe.de/
 
 Copyright 2006-2011 Alex Rabe , Alakhnor
+Copyright 2013 Andrej Mihajlov
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -30,7 +31,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 global $wp_version;
 
 // The current version
-define('WORDTUBE_VERSION', '2.4.0');
+define('WORDTUBE_VERSION', '2.5.0');
 
 if ( version_compare($wp_version, '2.8', '<') ){
 	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, wordTube works only under WordPress 2.8 or higher',"wpTube") . '</strong></p></div>\';'));
