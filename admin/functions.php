@@ -373,7 +373,7 @@ function wt_ParseYoutubeDetails( $ytVideoXML ) {
 			case 'ENTRY' :
 				if ($yt_elem['type'] == 'open') {
 					$is_entry = true;
-                                        $yt_video = array();
+                    $yt_video = array();
 				} else {
 					$yt_vidlist[] = $yt_video;
 					$is_entry = false;
@@ -405,7 +405,7 @@ function wt_ParseYoutubeDetails( $ytVideoXML ) {
 				$yt_video['duration'] = $yt_elem['attributes'];
 			break;
 			case 'MEDIA:THUMBNAIL' :
-				if ($yt_elem['attributes']['HEIGHT'] == 240) {
+				if ($yt_elem['attributes']['HEIGHT'] == 240 || $yt_elem['attributes']['HEIGHT'] == 360) {
 					$yt_video['thumbnail'] = $yt_elem['attributes'];
 					$yt_video['thumbnail_url'] = $yt_elem['attributes']['URL'];
 				}

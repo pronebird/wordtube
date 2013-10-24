@@ -1,7 +1,7 @@
 <?php
 /*
 +----------------------------------------------------------------+
-+	wordtube-XSPF XML output for playlist
++	wordtube media RSS output for playlist
 +	by Alex Rabe reviewed by Alakhnor
 +	required for wordTube
 +----------------------------------------------------------------+
@@ -39,7 +39,7 @@ if ($playlist_id == 'most') {
 	$themediafiles = $wpdb->get_results("SELECT * FROM $wpdb->wordtube WHERE file LIKE '%.flv%' ORDER BY vid DESC");
 // Shows all files when 0
 } elseif ($playlist_id == '0') {
-	$themediafiles = $wpdb->get_results( $wpdb->prepare ("SELECT * FROM $wpdb->wordtube ORDER BY vid DESC {$limit}") );
+	$themediafiles = $wpdb->get_results("SELECT * FROM $wpdb->wordtube ORDER BY vid DESC $limit");
 // Otherwise gets playlist
 } else {
 	// Remove all evil code
@@ -56,40 +56,43 @@ if ($playlist_id == 'most') {
 	}
 }
 
-// Create XML / XSPF output
+// Create Media RSS output
 header("content-type:text/xml;charset=utf-8");
+
+echo "<?xml version='1.0' encoding='UTF-8'?>\n";
+echo '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">' . "\n";
+echo "\t<channel>";
+echo "\n\t\t".'<title>' . esc_attr($title) . '</title>';
 	
-echo "\n"."<playlist version='1' xmlns='http://xspf.org/ns/0/'>";
-echo "\n\t".'<title>' . esc_attr($title) . '</title>';
-echo "\n\t".'<trackList>';
-	
-if (is_array ($themediafiles)){
+if (is_array ($themediafiles)) {
 
 	foreach ($themediafiles as $media) {
 		
-                $creator = esc_attr(stripslashes($media->creator));
-                if ($creator == '') 
-					$creator = 'Unknown';
-                if ($media->image == '') 
-					$image = get_option('siteurl') . '/wp-content/plugins/' . dirname( plugin_basename(__FILE__) ) . '/images/wordtube.jpg';
-				else 
-					$image = $media->image;
-  				$file = pathinfo($media->file);
+        $creator = esc_attr(stripslashes($media->creator));
+        if ($creator == '') 
+			$creator = 'Unknown';
+        
+        if ($media->image == '') 
+			$image = get_option('siteurl') . '/wp-content/plugins/' . dirname( plugin_basename(__FILE__) ) . '/images/wordtube.jpg';
+		else 
+			$image = $media->image;
 
-		echo "\n\t\t".'<track>';
-		echo "\n\t\t\t".'<title>' . esc_attr( stripslashes($media->name) ) . '</title>';
-		echo "\n\t\t\t".'<creator>' . esc_attr($creator) . '</creator>';
-		echo "\n\t\t\t".'<location>' . esc_attr($media->file) . '</location>';
-		echo "\n\t\t\t".'<image>' . esc_attr($image) . '</image>';
-		echo "\n\t\t\t".'<annotation>' . esc_attr( stripslashes($media->description) ) .  '</annotation>';
-		echo "\n\t\t\t".'<id>' . $media->vid . '</id>';
-		echo "\n\t\t\t".'<counter>' . $media->counter . '</counter>';
-		echo "\n\t\t\t".'<info>' . esc_attr($media->link) . '</info>';
-		echo "\n\t\t".'</track>';
+		$file = pathinfo($media->file);
+
+		echo "\n\t\t\t".'<item>';
+		echo "\n\t\t\t\t".'<title>' . esc_attr($media->name) . '</title>';
+		echo "\n\t\t\t\t".'<link>' . esc_attr($media->link) . '</link>';
+		echo "\n\t\t\t\t".'<media:description>' . esc_attr($media->description) . '</media:description>';
+		echo "\n\t\t\t\t".'<media:content url="' . esc_attr($media->file) . '" />';
+		echo "\n\t\t\t\t".'<media:credit role="author">' . esc_attr($creator) . '</media:credit>';
+		echo "\n\t\t\t\t".'<media:thumbnail url="' . esc_attr($image) . '" />';
+		//echo "\n\t\t\t\t".'<media:id>' . $media->vid . '</media:id>';
+		//echo "\n\t\t\t\t".'<media:counter>' . $media->counter . '</media:counter>';
+		echo "\n\t\t\t".'</item>';
 	}
 }
-	 
-echo "\n\t".'</trackList>';
-echo "\n"."</playlist>\n";	
+
+echo "\n\t</channel>";
+echo "\n</rss>";
 
 ?>

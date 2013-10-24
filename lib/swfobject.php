@@ -48,25 +48,13 @@ class swfobject {
      *
      * @var string
      */
-    var $classname = 'swfobject';			
+    var $classname = 'swfobject';
 	/**
      * array of flashvars
      *
      * @var array
      */
     var $flashvars;
-    /**
-     * array of nested object element params
-     *
-     * @var array
-     */
-    var $params;
-    /**
-     * array of object's attributest
-     *
-     * @var array
-     */
-    var $attributes;
 
 	/**
 	 * swfobject::swfobject()
@@ -82,7 +70,7 @@ class swfobject {
 	 * @param array $attributes (optional) specifies your object's attributes with name:value pairs
 	 * @return string the content
 	 */
-	function swfobject( $swfUrl, $id, $width, $height, $version, $expressInstallSwfurl = false, $flashvars = false, $params = false, $attributes = false ) {
+	function swfobject( $swfUrl, $id, $width, $height, $version, $expressInstallSwfurl = false, $flashvars = false, $params = false /* DEPRECATED */, $attributes = false /* DEPRECATED */ ) {
 	
 		global $swfCounter;
 		
@@ -92,11 +80,8 @@ class swfobject {
 		
 		$this->id = $id . '_' . $swfCounter;
 		$this->width = $width;
-		$this->height = $height;		
-		
+		$this->height = $height;
 		$this->flashvars  = ( is_array($flashvars) )  ? $flashvars : array();
-		$this->params     = ( is_array($params) )     ? $params : array();
-		$this->attributes = ( is_array($attributes) ) ? $attributes : array();
 
 		$this->embedSWF = 'swfobject.embedSWF("'. $swfUrl .'", "'. $this->id .'", "'. $width .'", "'. $height .'", "'. $version .'", '. $expressInstallSwfurl .', this.flashvars, this.params , this.attr );' . "\n";
 	}
@@ -118,15 +103,12 @@ class swfobject {
 	function javascript () {
 
 		//Build javascript
-		$this->js  = "\nvar " . $this->id  . " = {\n";
-		$this->js .= $this->add_js_parameters('params', $this->params) . ",\n";
-		$this->js .= $this->add_js_parameters('flashvars', $this->flashvars) . ",\n";
-		$this->js .= $this->add_js_parameters('attr', $this->attributes) . ",\n";
-		$this->js .= "\tstart : function() {" . "\n\t\t";
-		$this->js .= $this->embedSWF;
-		$this->js .= "\t}\n}\n";
-		$this->js .= $this->id  . '.start();';
-	
+		$this->js .= "(function () {\n";
+		$this->js .= "\tjwplayer('" . $this->id . "').setup(";
+		$this->js .= $this->add_js_parameters($this->flashvars);
+		$this->js .= ");\n";
+		$this->js .= "})();";
+
 		return $this->js;
 	}
 	
@@ -140,55 +122,38 @@ class swfobject {
 		// do not add the variable if we hit the default setting 	
 		if ( $value == $default )	
 			return;
-			
-		$this->flashvars[$key] = $prefix . $value;
+		
+		if(is_array($value)) 
+			$this->flashvars[$key] = $value;
+		else
+			$this->flashvars[$key] = $prefix . $value;
 		return;
 	}
 
-	function add_params ( $key, $value, $default = '', $type = '', $prefix = '' ) {
-
-		if ( is_bool( $value ) )
-			$value = ( $value ) ? 'true' : 'false';
-		elseif ( $type == 'bool' )
-			$value = ( $value == '1' ) ? 'true' : 'false';
-		
-		// do not add the variable if we hit the default setting 	
-		if ( $value == $default )	
-			return;
-			
-		$this->params[$key] = $prefix . $value;
-		return;
-	}
-
-	function add_attributes ( $key, $value, $default = '', $type = '', $prefix = '' ) {
-
-		if ( is_bool( $value ) )
-			$value = ( $value ) ? 'true' : 'false';
-		elseif ( $type == 'bool' )
-			$value = ( $value == '1' ) ? 'true' : 'false';
-		
-		// do not add the variable if we hit the default setting 	
-		if ( $value == $default )	
-			return;
-		
-		$this->attributes[$key] = $prefix . $value;
-		return;
-	}
-	
-	function add_js_parameters( $name, $params ) {
+	function add_js_parameters($params, $indent = 2) {
 		$list = '';
+		$tabs = "\n" . str_repeat("\t", $indent);
+
 		if ( is_array($params) ) {
 			foreach ($params as $key => $value) {
 				if  ( !empty($list) )
 					$list .= ",";
-				if (false === strrpos($key, '.') )		
-					$list .= "\n\t\t" . $key . ' : ' . '"' . $value .'"';
-				else
-					$list .= "\n\t\t'" . $key . '\' : ' . '"' . $value .'"';	
+
+				$list .= $tabs . "'" . $key . '\': ';
+
+				if(is_array($value)) {
+					$list .= $this->add_js_parameters($value, $indent + 1);
+				} else if(is_bool($value)) {
+					$list .= $value ? 'true' : 'false';
+				} else if(is_numeric($value)) {
+					$list .= $value;
+				} else {
+					$list .= "'" . str_replace('&amp;', '&', esc_js($value)) . "'";
+				}
 			}
 		}
-		$js = "\t" . $name . ' : {' . $list . '}';		
-		return $js;		
+		$js = '{' . $list . $tabs . '}';
+		return $js;
 	}
 	
 }

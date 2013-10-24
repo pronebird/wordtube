@@ -96,17 +96,17 @@ class wordTubeClass {
 		
 		// Builds object
 		$this->swfobject = new swfobject( $this->player , 'WT'.$this->counter, $width, $height, '9.0.0', 'false');	
+
+		$this->swfobject->add_flashvars( 'width', $width );
+		$this->swfobject->add_flashvars( 'height', $height );
 		
 		// add all params & vars
-		$this->addParameter();
 		$this->ReturnLocation( $url );
 		$this->globalFlashVars();
-		$this->swfobject->add_flashvars( 'image', rawurlencode($image) );
-		$this->swfobject->add_flashvars( 'title', rawurlencode($this->media->name) );
+		$this->swfobject->add_flashvars( 'image', $image );
+		$this->swfobject->add_flashvars( 'title', $this->media->name );
 		$this->swfobject->add_flashvars( 'linktarget', '_self' );
 		$this->swfobject->add_flashvars( 'autostart', $autostart, 'false', 'bool');
-		$this->swfobject->add_attributes( 'id', 'WT'.$this->counter);
-		$this->swfobject->add_attributes( 'name', 'WT'.$this->counter);
 		
 		// Build the output
     	$out  = $this->ScriptHeader( $id, 'single' );
@@ -156,15 +156,15 @@ class wordTubeClass {
 		$this->enableAds = false;
 
 		// Builds object
-		$this->swfobject = new swfobject( $this->player, 'WT'.$this->counter, $width, $height, '9.0.0', 'false');	
+		$this->swfobject = new swfobject( $this->player, 'WT'.$this->counter, $width, $height, '9.0.0', 'false');
+
+		$this->swfobject->add_flashvars( 'width', $width );
+		$this->swfobject->add_flashvars( 'height', $height );
  
- 		$this->addParameter();
-        $this->swfobject->add_flashvars( 'file', urlencode (get_option ('siteurl') . '/' . 'index.php?xspf=true&id=' . $id ) );
+        $this->swfobject->add_flashvars( 'playlist', get_option ('siteurl') . '/' . 'index.php?wt-rss=true&id=' . $id );
 		// apply the parameters
 		$this->globalFlashVars();
 		$this->PlaylistVariables();
-		$this->swfobject->add_attributes( 'id', 'WT'.$this->counter);
-		$this->swfobject->add_attributes( 'name', 'WT'.$this->counter);		
 		
 		// Build the output
 		$out  = $this->ScriptHeader( $id, 'playlist');
@@ -188,12 +188,12 @@ class wordTubeClass {
 		if (substr($file, 0, 4) == 'rtmp') {
 			preg_match('/^(.+)\?id=(.+)/', $file, $match);
 			if (!empty ($match)) {		
-				$this->swfobject->add_flashvars( 'streamer', rawurlencode( $match[1] ));
-				$this->swfobject->add_flashvars( 'file', rawurlencode( $match[2] ) );
+				$this->swfobject->add_flashvars( 'streamer', $match[1] );
+				$this->swfobject->add_flashvars( 'file', $match[2] );
 			} else
-				$this->swfobject->add_flashvars( 'file', rawurlencode( $file ) );
+				$this->swfobject->add_flashvars( 'file', $file );
 		} else {
-			$this->swfobject->add_flashvars( 'file', rawurlencode( $file ) );
+			$this->swfobject->add_flashvars( 'file', $file );
 			if ( $this->enableAds )
 				$this->swfobject->add_flashvars( 'ltas.mediaid', $this->counter );
 		}
@@ -219,10 +219,10 @@ class wordTubeClass {
 		$out  = '<div class="wordtube">' . $this->swfobject->output() . '</div>';
 
 		// Set js open tag
-		$out .= "\n\t".'<script type="text/javascript" defer="defer">';
+		$out .= "\n".'<script type="text/javascript" defer="defer">' . "\n";
 		if ($this->options['xhtmlvalid']) {
-			$out .= "\n\t".'<!--';
-			$out .= "\n\t".'//<![CDATA['."\n";
+			$out .= "\n".'<!--';
+			$out .= "\n".'//<![CDATA['."\n";
 		}
 
         return $out;
@@ -243,10 +243,10 @@ class wordTubeClass {
 		
 		//NOTE : Wordpress change the CDATA end tag
 		if ($this->options['xhtmlvalid']) {
-			$out .= "\n\t"."//]]>"; 
-			$out .= "\n\t".'// -->'; 
+			$out .= "\n"."//]]>"; 
+			$out .= "\n".'// -->'; 
 		}
-		$out .= "\n\t".'</script>'."\n";
+		$out .= "\n".'</script>'."\n";
 	
 		// increase the internal counter
 		$this->counter++;
@@ -264,8 +264,10 @@ class wordTubeClass {
 		
 		$this->swfobject->add_flashvars( 'shuffle', $this->options['shuffle'], 'true', 'bool');	
 		$this->swfobject->add_flashvars( 'autostart', $this->options['autostart'], 'false', 'bool');	
-		$this->swfobject->add_flashvars( 'playlistsize', $this->options['playlistsize'], 180);
-		$this->swfobject->add_flashvars( 'playlist', $this->options['playlist'], 'none');		
+		$this->swfobject->add_flashvars( 'listbar', array(
+			'position' => $this->options['playlist'],
+			'size' => $this->options['playlistsize']
+		), 'none');		
 		
 		return;
 	}
@@ -277,6 +279,8 @@ class wordTubeClass {
 	 * @return string
 	 */
 	function GlobalFlashVars() {
+
+		//$this->swfobject->add_flashvars( 'primary', 'flash' );
 		
 		$this->swfobject->add_flashvars( 'repeat', $this->options['repeat'], 'none');
 		$this->swfobject->add_flashvars( 'volume', $this->options['volume'], 90);
@@ -295,15 +299,14 @@ class wordTubeClass {
         				
         // Media Player V4.40 new settings
 		$this->swfobject->add_flashvars( 'smoothing', $this->options['smoothing'], 'true', 'bool');	
-
 		if ($this->options['usewatermark'])	{
-			$this->swfobject->add_flashvars( 'logo.file', rawurlencode($this->options['watermarkurl']));
+			$this->swfobject->add_flashvars( 'logo', array( 'file' => $this->options['watermarkurl'] ) );
         } else {
-            $this->swfobject->add_flashvars( 'logo.hide', $this->options['usewatermark'], 'true', 'bool');
+            $this->swfobject->add_flashvars( 'logo', array( 'hide' => true ) );
         }
 
 		if (!empty ($this->options['skinurl']) )	
-			$this->swfobject->add_flashvars( 'skin', rawurlencode($this->options['skinurl']));
+			$this->swfobject->add_flashvars( 'skin', $this->options['skinurl']);
 		
 		//Add longtail settings
 		if ( $this->enableAds ) {
@@ -312,8 +315,8 @@ class wordTubeClass {
 				$this->options['plugins']  = 'ltas';
 			else
 				$this->options['plugins'] .= ',ltas';
-			$this->swfobject->add_flashvars( 'title', rawurlencode($this->media->name));
-			$this->swfobject->add_flashvars( 'description', rawurlencode($this->media->description));
+			$this->swfobject->add_flashvars( 'title', $this->media->name);
+			$this->swfobject->add_flashvars( 'description', $this->media->description);
 		}
 			
 		//Add plugins if needed
@@ -332,22 +335,6 @@ class wordTubeClass {
 		}
 			
 		return;	
-	}
-	
-	/**
-	 * wordTubeClass::addParameter()
-	 * Return some paramater to control flash itself (See Adobe docs for more)
-	 * 
-	 * @return string
-	 */
-	function addParameter () {
-
-		$this->swfobject->add_params('wmode', 'opaque');
-		$this->swfobject->add_params('allowscriptaccess', 'always');
-		$this->swfobject->add_params('allownetworking', 'all');
-		$this->swfobject->add_params('allowfullscreen', $this->options['showfsbutton'], 'false', 'bool');
-		
-		return;
 	}
 	
 	/**
@@ -404,7 +391,7 @@ class wordTubeClass {
 	 */
 	function integrate_js() {
 	
-			wp_enqueue_script('swfobject', WORDTUBE_URLPATH . 'javascript/swfobject.js', false, '2.1');
+			wp_enqueue_script('jwplayer', WORDTUBE_URLPATH.'javascript/jwplayer.js', false, '6');
             wp_enqueue_script('wordtube_stats', get_option ('siteurl') . '/index.php?wordtube-js=true', array('jquery'), '2.0');			
 	}
 

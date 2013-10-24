@@ -95,7 +95,7 @@ function wt_main_init () {
  */
 function wt_add_queryvars( $query_vars ){
 	
-    $query_vars[] = 'xspf';
+    $query_vars[] = 'wt-rss';
     $query_vars[] = 'wt-stat';
     $query_vars[] = 'wordtube-js';
 
@@ -103,14 +103,14 @@ function wt_add_queryvars( $query_vars ){
 }
 
 /**
- * check_request() - Callback and output the content XSPF playlist or statistic
+ * check_request() - Callback and output the content media RSS playlist or statistic
  * 
  * @param mixed $wp
  * @return
  */
 function wt_check_request( $wp ) {
     
-    if (array_key_exists('xspf', $wp->query_vars) && $wp->query_vars['xspf'] == 'true') {
+    if (array_key_exists('wt-rss', $wp->query_vars) && $wp->query_vars['wt-rss'] == 'true') {
 		// Create XML output
 		require_once (dirname (__FILE__) . '/myextractXML.php');
         exit();
