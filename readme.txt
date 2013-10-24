@@ -1,15 +1,15 @@
 === wordTube ===
-Contributors: Alex Rabe
+Contributors: Alex Rabe, Andrej Mihajlov
 Donate link: http://alexrabe.de/donation/
 Tags: flash, swf, swfobject, video, youtube, media, mp3, images, admin, ads
 Requires at least: 2.8
-Tested up to: 3.1
+Tested up to: 3.6.1
 
 wordTube is your Media Center plugin for WordPress.
 
 == Description ==
 
-This plugin manages the JW FLV MEDIA PLAYER 5.1 and makes it easy for 
+This plugin manages the JW FLV MEDIA PLAYER 6 and makes it easy for 
 you to put music, videos or flash movies onto your WordPress posts and pages. 
 Various skins for the JW PLAYER are available via www.longtailvideo.com 
 
@@ -29,6 +29,7 @@ or a playlist of all your media files..
 == Credits ==
 
 Copyright 2006-2011 Alex Rabe & Alakhnor
+Copyright 2013 Andrej Mihajlov
 
 The wordTube button is taken from the Silk set of FamFamFam. See more at 
 http://www.famfamfam.com/lab/icons/silk/
@@ -90,6 +91,11 @@ That's it ... Have fun
 7. 	Playlist order: to gain control over playlist order, go to admin panel -> Manage -> Media Center. Select the playlist you want to order in the dropdown menu of the filter part of the screen. Click on order field for each media to choose order, enter to save.
 
 == Changelog == 
+
+= V2.5.0 / 24.10.2013 =
+* Add JWPlayer 6
+* Fix thumbnail lookup bug
+* Drop xspf in favor of media rss
 
 = V2.4.0 / 09.01.2011 = 
 * Added sort ordering of playlist media items (THX to Lance Mitchell)
